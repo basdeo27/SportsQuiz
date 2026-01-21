@@ -1,0 +1,255 @@
+[
+  {
+    "id": "mlb-arizona-diamondbacks",
+    "name": "Arizona Diamondbacks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ari.png",
+    "answers": [
+      "Diamondbacks",
+      "D-backs",
+      "Dbacks"
+    ]
+  },
+  {
+    "id": "mlb-atlanta-braves",
+    "name": "Atlanta Braves",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/atl.png",
+    "answers": [
+      "Braves"
+    ]
+  },
+  {
+    "id": "mlb-baltimore-orioles",
+    "name": "Baltimore Orioles",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/bal.png",
+    "answers": [
+      "Orioles"
+    ]
+  },
+  {
+    "id": "mlb-boston-red-sox",
+    "name": "Boston Red Sox",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/bos.png",
+    "answers": [
+      "Red Sox"
+    ]
+  },
+  {
+    "id": "mlb-chicago-cubs",
+    "name": "Chicago Cubs",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/chc.png",
+    "answers": [
+      "Cubs"
+    ]
+  },
+  {
+    "id": "mlb-chicago-white-sox",
+    "name": "Chicago White Sox",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/chw.png",
+    "answers": [
+      "White Sox"
+    ]
+  },
+  {
+    "id": "mlb-cincinnati-reds",
+    "name": "Cincinnati Reds",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/cin.png",
+    "answers": [
+      "Reds"
+    ]
+  },
+  {
+    "id": "mlb-cleveland-guardians",
+    "name": "Cleveland Guardians",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/cle.png",
+    "answers": [
+      "Guardians"
+    ]
+  },
+  {
+    "id": "mlb-colorado-rockies",
+    "name": "Colorado Rockies",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/col.png",
+    "answers": [
+      "Rockies"
+    ]
+  },
+  {
+    "id": "mlb-detroit-tigers",
+    "name": "Detroit Tigers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/det.png",
+    "answers": [
+      "Tigers"
+    ]
+  },
+  {
+    "id": "mlb-houston-astros",
+    "name": "Houston Astros",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/hou.png",
+    "answers": [
+      "Astros"
+    ]
+  },
+  {
+    "id": "mlb-kansas-city-royals",
+    "name": "Kansas City Royals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/kc.png",
+    "answers": [
+      "Royals"
+    ]
+  },
+  {
+    "id": "mlb-los-angeles-angels",
+    "name": "Los Angeles Angels",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/laa.png",
+    "answers": [
+      "Angels",
+      "LA Angels",
+      "L.A. Angels"
+    ]
+  },
+  {
+    "id": "mlb-los-angeles-dodgers",
+    "name": "Los Angeles Dodgers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/lad.png",
+    "answers": [
+      "Dodgers",
+      "LA Dodgers",
+      "L.A. Dodgers"
+    ]
+  },
+  {
+    "id": "mlb-miami-marlins",
+    "name": "Miami Marlins",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/mia.png",
+    "answers": [
+      "Marlins"
+    ]
+  },
+  {
+    "id": "mlb-milwaukee-brewers",
+    "name": "Milwaukee Brewers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/mil.png",
+    "answers": [
+      "Brewers"
+    ]
+  },
+  {
+    "id": "mlb-minnesota-twins",
+    "name": "Minnesota Twins",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/min.png",
+    "answers": [
+      "Twins"
+    ]
+  },
+  {
+    "id": "mlb-new-york-mets",
+    "name": "New York Mets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/nym.png",
+    "answers": [
+      "Mets"
+    ]
+  },
+  {
+    "id": "mlb-new-york-yankees",
+    "name": "New York Yankees",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/nyy.png",
+    "answers": [
+      "Yankees",
+      "Yanks"
+    ]
+  },
+  {
+    "id": "mlb-oakland-athletics",
+    "name": "Oakland Athletics",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ath.png",
+    "answers": [
+      "Athletics",
+      "A's",
+      "As"
+    ]
+  },
+  {
+    "id": "mlb-philadelphia-phillies",
+    "name": "Philadelphia Phillies",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/phi.png",
+    "answers": [
+      "Phillies"
+    ]
+  },
+  {
+    "id": "mlb-pittsburgh-pirates",
+    "name": "Pittsburgh Pirates",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/pit.png",
+    "answers": [
+      "Pirates"
+    ]
+  },
+  {
+    "id": "mlb-san-diego-padres",
+    "name": "San Diego Padres",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sd.png",
+    "answers": [
+      "Padres"
+    ]
+  },
+  {
+    "id": "mlb-san-francisco-giants",
+    "name": "San Francisco Giants",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sf.png",
+    "answers": [
+      "Giants"
+    ]
+  },
+  {
+    "id": "mlb-seattle-mariners",
+    "name": "Seattle Mariners",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sea.png",
+    "answers": [
+      "Mariners",
+      "M's"
+    ]
+  },
+  {
+    "id": "mlb-st-louis-cardinals",
+    "name": "St. Louis Cardinals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/stl.png",
+    "answers": [
+      "Cardinals",
+      "Cards"
+    ]
+  },
+  {
+    "id": "mlb-tampa-bay-rays",
+    "name": "Tampa Bay Rays",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tb.png",
+    "answers": [
+      "Rays"
+    ]
+  },
+  {
+    "id": "mlb-texas-rangers",
+    "name": "Texas Rangers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tex.png",
+    "answers": [
+      "Rangers"
+    ]
+  },
+  {
+    "id": "mlb-toronto-blue-jays",
+    "name": "Toronto Blue Jays",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tor.png",
+    "answers": [
+      "Blue Jays",
+      "Jays"
+    ]
+  },
+  {
+    "id": "mlb-washington-nationals",
+    "name": "Washington Nationals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/wsh.png",
+    "answers": [
+      "Nationals",
+      "Nats"
+    ]
+  }
+]
