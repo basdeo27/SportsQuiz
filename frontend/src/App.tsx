@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import logo from "./assets/sports-quiz-logo.png";
 
-type League = "NBA" | "MLB" | "NFL" | "NHL";
+type League = "NBA" | "MLB" | "NFL" | "NHL" | "EPL";
 
 type QuizQuestion = {
   id: string;
@@ -23,6 +23,7 @@ type QuizReviewQuestion = {
   submittedAnswer: string | null;
   correct: boolean | null;
   skipped: boolean | null;
+  hinted: boolean;
 };
 
 type QuizReviewResponse = {
@@ -31,7 +32,7 @@ type QuizReviewResponse = {
   questions: QuizReviewQuestion[];
 };
 
-const allLeagues: League[] = ["NBA", "MLB", "NFL", "NHL"];
+const allLeagues: League[] = ["NBA", "MLB", "NFL", "NHL", "EPL"];
 const difficultyOptions = [
   {
     value: "EASY",
@@ -74,10 +75,14 @@ export default function App() {
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [skippedCount, setSkippedCount] = useState(0);
+  const [hintedCount, setHintedCount] = useState(0);
   const [attemptsByQuestion, setAttemptsByQuestion] = useState<
     Record<string, number>
   >({});
   const [reviewData, setReviewData] = useState<QuizReviewResponse | null>(null);
+  const [hintsByQuestion, setHintsByQuestion] = useState<Record<string, string>>(
+    {}
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const answerInputRef = useRef<HTMLInputElement | null>(null);
@@ -105,6 +110,8 @@ export default function App() {
     setSkippedCount(0);
     setAttemptsByQuestion({});
     setReviewData(null);
+    setHintsByQuestion({});
+    setHintedCount(0);
     setDifficulty("EASY");
     setError(null);
   };
@@ -162,6 +169,8 @@ export default function App() {
       setSkippedCount(0);
       setAttemptsByQuestion({});
       setReviewData(null);
+      setHintsByQuestion({});
+      setHintedCount(0);
       setScreen("quiz");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unexpected error.");
@@ -287,6 +296,45 @@ export default function App() {
           setCurrentIndex(nextIndex);
         }
       }, 400);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const requestHint = async () => {
+    if (!currentQuestion || loading) {
+      return;
+    }
+    if (hintsByQuestion[currentQuestion.id]) {
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("/v0/quiz/hint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          quizId,
+          questionId: currentQuestion.id
+        })
+      });
+
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Failed to get hint.");
+      }
+
+      const payload = (await response.json()) as { hint: string; hinted: boolean };
+      setHintsByQuestion((prev) => ({
+        ...prev,
+        [currentQuestion.id]: payload.hint
+      }));
+      if (payload.hinted) {
+        setHintedCount((prev) => prev + 1);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unexpected error.");
     } finally {
@@ -460,8 +508,21 @@ export default function App() {
                 >
                   Skip
                 </button>
+                <button
+                  className="ghost-button"
+                  type="button"
+                  onClick={requestHint}
+                  disabled={loading || Boolean(hintsByQuestion[currentQuestion.id])}
+                >
+                  {hintsByQuestion[currentQuestion.id] ? "Hint used" : "Hint"}
+                </button>
               </div>
             </form>
+            {hintsByQuestion[currentQuestion.id] && (
+              <div className="message hint">
+                {hintsByQuestion[currentQuestion.id]}
+              </div>
+            )}
             {feedback && (
               <div className={`message ${feedbackStatus ?? "success"}`}>
                 {feedback}
@@ -477,7 +538,8 @@ export default function App() {
             <h1>Quiz complete</h1>
             <p className="supporting">
               You answered {correctCount} right, {incorrectCount} wrong, and{" "}
-              {skippedCount} skipped.
+              {skippedCount} skipped. {hintedCount} hint
+              {hintedCount === 1 ? "" : "s"} used.
             </p>
             <p className="supporting">
               Want another run? Change the leagues or go again.
@@ -530,6 +592,12 @@ export default function App() {
                           {result.skipped
                             ? "Skipped"
                             : result.submittedAnswer || "No answer"}
+                        </span>
+                      </div>
+                      <div className="review__row">
+                        <span className="review__label">Hint used</span>
+                        <span className="review__value">
+                          {result.hinted ? "Yes" : "No"}
                         </span>
                       </div>
                       <div className="review__row">

@@ -4,5 +4,6 @@ enum class League {
     NBA,
     NHL,
     MLB,
-    NFL
+    NFL,
+    EPL
 }

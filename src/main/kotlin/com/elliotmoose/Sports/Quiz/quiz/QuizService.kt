@@ -134,6 +134,39 @@ class QuizService(private val quizRepository: QuizRepository) {
         )
     }
 
+    fun hintQuestion(hintRequest: HintRequest): HintResponse {
+        val quiz = quizzes[hintRequest.quizId]
+            ?: throw IllegalArgumentException("Quiz not found.")
+        val question = quiz.questions.firstOrNull { it.id == hintRequest.questionId }
+            ?: throw IllegalArgumentException("Question not found.")
+
+        val hint = buildHint(question.fullName)
+        val updatedQuestions = quiz.questions.map { questionItem ->
+            if (questionItem.id == question.id) {
+                questionItem.copy(hinted = true)
+            } else {
+                questionItem
+            }
+        }
+        quizzes[quiz.id] = quiz.copy(questions = updatedQuestions)
+
+        return HintResponse(
+            hint = hint,
+            hinted = true
+        )
+    }
+
+    private fun buildHint(fullName: String): String {
+        val tokens = fullName.trim().split(Regex("\\s+"))
+        if (tokens.isEmpty()) {
+            return "No hint available."
+        }
+        val city = if (tokens.size > 1) tokens.dropLast(1).joinToString(" ") else tokens[0]
+        val mascot = tokens.last()
+        val mascotInitial = mascot.firstOrNull()?.uppercaseChar() ?: '?'
+        return "City: $city • Mascot starts with $mascotInitial"
+    }
+
     private fun isAnswerMatch(normalizedAnswer: String, candidate: String): Boolean {
         val normalizedCandidate = normalize(candidate)
         if (normalizedCandidate == normalizedAnswer) {

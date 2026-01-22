@@ -6,6 +6,8 @@ import com.elliotmoose.Sports.Quiz.quiz.QuizRequest
 import com.elliotmoose.Sports.Quiz.quiz.QuizResponse
 import com.elliotmoose.Sports.Quiz.quiz.QuizReviewResponse
 import com.elliotmoose.Sports.Quiz.quiz.QuizService
+import com.elliotmoose.Sports.Quiz.quiz.HintRequest
+import com.elliotmoose.Sports.Quiz.quiz.HintResponse
 import com.elliotmoose.Sports.Quiz.quiz.SkipRequest
 import com.elliotmoose.Sports.Quiz.quiz.SkipResponse
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,6 +35,11 @@ class SportsQuizController(val quizService: QuizService) {
     @PostMapping("/skip")
     fun skipQuestion(@RequestBody req: SkipRequest): SkipResponse {
         return quizService.skipQuestion(req)
+    }
+
+    @PostMapping("/hint")
+    fun hintQuestion(@RequestBody req: HintRequest): HintResponse {
+        return quizService.hintQuestion(req)
     }
 
     @GetMapping("/{quizId}")

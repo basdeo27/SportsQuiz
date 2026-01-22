@@ -15,7 +15,8 @@ data class QuizReviewResponse(
                     fullName = question.fullName,
                     submittedAnswer = question.submittedAnswer,
                     correct = question.isCorrect,
-                    skipped = question.isSkipped
+                    skipped = question.isSkipped,
+                    hinted = question.hinted
                 )
             }
             return QuizReviewResponse(
@@ -34,5 +35,6 @@ data class QuizReviewQuestion(
     val fullName: String,
     val submittedAnswer: String?,
     val correct: Boolean?,
-    val skipped: Boolean?
+    val skipped: Boolean?,
+    val hinted: Boolean
 )

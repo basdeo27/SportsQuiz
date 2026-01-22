@@ -8,5 +8,6 @@ data class Question(
     val correctAnswers: Set<String>,
     val submittedAnswer: String? = null,
     val isCorrect: Boolean? = null,
-    val isSkipped: Boolean? = null
+    val isSkipped: Boolean? = null,
+    val hinted: Boolean = false
 )

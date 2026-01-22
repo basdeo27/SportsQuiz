@@ -276,6 +276,11 @@ body {
   color: #fecaca;
 }
 
+.message.hint {
+  background: rgba(247, 198, 96, 0.15);
+  color: #f7c660;
+}
+
 .stack {
   display: grid;
   gap: 12px;
