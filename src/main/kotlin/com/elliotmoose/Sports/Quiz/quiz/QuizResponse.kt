@@ -10,7 +10,8 @@ data class QuizResponse(
                 QuizQuestion(
                     id = it.id,
                     league = it.league,
-                    logoUrl = it.logoUrl
+                    logoUrl = it.logoUrl,
+                    fullName = it.fullName
                 )
             }
             return QuizResponse(quiz.id, questions)

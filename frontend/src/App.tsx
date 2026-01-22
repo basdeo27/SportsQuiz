@@ -7,11 +7,28 @@ type QuizQuestion = {
   id: string;
   league: League;
   logoUrl: string;
+  fullName: string;
 };
 
 type QuizResponse = {
   quizId: string;
   questions: QuizQuestion[];
+};
+
+type QuizReviewQuestion = {
+  id: string;
+  league: League;
+  logoUrl: string;
+  fullName: string;
+  submittedAnswer: string | null;
+  correct: boolean | null;
+  skipped: boolean | null;
+};
+
+type QuizReviewResponse = {
+  quizId: string;
+  difficulty: string;
+  questions: QuizReviewQuestion[];
 };
 
 const allLeagues: League[] = ["NBA", "MLB", "NFL", "NHL"];
@@ -33,7 +50,7 @@ const difficultyOptions = [
   }
 ] as const;
 
-type Screen = "home" | "setup" | "quiz" | "complete";
+type Screen = "home" | "setup" | "quiz" | "complete" | "review";
 
 const MIN_QUESTIONS = 10;
 const MAX_QUESTIONS = 25;
@@ -56,6 +73,11 @@ export default function App() {
   );
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
+  const [skippedCount, setSkippedCount] = useState(0);
+  const [attemptsByQuestion, setAttemptsByQuestion] = useState<
+    Record<string, number>
+  >({});
+  const [reviewData, setReviewData] = useState<QuizReviewResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const answerInputRef = useRef<HTMLInputElement | null>(null);
@@ -80,6 +102,9 @@ export default function App() {
     setFeedbackStatus(null);
     setCorrectCount(0);
     setIncorrectCount(0);
+    setSkippedCount(0);
+    setAttemptsByQuestion({});
+    setReviewData(null);
     setDifficulty("EASY");
     setError(null);
   };
@@ -134,6 +159,9 @@ export default function App() {
       setAnswer("");
       setCorrectCount(0);
       setIncorrectCount(0);
+      setSkippedCount(0);
+      setAttemptsByQuestion({});
+      setReviewData(null);
       setScreen("quiz");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unexpected error.");
@@ -146,7 +174,8 @@ export default function App() {
     if (!currentQuestion || loading) {
       return;
     }
-    if (!answer.trim()) {
+    const submittedAnswer = answer.trim();
+    if (!submittedAnswer) {
       setError("Enter a team name before submitting.");
       return;
     }
@@ -160,7 +189,7 @@ export default function App() {
         body: JSON.stringify({
           quizId,
           questionId: currentQuestion.id,
-          answer
+          answer: submittedAnswer
         })
       });
 
@@ -171,17 +200,82 @@ export default function App() {
 
       const payload = (await response.json()) as {
         correct: boolean;
+        correctAnswer: string;
+        attemptsRemaining?: number;
+        shouldAdvance?: boolean;
       };
+      const newAttempts = (attemptsByQuestion[currentQuestion.id] ?? 0) + 1;
+      setAttemptsByQuestion((prev) => ({
+        ...prev,
+        [currentQuestion.id]: newAttempts
+      }));
 
+      const shouldAdvance =
+        payload.shouldAdvance ??
+        (difficulty === "EASY" ? payload.correct || newAttempts >= 2 : true);
+      const attemptsRemaining =
+        payload.attemptsRemaining ??
+        (difficulty === "EASY" ? Math.max(0, 2 - newAttempts) : 0);
       if (payload.correct) {
         setCorrectCount((prev) => prev + 1);
         setFeedbackStatus("success");
+        setFeedback("Correct!");
       } else {
-        setIncorrectCount((prev) => prev + 1);
         setFeedbackStatus("error");
+        setFeedback(
+          attemptsRemaining === 1 ? "Not quite. Last chance!" : "Not quite."
+        );
       }
-      setFeedback(payload.correct ? "Correct!" : "Not quite.");
+
       setAnswer("");
+
+      if (shouldAdvance) {
+        if (!payload.correct) {
+          setIncorrectCount((prev) => prev + 1);
+        }
+
+        window.setTimeout(() => {
+          setFeedback(null);
+          setFeedbackStatus(null);
+          const nextIndex = currentIndex + 1;
+          if (nextIndex >= questions.length) {
+            setScreen("complete");
+          } else {
+            setCurrentIndex(nextIndex);
+          }
+        }, 650);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const skipQuestion = async () => {
+    if (!currentQuestion || loading) {
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("/v0/quiz/skip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          quizId,
+          questionId: currentQuestion.id
+        })
+      });
+
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Failed to skip question.");
+      }
+
+      setSkippedCount((prev) => prev + 1);
+      setFeedbackStatus("error");
+      setFeedback("Skipped.");
 
       window.setTimeout(() => {
         setFeedback(null);
@@ -192,7 +286,29 @@ export default function App() {
         } else {
           setCurrentIndex(nextIndex);
         }
-      }, 650);
+      }, 400);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadReview = async () => {
+    if (!quizId) {
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/v0/quiz/${quizId}`);
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Failed to load quiz review.");
+      }
+      const payload = (await response.json()) as QuizReviewResponse;
+      setReviewData(payload);
+      setScreen("review");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unexpected error.");
     } finally {
@@ -218,7 +334,6 @@ export default function App() {
               <img src={logo} alt="Sports Quiz logo" />
             </div>
             <p className="eyebrow">Welcome to the sports quiz app</p>
-            <h1>Can you name that team?</h1>
             <p className="supporting">
               Choose your leagues, set your length, and race through the logos.
             </p>
@@ -333,9 +448,19 @@ export default function App() {
                 disabled={loading}
                 ref={answerInputRef}
               />
-              <button className="primary-button" type="submit" disabled={loading}>
-                {loading ? "Checking..." : "Submit"}
-              </button>
+              <div className="quiz__actions">
+                <button className="primary-button" type="submit" disabled={loading}>
+                  {loading ? "Checking..." : "Submit"}
+                </button>
+                <button
+                  className="ghost-button"
+                  type="button"
+                  onClick={skipQuestion}
+                  disabled={loading}
+                >
+                  Skip
+                </button>
+              </div>
             </form>
             {feedback && (
               <div className={`message ${feedbackStatus ?? "success"}`}>
@@ -351,18 +476,72 @@ export default function App() {
             <p className="eyebrow">All done</p>
             <h1>Quiz complete</h1>
             <p className="supporting">
-              You answered {correctCount} right and {incorrectCount} wrong.
+              You answered {correctCount} right, {incorrectCount} wrong, and{" "}
+              {skippedCount} skipped.
             </p>
             <p className="supporting">
               Want another run? Change the leagues or go again.
             </p>
             <div className="stack">
+              <button className="primary-button" onClick={loadReview}>
+                Review Results
+              </button>
               <button className="primary-button" onClick={() => setScreen("setup")}>
                 New Quiz
               </button>
               <button className="ghost-button" onClick={goHome}>
                 Back Home
               </button>
+            </div>
+          </section>
+        )}
+
+        {screen === "review" && (
+          <section className="card review">
+            <div className="review__header">
+              <h2>Quiz Results</h2>
+              <button className="ghost-button" onClick={goHome}>
+                Back Home
+              </button>
+            </div>
+            <div className="review__list">
+              {reviewData?.questions.map((result, index) => (
+                <article key={result.id} className="review__item">
+                  <div className="review__meta">
+                    <span>Question {index + 1}</span>
+                    <span className="tag">{result.league}</span>
+                  </div>
+                  <div className="review__content">
+                    <div className="review__logo">
+                      <img src={result.logoUrl} alt={`${result.league} team logo`} />
+                    </div>
+                    <div className="review__answers">
+                      <div className="review__row">
+                        <span className="review__label">Your answer</span>
+                        <span
+                          className={`review__value ${
+                            result.skipped
+                              ? "is-skipped"
+                              : result.correct
+                              ? "is-correct"
+                              : "is-wrong"
+                          }`}
+                        >
+                          {result.skipped
+                            ? "Skipped"
+                            : result.submittedAnswer || "No answer"}
+                        </span>
+                      </div>
+                      <div className="review__row">
+                        <span className="review__label">Correct answer</span>
+                        <span className="review__value">
+                          {result.fullName}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
           </section>
         )}

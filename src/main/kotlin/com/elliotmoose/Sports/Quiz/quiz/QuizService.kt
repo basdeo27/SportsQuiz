@@ -1,5 +1,7 @@
 package com.elliotmoose.Sports.Quiz.quiz
 
+import java.security.SecureRandom
+import java.util.Collections
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.max
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service
 class QuizService(private val quizRepository: QuizRepository) {
 
     private val quizzes = ConcurrentHashMap<String, Quiz>()
+    private val attemptsByQuiz = ConcurrentHashMap<String, ConcurrentHashMap<String, Int>>()
+    private val secureRandom = SecureRandom()
 
     fun createQuiz(quizRequest: QuizRequest): Quiz {
         require(quizRequest.numberOfQuestions in 10..25) {
@@ -23,13 +27,16 @@ class QuizService(private val quizRepository: QuizRepository) {
             "Not enough questions for the selected leagues."
         }
 
-        val quizQuestions = availableQuestions.shuffled().take(quizRequest.numberOfQuestions)
+        val shuffledQuestions = availableQuestions.toMutableList()
+        Collections.shuffle(shuffledQuestions, secureRandom)
+        val quizQuestions = shuffledQuestions.take(quizRequest.numberOfQuestions)
         val quiz = Quiz(
             id = UUID.randomUUID().toString(),
             difficulty = quizRequest.difficulty,
             questions = quizQuestions
         )
         quizzes[quiz.id] = quiz
+        attemptsByQuiz[quiz.id] = ConcurrentHashMap()
         return quiz
     }
 
@@ -38,6 +45,10 @@ class QuizService(private val quizRepository: QuizRepository) {
             ?: throw IllegalArgumentException("Quiz not found.")
         val question = quiz.questions.firstOrNull { it.id == answerRequest.questionId }
             ?: throw IllegalArgumentException("Question not found.")
+
+        val attemptsForQuiz = attemptsByQuiz[quiz.id]
+            ?: throw IllegalArgumentException("Quiz not found.")
+        val attemptsUsed = attemptsForQuiz.merge(question.id, 1) { existing, _ -> existing + 1 } ?: 1
 
         val normalizedAnswer = normalize(answerRequest.answer)
         val matchedAnswer = when (quiz.difficulty) {
@@ -57,10 +68,69 @@ class QuizService(private val quizRepository: QuizRepository) {
             }
         }
 
+        val isCorrect = matchedAnswer != null
+        val attemptsRemaining = when (quiz.difficulty) {
+            QuizDifficulty.EASY -> max(0, 2 - attemptsUsed)
+            else -> 0
+        }
+        val shouldAdvance = when (quiz.difficulty) {
+            QuizDifficulty.EASY -> isCorrect || attemptsUsed >= 2
+            else -> true
+        }
+
+        val updatedQuestions = quiz.questions.map { questionItem ->
+            if (questionItem.id == question.id) {
+                questionItem.copy(
+                    submittedAnswer = answerRequest.answer,
+                    isCorrect = isCorrect,
+                    isSkipped = false
+                )
+            } else {
+                questionItem
+            }
+        }
+        quizzes[quiz.id] = quiz.copy(questions = updatedQuestions)
+
         return AnswerResponse(
-            correct = matchedAnswer != null,
+            correct = isCorrect,
             normalizedAnswer = normalizedAnswer,
-            matchedAnswer = matchedAnswer
+            matchedAnswer = matchedAnswer,
+            correctAnswer = question.fullName,
+            attemptsRemaining = attemptsRemaining,
+            shouldAdvance = shouldAdvance
+        )
+    }
+
+    fun getQuiz(quizId: String): QuizReviewResponse {
+        val quiz = quizzes[quizId]
+            ?: throw IllegalArgumentException("Quiz not found.")
+        return QuizReviewResponse.from(quiz)
+    }
+
+    fun skipQuestion(skipRequest: SkipRequest): SkipResponse {
+        val quiz = quizzes[skipRequest.quizId]
+            ?: throw IllegalArgumentException("Quiz not found.")
+        val question = quiz.questions.firstOrNull { it.id == skipRequest.questionId }
+            ?: throw IllegalArgumentException("Question not found.")
+
+        val updatedQuestions = quiz.questions.map { questionItem ->
+            if (questionItem.id == question.id) {
+                questionItem.copy(
+                    submittedAnswer = null,
+                    isCorrect = false,
+                    isSkipped = true
+                )
+            } else {
+                questionItem
+            }
+        }
+
+        quizzes[quiz.id] = quiz.copy(questions = updatedQuestions)
+        attemptsByQuiz[quiz.id]?.remove(question.id)
+
+        return SkipResponse(
+            skipped = true,
+            correctAnswer = question.fullName
         )
     }
 

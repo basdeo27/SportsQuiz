@@ -60,7 +60,7 @@ body {
 
 .hero__logo {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   margin-bottom: 16px;
 }
 
@@ -68,6 +68,13 @@ body {
   max-width: min(220px, 45vw);
   height: auto;
   filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.45));
+}
+
+.hero {
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
 }
 
 .eyebrow {
@@ -237,6 +244,12 @@ body {
   gap: 12px;
 }
 
+.quiz__actions {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
 .quiz__form input {
   padding: 14px 16px;
   border-radius: 12px;
@@ -269,6 +282,90 @@ body {
   margin-top: 24px;
 }
 
+.review__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.review__list {
+  display: grid;
+  gap: 18px;
+}
+
+.review__item {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(7, 11, 17, 0.8);
+  padding: 18px;
+}
+
+.review__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #cbd4e1;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.review__content {
+  display: grid;
+  grid-template-columns: minmax(120px, 160px) 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.review__logo {
+  background: rgba(6, 9, 14, 0.9);
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.review__logo img {
+  max-width: 120px;
+  max-height: 90px;
+  object-fit: contain;
+}
+
+.review__answers {
+  display: grid;
+  gap: 12px;
+}
+
+.review__row {
+  display: grid;
+  gap: 6px;
+}
+
+.review__label {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  color: #f7c660;
+}
+
+.review__value {
+  font-size: 16px;
+  color: #f8f7f2;
+}
+
+.review__value.is-correct {
+  color: #a7f3d0;
+}
+
+.review__value.is-wrong {
+  color: #fecaca;
+}
+
+.review__value.is-skipped {
+  color: #f7c660;
+}
+
 @media (max-width: 720px) {
   .app__header {
     flex-direction: column;
@@ -280,5 +377,9 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+
+  .review__content {
+    grid-template-columns: 1fr;
   }
 }

@@ -4,7 +4,12 @@ import com.elliotmoose.Sports.Quiz.quiz.AnswerRequest
 import com.elliotmoose.Sports.Quiz.quiz.AnswerResponse
 import com.elliotmoose.Sports.Quiz.quiz.QuizRequest
 import com.elliotmoose.Sports.Quiz.quiz.QuizResponse
+import com.elliotmoose.Sports.Quiz.quiz.QuizReviewResponse
 import com.elliotmoose.Sports.Quiz.quiz.QuizService
+import com.elliotmoose.Sports.Quiz.quiz.SkipRequest
+import com.elliotmoose.Sports.Quiz.quiz.SkipResponse
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,5 +28,15 @@ class SportsQuizController(val quizService: QuizService) {
     @PostMapping("/answer")
     fun submitAnswer(@RequestBody req: AnswerRequest): AnswerResponse {
         return quizService.submitAnswer(req)
+    }
+
+    @PostMapping("/skip")
+    fun skipQuestion(@RequestBody req: SkipRequest): SkipResponse {
+        return quizService.skipQuestion(req)
+    }
+
+    @GetMapping("/{quizId}")
+    fun getQuiz(@PathVariable quizId: String): QuizReviewResponse {
+        return quizService.getQuiz(quizId)
     }
 }
