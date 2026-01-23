@@ -1,15 +1,15 @@
 package com.elliotmoose.Sports.Quiz.api
 
-import com.elliotmoose.Sports.Quiz.quiz.AnswerRequest
-import com.elliotmoose.Sports.Quiz.quiz.AnswerResponse
-import com.elliotmoose.Sports.Quiz.quiz.QuizRequest
-import com.elliotmoose.Sports.Quiz.quiz.QuizResponse
-import com.elliotmoose.Sports.Quiz.quiz.QuizReviewResponse
-import com.elliotmoose.Sports.Quiz.quiz.QuizService
-import com.elliotmoose.Sports.Quiz.quiz.HintRequest
-import com.elliotmoose.Sports.Quiz.quiz.HintResponse
-import com.elliotmoose.Sports.Quiz.quiz.SkipRequest
-import com.elliotmoose.Sports.Quiz.quiz.SkipResponse
+import com.elliotmoose.Sports.Quiz.model.AnswerRequest
+import com.elliotmoose.Sports.Quiz.model.AnswerResponse
+import com.elliotmoose.Sports.Quiz.model.HintRequest
+import com.elliotmoose.Sports.Quiz.model.HintResponse
+import com.elliotmoose.Sports.Quiz.model.QuizRequest
+import com.elliotmoose.Sports.Quiz.model.QuizResponse
+import com.elliotmoose.Sports.Quiz.model.QuizReviewResponse
+import com.elliotmoose.Sports.Quiz.model.SkipRequest
+import com.elliotmoose.Sports.Quiz.model.SkipResponse
+import com.elliotmoose.Sports.Quiz.service.QuizService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

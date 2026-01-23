@@ -1,16 +1,21 @@
-package com.elliotmoose.Sports.Quiz.quiz
+package com.elliotmoose.Sports.Quiz.repository
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
+import com.elliotmoose.Sports.Quiz.model.League
+import com.elliotmoose.Sports.Quiz.model.Question
+import com.elliotmoose.Sports.Quiz.model.TeamEntry
 
 @Service
-class QuizRepository(private val objectMapper: ObjectMapper) {
+@ConditionalOnProperty(prefix = "quiz.dynamo", name = ["enabled"], havingValue = "false", matchIfMissing = true)
+class LocalQuizRepository(private val objectMapper: ObjectMapper) : QuizRepository {
 
     private val teamsData: Map<League, List<TeamEntry>> by lazy { loadTeamsData() }
 
-    fun getQuestions(leagues: Set<League>): List<Question> {
+    override fun getQuestions(leagues: Set<League>): List<Question> {
         return leagues.flatMap { league ->
             teamsData[league].orEmpty().map { team ->
                 Question(
@@ -31,10 +36,3 @@ class QuizRepository(private val objectMapper: ObjectMapper) {
         }
     }
 }
-
-data class TeamEntry(
-    val id: String,
-    val name: String,
-    val logoUrl: String,
-    val answers: List<String> = emptyList()
-)

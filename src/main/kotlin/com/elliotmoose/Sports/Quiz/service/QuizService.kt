@@ -1,4 +1,4 @@
-package com.elliotmoose.Sports.Quiz.quiz
+package com.elliotmoose.Sports.Quiz.service
 
 import java.security.SecureRandom
 import java.util.Collections
@@ -6,6 +6,17 @@ import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.max
 import org.springframework.stereotype.Service
+import com.elliotmoose.Sports.Quiz.model.AnswerRequest
+import com.elliotmoose.Sports.Quiz.model.AnswerResponse
+import com.elliotmoose.Sports.Quiz.model.HintRequest
+import com.elliotmoose.Sports.Quiz.model.HintResponse
+import com.elliotmoose.Sports.Quiz.model.Quiz
+import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
+import com.elliotmoose.Sports.Quiz.model.QuizRequest
+import com.elliotmoose.Sports.Quiz.model.QuizReviewResponse
+import com.elliotmoose.Sports.Quiz.model.SkipRequest
+import com.elliotmoose.Sports.Quiz.model.SkipResponse
+import com.elliotmoose.Sports.Quiz.repository.QuizRepository
 
 @Service
 class QuizService(private val quizRepository: QuizRepository) {

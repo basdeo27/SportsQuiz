@@ -1,4 +1,4 @@
-package com.elliotmoose.Sports.Quiz.quiz
+package com.elliotmoose.Sports.Quiz.model
 
 data class HintRequest(
     val quizId: String,
