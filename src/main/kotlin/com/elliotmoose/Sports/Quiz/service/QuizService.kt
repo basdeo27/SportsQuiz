@@ -1,27 +1,21 @@
 package com.elliotmoose.Sports.Quiz.service
 
+import com.elliotmoose.Sports.Quiz.config.QuizSettingsProperties
+import com.elliotmoose.Sports.Quiz.model.*
+import com.elliotmoose.Sports.Quiz.repository.QuestionRepository
+import com.elliotmoose.Sports.Quiz.repository.ResultRepository
+import org.springframework.stereotype.Service
 import java.security.SecureRandom
-import java.util.Collections
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.max
-import org.springframework.stereotype.Service
-import com.elliotmoose.Sports.Quiz.model.AnswerRequest
-import com.elliotmoose.Sports.Quiz.model.AnswerResponse
-import com.elliotmoose.Sports.Quiz.model.HintRequest
-import com.elliotmoose.Sports.Quiz.model.HintResponse
-import com.elliotmoose.Sports.Quiz.model.Quiz
-import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
-import com.elliotmoose.Sports.Quiz.model.QuizRequest
-import com.elliotmoose.Sports.Quiz.model.QuizReviewResponse
-import com.elliotmoose.Sports.Quiz.model.QuizResult
-import com.elliotmoose.Sports.Quiz.model.QuizScoring
-import com.elliotmoose.Sports.Quiz.model.SkipRequest
-import com.elliotmoose.Sports.Quiz.model.SkipResponse
-import com.elliotmoose.Sports.Quiz.repository.QuizRepository
 
 @Service
-class QuizService(private val quizRepository: QuizRepository) {
+class QuizService(
+    private val questionRepository: QuestionRepository,
+    private val resultRepository: ResultRepository,
+    private val settings: QuizSettingsProperties
+) {
 
     private val quizzes = ConcurrentHashMap<String, Quiz>()
     private val attemptsByQuiz = ConcurrentHashMap<String, ConcurrentHashMap<String, Int>>()
@@ -29,14 +23,14 @@ class QuizService(private val quizRepository: QuizRepository) {
     private val secureRandom = SecureRandom()
 
     fun createQuiz(quizRequest: QuizRequest): Quiz {
-        require(quizRequest.numberOfQuestions in 10..25) {
-            "numberOfQuestions must be between 10 and 25."
+        require(quizRequest.numberOfQuestions in settings.minQuestions..settings.maxQuestions) {
+            "numberOfQuestions must be between ${settings.minQuestions} and ${settings.maxQuestions}."
         }
         require(quizRequest.leagues.isNotEmpty()) {
             "At least one league must be selected."
         }
 
-        val availableQuestions = quizRepository.getQuestions(quizRequest.leagues)
+        val availableQuestions = questionRepository.getQuestions(quizRequest.leagues)
         require(availableQuestions.size >= quizRequest.numberOfQuestions) {
             "Not enough questions for the selected leagues."
         }
@@ -128,7 +122,7 @@ class QuizService(private val quizRepository: QuizRepository) {
     }
 
     fun getResults(): List<QuizResult> {
-        return quizRepository.getResults()
+        return resultRepository.getResults()
     }
 
     fun skipQuestion(skipRequest: SkipRequest): SkipResponse {
@@ -194,7 +188,7 @@ class QuizService(private val quizRepository: QuizRepository) {
     private fun markCompletedIfDone(quiz: Quiz): Quiz {
         if (quiz.completedAtMillis != null) {
             if (savedResults.add(quiz.id)) {
-                quizRepository.saveResult(buildResult(quiz))
+                resultRepository.saveResult(buildResult(quiz))
             }
             return quiz
         }
@@ -204,7 +198,7 @@ class QuizService(private val quizRepository: QuizRepository) {
         return if (allDone) {
             val completedQuiz = quiz.copy(completedAtMillis = System.currentTimeMillis())
             if (savedResults.add(completedQuiz.id)) {
-                quizRepository.saveResult(buildResult(completedQuiz))
+                resultRepository.saveResult(buildResult(completedQuiz))
             }
             completedQuiz
         } else {

@@ -59,7 +59,7 @@ const difficultyOptions = [
 
 type Screen = "home" | "setup" | "quiz" | "complete" | "review";
 
-const MIN_QUESTIONS = 10;
+const MIN_QUESTIONS = 1;
 const MAX_QUESTIONS = 25;
 
 export default function App() {

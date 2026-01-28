@@ -1,12 +1,22 @@
 spring:
   application:
     name: Sports-Quiz
+  profiles:
+    active: prod
 
 quiz:
+  questions:
+    storage: local
+  results:
+    storage: dynamo
+  settings:
+    min-questions: 1
+    max-questions: 25
   dynamo:
-    enabled: false
-    endpoint: http://localhost:8000
-    region: us-east-1
+    endpoint: "https://dynamodb.eu-west-2.amazonaws.com"
+    region: eu-west-2
     teams-table-name: sports-quiz-teams
     results-table-name: sports-quiz-results
     seed: false
+    access-key: ${AWS_ACCESS_KEY:}
+    secret-key: ${AWS_SECRET_CODE:}

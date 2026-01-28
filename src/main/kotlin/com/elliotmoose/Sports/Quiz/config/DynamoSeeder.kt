@@ -6,44 +6,37 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.boot.ApplicationRunner
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
-import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition
-import software.amazon.awssdk.services.dynamodb.model.AttributeValue
-import software.amazon.awssdk.services.dynamodb.model.BillingMode
-import software.amazon.awssdk.services.dynamodb.model.CreateTableRequest
-import software.amazon.awssdk.services.dynamodb.model.DescribeTableRequest
-import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement
-import software.amazon.awssdk.services.dynamodb.model.KeyType
-import software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException
-import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType
+import software.amazon.awssdk.services.dynamodb.model.*
 
 @Configuration
-@ConditionalOnProperty(prefix = "quiz.dynamo", name = ["enabled"], havingValue = "true")
 class DynamoSeeder(
     private val dynamoDbClient: DynamoDbClient,
     private val objectMapper: ObjectMapper,
-    private val properties: QuizDynamoProperties
+    private val properties: QuizDynamoProperties,
+    private val storageProperties: QuizStorageProperties
 ) {
     private val logger = LoggerFactory.getLogger(DynamoSeeder::class.java)
 
     @Bean
     fun dynamoSeederRunner(): ApplicationRunner {
         return ApplicationRunner {
-            try {
-                ensureResultsTable()
-            } catch (ex: Exception) {
-                logger.warn("Skipping DynamoDB results table setup due to error: ${ex.message}")
+            if (storageProperties.results.storage == "dynamo") {
+                try {
+                    ensureResultsTable()
+                } catch (ex: Exception) {
+                    logger.warn("Skipping DynamoDB results table setup due to error: ${ex.message}")
+                }
             }
-            if (!properties.seed) {
+
+            if (storageProperties.questions.storage != "dynamo" || !properties.seed) {
                 return@ApplicationRunner
             }
             try {
                 ensureTable()
-                ensureResultsTable()
                 seedData()
             } catch (ex: Exception) {
                 logger.warn("Skipping DynamoDB seed due to error: ${ex.message}")

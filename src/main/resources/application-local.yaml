@@ -1,3 +1,6 @@
 quiz:
   dynamo:
     endpoint: http://localhost:8000
+  settings:
+    min-questions: 1
+    max-questions: 25

@@ -36,12 +36,15 @@ Stop it with:
 make db-down
 ```
 
-To use DynamoDB instead of the local JSON repository, set:
+To use DynamoDB storage, set the per-repository storage flags:
 
 ```yaml
 quiz:
+  questions:
+    storage: local
+  results:
+    storage: dynamo
   dynamo:
-    enabled: true
     seed: true
 ```
 
