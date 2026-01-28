@@ -287,6 +287,29 @@ body {
   margin-top: 24px;
 }
 
+.score-summary {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 12, 18, 0.75);
+  margin: 6px 0 8px;
+}
+
+.score-summary__label {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 11px;
+  color: #f7c660;
+}
+
+.score-summary__value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
 .review__header {
   display: flex;
   justify-content: space-between;
@@ -297,6 +320,22 @@ body {
 .review__list {
   display: grid;
   gap: 18px;
+}
+
+.review__summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.review__stat {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 16, 24, 0.75);
+  padding: 12px 14px;
+  display: grid;
+  gap: 6px;
 }
 
 .review__item {

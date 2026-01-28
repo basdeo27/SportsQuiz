@@ -7,5 +7,6 @@ quiz:
     enabled: false
     endpoint: http://localhost:8000
     region: us-east-1
-    table-name: sports-quiz-teams
+    teams-table-name: sports-quiz-teams
+    results-table-name: sports-quiz-results
     seed: false

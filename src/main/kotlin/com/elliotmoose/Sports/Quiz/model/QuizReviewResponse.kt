@@ -3,7 +3,13 @@ package com.elliotmoose.Sports.Quiz.model
 data class QuizReviewResponse(
     val quizId: String,
     val difficulty: QuizDifficulty,
-    val questions: List<QuizReviewQuestion>
+    val questions: List<QuizReviewQuestion>,
+    val totalQuestions: Int,
+    val correctCount: Int,
+    val incorrectCount: Int,
+    val skippedCount: Int,
+    val elapsedSeconds: Long,
+    val score: Int
 ) {
     companion object {
         fun from(quiz: Quiz): QuizReviewResponse {
@@ -19,10 +25,17 @@ data class QuizReviewResponse(
                     hinted = question.hinted
                 )
             }
+            val summary = QuizScoring.summarize(quiz)
             return QuizReviewResponse(
                 quizId = quiz.id,
                 difficulty = quiz.difficulty,
-                questions = questions
+                questions = questions,
+                totalQuestions = summary.totalQuestions,
+                correctCount = summary.correctCount,
+                incorrectCount = summary.incorrectCount,
+                skippedCount = summary.skippedCount,
+                elapsedSeconds = summary.elapsedSeconds,
+                score = summary.score
             )
         }
     }

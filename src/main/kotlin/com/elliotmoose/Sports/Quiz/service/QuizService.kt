@@ -14,6 +14,8 @@ import com.elliotmoose.Sports.Quiz.model.Quiz
 import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
 import com.elliotmoose.Sports.Quiz.model.QuizRequest
 import com.elliotmoose.Sports.Quiz.model.QuizReviewResponse
+import com.elliotmoose.Sports.Quiz.model.QuizResult
+import com.elliotmoose.Sports.Quiz.model.QuizScoring
 import com.elliotmoose.Sports.Quiz.model.SkipRequest
 import com.elliotmoose.Sports.Quiz.model.SkipResponse
 import com.elliotmoose.Sports.Quiz.repository.QuizRepository
@@ -23,6 +25,7 @@ class QuizService(private val quizRepository: QuizRepository) {
 
     private val quizzes = ConcurrentHashMap<String, Quiz>()
     private val attemptsByQuiz = ConcurrentHashMap<String, ConcurrentHashMap<String, Int>>()
+    private val savedResults = ConcurrentHashMap.newKeySet<String>()
     private val secureRandom = SecureRandom()
 
     fun createQuiz(quizRequest: QuizRequest): Quiz {
@@ -44,7 +47,8 @@ class QuizService(private val quizRepository: QuizRepository) {
         val quiz = Quiz(
             id = UUID.randomUUID().toString(),
             difficulty = quizRequest.difficulty,
-            questions = quizQuestions
+            questions = quizQuestions,
+            startedAtMillis = System.currentTimeMillis()
         )
         quizzes[quiz.id] = quiz
         attemptsByQuiz[quiz.id] = ConcurrentHashMap()
@@ -89,18 +93,23 @@ class QuizService(private val quizRepository: QuizRepository) {
             else -> true
         }
 
-        val updatedQuestions = quiz.questions.map { questionItem ->
-            if (questionItem.id == question.id) {
-                questionItem.copy(
-                    submittedAnswer = answerRequest.answer,
-                    isCorrect = isCorrect,
-                    isSkipped = false
-                )
-            } else {
-                questionItem
+        val updatedQuestions = if (shouldAdvance) {
+            quiz.questions.map { questionItem ->
+                if (questionItem.id == question.id) {
+                    questionItem.copy(
+                        submittedAnswer = answerRequest.answer,
+                        isCorrect = isCorrect,
+                        isSkipped = false
+                    )
+                } else {
+                    questionItem
+                }
             }
+        } else {
+            quiz.questions
         }
-        quizzes[quiz.id] = quiz.copy(questions = updatedQuestions)
+        val updatedQuiz = markCompletedIfDone(quiz.copy(questions = updatedQuestions))
+        quizzes[quiz.id] = updatedQuiz
 
         return AnswerResponse(
             correct = isCorrect,
@@ -116,6 +125,10 @@ class QuizService(private val quizRepository: QuizRepository) {
         val quiz = quizzes[quizId]
             ?: throw IllegalArgumentException("Quiz not found.")
         return QuizReviewResponse.from(quiz)
+    }
+
+    fun getResults(): List<QuizResult> {
+        return quizRepository.getResults()
     }
 
     fun skipQuestion(skipRequest: SkipRequest): SkipResponse {
@@ -136,7 +149,7 @@ class QuizService(private val quizRepository: QuizRepository) {
             }
         }
 
-        quizzes[quiz.id] = quiz.copy(questions = updatedQuestions)
+        quizzes[quiz.id] = markCompletedIfDone(quiz.copy(questions = updatedQuestions))
         attemptsByQuiz[quiz.id]?.remove(question.id)
 
         return SkipResponse(
@@ -176,6 +189,45 @@ class QuizService(private val quizRepository: QuizRepository) {
         val mascot = tokens.last()
         val mascotInitial = mascot.firstOrNull()?.uppercaseChar() ?: '?'
         return "City: $city • Mascot starts with $mascotInitial"
+    }
+
+    private fun markCompletedIfDone(quiz: Quiz): Quiz {
+        if (quiz.completedAtMillis != null) {
+            if (savedResults.add(quiz.id)) {
+                quizRepository.saveResult(buildResult(quiz))
+            }
+            return quiz
+        }
+        val allDone = quiz.questions.all { question ->
+            question.isSkipped == true || question.isCorrect != null
+        }
+        return if (allDone) {
+            val completedQuiz = quiz.copy(completedAtMillis = System.currentTimeMillis())
+            if (savedResults.add(completedQuiz.id)) {
+                quizRepository.saveResult(buildResult(completedQuiz))
+            }
+            completedQuiz
+        } else {
+            quiz
+        }
+    }
+
+    private fun buildResult(quiz: Quiz): QuizResult {
+        val summary = QuizScoring.summarize(quiz)
+        val leagues = quiz.questions.map { it.league }.toSet()
+        return QuizResult(
+            quizId = quiz.id,
+            userId = SINGLE_USER_ID,
+            difficulty = quiz.difficulty,
+            leagues = leagues,
+            totalQuestions = summary.totalQuestions,
+            correctCount = summary.correctCount,
+            incorrectCount = summary.incorrectCount,
+            skippedCount = summary.skippedCount,
+            elapsedSeconds = summary.elapsedSeconds,
+            score = summary.score,
+            completedAtMillis = quiz.completedAtMillis ?: System.currentTimeMillis()
+        )
     }
 
     private fun isAnswerMatch(normalizedAnswer: String, candidate: String): Boolean {
@@ -238,5 +290,9 @@ class QuizService(private val quizRepository: QuizRepository) {
             }
         }
         return dp[a.length][b.length]
+    }
+
+    companion object {
+        private const val SINGLE_USER_ID = "single-user"
     }
 }

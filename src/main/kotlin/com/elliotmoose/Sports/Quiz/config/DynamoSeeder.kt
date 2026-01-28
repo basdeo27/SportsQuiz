@@ -11,7 +11,15 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
-import software.amazon.awssdk.services.dynamodb.model.*
+import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue
+import software.amazon.awssdk.services.dynamodb.model.BillingMode
+import software.amazon.awssdk.services.dynamodb.model.CreateTableRequest
+import software.amazon.awssdk.services.dynamodb.model.DescribeTableRequest
+import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement
+import software.amazon.awssdk.services.dynamodb.model.KeyType
+import software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException
+import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType
 
 @Configuration
 @ConditionalOnProperty(prefix = "quiz.dynamo", name = ["enabled"], havingValue = "true")
@@ -25,11 +33,17 @@ class DynamoSeeder(
     @Bean
     fun dynamoSeederRunner(): ApplicationRunner {
         return ApplicationRunner {
+            try {
+                ensureResultsTable()
+            } catch (ex: Exception) {
+                logger.warn("Skipping DynamoDB results table setup due to error: ${ex.message}")
+            }
             if (!properties.seed) {
                 return@ApplicationRunner
             }
             try {
                 ensureTable()
+                ensureResultsTable()
                 seedData()
             } catch (ex: Exception) {
                 logger.warn("Skipping DynamoDB seed due to error: ${ex.message}")
@@ -40,11 +54,11 @@ class DynamoSeeder(
     private fun ensureTable() {
         try {
             dynamoDbClient.describeTable(
-                DescribeTableRequest.builder().tableName(properties.tableName).build()
+                DescribeTableRequest.builder().tableName(properties.teamsTableName).build()
             )
         } catch (ex: ResourceNotFoundException) {
             val request = CreateTableRequest.builder()
-                .tableName(properties.tableName)
+                .tableName(properties.teamsTableName)
                 .billingMode(BillingMode.PAY_PER_REQUEST)
                 .attributeDefinitions(
                     AttributeDefinition.builder()
@@ -73,6 +87,42 @@ class DynamoSeeder(
         }
     }
 
+    private fun ensureResultsTable() {
+        try {
+            dynamoDbClient.describeTable(
+                DescribeTableRequest.builder().tableName(properties.resultsTableName).build()
+            )
+        } catch (ex: ResourceNotFoundException) {
+            val request = CreateTableRequest.builder()
+                .tableName(properties.resultsTableName)
+                .billingMode(BillingMode.PAY_PER_REQUEST)
+                .attributeDefinitions(
+                    AttributeDefinition.builder()
+                        .attributeName("userId")
+                        .attributeType(ScalarAttributeType.S)
+                        .build(),
+                    AttributeDefinition.builder()
+                        .attributeName("completedAtMillis")
+                        .attributeType(ScalarAttributeType.N)
+                        .build()
+                )
+                .keySchema(
+                    KeySchemaElement.builder()
+                        .attributeName("userId")
+                        .keyType(KeyType.HASH)
+                        .build(),
+                    KeySchemaElement.builder()
+                        .attributeName("completedAtMillis")
+                        .keyType(KeyType.RANGE)
+                        .build()
+                )
+                .build()
+
+            dynamoDbClient.createTable(request)
+            waitForTable(properties.resultsTableName)
+        }
+    }
+
     private fun seedData() {
         League.entries.forEach { league ->
             val teams = loadTeams(league)
@@ -85,21 +135,21 @@ class DynamoSeeder(
                     "answers" to AttributeValue.builder().ss(team.answers).build()
                 )
                 dynamoDbClient.putItem { builder ->
-                    builder.tableName(properties.tableName)
+                    builder.tableName(properties.teamsTableName)
                     builder.item(item)
                 }
             }
         }
     }
 
-    private fun waitForTable() {
+    private fun waitForTable(tableName: String = properties.teamsTableName) {
         val maxAttempts = 10
         var attempt = 0
         while (attempt < maxAttempts) {
             attempt += 1
             try {
                 dynamoDbClient.describeTable(
-                    DescribeTableRequest.builder().tableName(properties.tableName).build()
+                    DescribeTableRequest.builder().tableName(tableName).build()
                 )
                 return
             } catch (ex: ResourceNotFoundException) {

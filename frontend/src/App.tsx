@@ -30,6 +30,12 @@ type QuizReviewResponse = {
   quizId: string;
   difficulty: string;
   questions: QuizReviewQuestion[];
+  totalQuestions: number;
+  correctCount: number;
+  incorrectCount: number;
+  skippedCount: number;
+  elapsedSeconds: number;
+  score: number;
 };
 
 const allLeagues: League[] = ["NBA", "MLB", "NFL", "NHL", "EPL"];
@@ -249,6 +255,7 @@ export default function App() {
           const nextIndex = currentIndex + 1;
           if (nextIndex >= questions.length) {
             setScreen("complete");
+            fetchReviewData(false);
           } else {
             setCurrentIndex(nextIndex);
           }
@@ -292,6 +299,7 @@ export default function App() {
         const nextIndex = currentIndex + 1;
         if (nextIndex >= questions.length) {
           setScreen("complete");
+          fetchReviewData(false);
         } else {
           setCurrentIndex(nextIndex);
         }
@@ -342,7 +350,7 @@ export default function App() {
     }
   };
 
-  const loadReview = async () => {
+  const fetchReviewData = async (showReview: boolean) => {
     if (!quizId) {
       return;
     }
@@ -356,7 +364,9 @@ export default function App() {
       }
       const payload = (await response.json()) as QuizReviewResponse;
       setReviewData(payload);
-      setScreen("review");
+      if (showReview) {
+        setScreen("review");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unexpected error.");
     } finally {
@@ -541,11 +551,17 @@ export default function App() {
               {skippedCount} skipped. {hintedCount} hint
               {hintedCount === 1 ? "" : "s"} used.
             </p>
+            <div className="score-summary">
+              <span className="score-summary__label">Score</span>
+              <span className="score-summary__value">
+                {reviewData ? reviewData.score : "Calculating..."}
+              </span>
+            </div>
             <p className="supporting">
               Want another run? Change the leagues or go again.
             </p>
             <div className="stack">
-              <button className="primary-button" onClick={loadReview}>
+              <button className="primary-button" onClick={() => fetchReviewData(true)}>
                 Review Results
               </button>
               <button className="primary-button" onClick={() => setScreen("setup")}>
@@ -566,6 +582,27 @@ export default function App() {
                 Back Home
               </button>
             </div>
+            {reviewData && (
+              <div className="review__summary">
+                <div className="review__stat">
+                  <span className="review__label">Score</span>
+                  <span className="review__value">{reviewData.score}</span>
+                </div>
+                <div className="review__stat">
+                  <span className="review__label">Accuracy</span>
+                  <span className="review__value">
+                    {Math.round(
+                      (reviewData.correctCount / reviewData.totalQuestions) * 100
+                    )}
+                    %
+                  </span>
+                </div>
+                <div className="review__stat">
+                  <span className="review__label">Time</span>
+                  <span className="review__value">{reviewData.elapsedSeconds}s</span>
+                </div>
+              </div>
+            )}
             <div className="review__list">
               {reviewData?.questions.map((result, index) => (
                 <article key={result.id} className="review__item">

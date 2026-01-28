@@ -45,5 +45,25 @@ quiz:
     seed: true
 ```
 
+## Docker
+
+Build the image:
+
+```bash
+docker build -t sports-quiz-backend .
+```
+
+Run locally:
+
+```bash
+docker run --rm -p 8080:8080 sports-quiz-backend
+```
+
+## ECR push script
+
+```bash
+./scripts/push_ecr.sh <aws_account_id> <aws_region> <ecr_repo_name> [image_tag]
+```
+
 
 We got our images from espn: https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams

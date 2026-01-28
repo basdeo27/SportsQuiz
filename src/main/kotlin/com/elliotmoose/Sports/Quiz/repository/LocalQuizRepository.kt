@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service
 import com.elliotmoose.Sports.Quiz.model.League
 import com.elliotmoose.Sports.Quiz.model.Question
 import com.elliotmoose.Sports.Quiz.model.TeamEntry
+import com.elliotmoose.Sports.Quiz.model.QuizResult
+import java.util.concurrent.ConcurrentHashMap
 
 @Service
 @ConditionalOnProperty(prefix = "quiz.dynamo", name = ["enabled"], havingValue = "false", matchIfMissing = true)
 class LocalQuizRepository(private val objectMapper: ObjectMapper) : QuizRepository {
 
     private val teamsData: Map<League, List<TeamEntry>> by lazy { loadTeamsData() }
+    private val results = ConcurrentHashMap<String, QuizResult>()
 
     override fun getQuestions(leagues: Set<League>): List<Question> {
         return leagues.flatMap { league ->
@@ -27,6 +30,14 @@ class LocalQuizRepository(private val objectMapper: ObjectMapper) : QuizReposito
                 )
             }
         }
+    }
+
+    override fun saveResult(result: QuizResult) {
+        results[result.quizId] = result
+    }
+
+    override fun getResults(): List<QuizResult> {
+        return results.values.sortedByDescending { it.completedAtMillis }
     }
 
     private fun loadTeamsData(): Map<League, List<TeamEntry>> {

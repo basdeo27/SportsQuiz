@@ -7,6 +7,7 @@ import com.elliotmoose.Sports.Quiz.model.HintResponse
 import com.elliotmoose.Sports.Quiz.model.QuizRequest
 import com.elliotmoose.Sports.Quiz.model.QuizResponse
 import com.elliotmoose.Sports.Quiz.model.QuizReviewResponse
+import com.elliotmoose.Sports.Quiz.model.QuizResultsResponse
 import com.elliotmoose.Sports.Quiz.model.SkipRequest
 import com.elliotmoose.Sports.Quiz.model.SkipResponse
 import com.elliotmoose.Sports.Quiz.service.QuizService
@@ -40,6 +41,11 @@ class SportsQuizController(val quizService: QuizService) {
     @PostMapping("/hint")
     fun hintQuestion(@RequestBody req: HintRequest): HintResponse {
         return quizService.hintQuestion(req)
+    }
+
+    @GetMapping("/results")
+    fun getResults(): QuizResultsResponse {
+        return QuizResultsResponse(quizService.getResults())
     }
 
     @GetMapping("/{quizId}")
