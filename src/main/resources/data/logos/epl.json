@@ -1,0 +1,182 @@
+[
+  {
+    "id": "epl-afc-bournemouth",
+    "name": "AFC Bournemouth",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+    "answers": [
+      "AFC Bournemouth"
+    ],
+    "hint": "City: AFC \u2022 Mascot starts with B"
+  },
+  {
+    "id": "epl-arsenal",
+    "name": "Arsenal",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+    "answers": [
+      "Arsenal"
+    ],
+    "hint": "City: Arsenal \u2022 Mascot starts with A"
+  },
+  {
+    "id": "epl-aston-villa",
+    "name": "Aston Villa",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+    "answers": [
+      "Aston Villa"
+    ],
+    "hint": "City: Aston \u2022 Mascot starts with V"
+  },
+  {
+    "id": "epl-brentford",
+    "name": "Brentford",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+    "answers": [
+      "Brentford"
+    ],
+    "hint": "City: Brentford \u2022 Mascot starts with B"
+  },
+  {
+    "id": "epl-brighton-&-hove-albion",
+    "name": "Brighton & Hove Albion",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+    "answers": [
+      "Brighton & Hove Albion"
+    ],
+    "hint": "City: Brighton & Hove \u2022 Mascot starts with A"
+  },
+  {
+    "id": "epl-burnley",
+    "name": "Burnley",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/379.png",
+    "answers": [
+      "Burnley"
+    ],
+    "hint": "City: Burnley \u2022 Mascot starts with B"
+  },
+  {
+    "id": "epl-chelsea",
+    "name": "Chelsea",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+    "answers": [
+      "Chelsea"
+    ],
+    "hint": "City: Chelsea \u2022 Mascot starts with C"
+  },
+  {
+    "id": "epl-crystal-palace",
+    "name": "Crystal Palace",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+    "answers": [
+      "Crystal Palace"
+    ],
+    "hint": "City: Crystal \u2022 Mascot starts with P"
+  },
+  {
+    "id": "epl-everton",
+    "name": "Everton",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+    "answers": [
+      "Everton"
+    ],
+    "hint": "City: Everton \u2022 Mascot starts with E"
+  },
+  {
+    "id": "epl-fulham",
+    "name": "Fulham",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+    "answers": [
+      "Fulham"
+    ],
+    "hint": "City: Fulham \u2022 Mascot starts with F"
+  },
+  {
+    "id": "epl-leeds-united",
+    "name": "Leeds United",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+    "answers": [
+      "Leeds United"
+    ],
+    "hint": "City: Leeds \u2022 Mascot starts with U"
+  },
+  {
+    "id": "epl-liverpool",
+    "name": "Liverpool",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+    "answers": [
+      "Liverpool"
+    ],
+    "hint": "City: Liverpool \u2022 Mascot starts with L"
+  },
+  {
+    "id": "epl-manchester-city",
+    "name": "Manchester City",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+    "answers": [
+      "Manchester City"
+    ],
+    "hint": "City: Manchester \u2022 Mascot starts with C"
+  },
+  {
+    "id": "epl-manchester-united",
+    "name": "Manchester United",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+    "answers": [
+      "Manchester United"
+    ],
+    "hint": "City: Manchester \u2022 Mascot starts with U"
+  },
+  {
+    "id": "epl-newcastle-united",
+    "name": "Newcastle United",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+    "answers": [
+      "Newcastle United"
+    ],
+    "hint": "City: Newcastle \u2022 Mascot starts with U"
+  },
+  {
+    "id": "epl-nottingham-forest",
+    "name": "Nottingham Forest",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+    "answers": [
+      "Nottingham Forest"
+    ],
+    "hint": "City: Nottingham \u2022 Mascot starts with F"
+  },
+  {
+    "id": "epl-sunderland",
+    "name": "Sunderland",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+    "answers": [
+      "Sunderland"
+    ],
+    "hint": "City: Sunderland \u2022 Mascot starts with S"
+  },
+  {
+    "id": "epl-tottenham-hotspur",
+    "name": "Tottenham Hotspur",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+    "answers": [
+      "Tottenham Hotspur"
+    ],
+    "hint": "City: Tottenham \u2022 Mascot starts with H"
+  },
+  {
+    "id": "epl-west-ham-united",
+    "name": "West Ham United",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/371.png",
+    "answers": [
+      "West Ham United"
+    ],
+    "hint": "City: West Ham \u2022 Mascot starts with U"
+  },
+  {
+    "id": "epl-wolverhampton-wanderers",
+    "name": "Wolverhampton Wanderers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/380.png",
+    "answers": [
+      "Wolverhampton Wanderers"
+    ],
+    "hint": "City: Wolverhampton \u2022 Mascot starts with W"
+  }
+]

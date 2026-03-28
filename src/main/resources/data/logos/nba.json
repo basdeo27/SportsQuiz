@@ -1,0 +1,284 @@
+[
+  {
+    "id": "nba-atlanta-hawks",
+    "name": "Atlanta Hawks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/atl.png",
+    "answers": [
+      "Hawks",
+      "ATL Hawks"
+    ],
+    "hint": "City: Atlanta \u2022 Mascot starts with H"
+  },
+  {
+    "id": "nba-boston-celtics",
+    "name": "Boston Celtics",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/bos.png",
+    "answers": [
+      "Celtics"
+    ],
+    "hint": "City: Boston \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nba-brooklyn-nets",
+    "name": "Brooklyn Nets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/bkn.png",
+    "answers": [
+      "Nets"
+    ],
+    "hint": "City: Brooklyn \u2022 Mascot starts with N"
+  },
+  {
+    "id": "nba-charlotte-hornets",
+    "name": "Charlotte Hornets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/cha.png",
+    "answers": [
+      "Hornets"
+    ],
+    "hint": "City: Charlotte \u2022 Mascot starts with H"
+  },
+  {
+    "id": "nba-chicago-bulls",
+    "name": "Chicago Bulls",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/chi.png",
+    "answers": [
+      "Bulls"
+    ],
+    "hint": "City: Chicago \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nba-cleveland-cavaliers",
+    "name": "Cleveland Cavaliers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/cle.png",
+    "answers": [
+      "Cavaliers",
+      "Cavs"
+    ],
+    "hint": "City: Cleveland \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nba-dallas-mavericks",
+    "name": "Dallas Mavericks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/dal.png",
+    "answers": [
+      "Mavericks",
+      "Mavs"
+    ],
+    "hint": "City: Dallas \u2022 Mascot starts with M"
+  },
+  {
+    "id": "nba-denver-nuggets",
+    "name": "Denver Nuggets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/den.png",
+    "answers": [
+      "Nuggets"
+    ],
+    "hint": "City: Denver \u2022 Mascot starts with N"
+  },
+  {
+    "id": "nba-detroit-pistons",
+    "name": "Detroit Pistons",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/det.png",
+    "answers": [
+      "Pistons"
+    ],
+    "hint": "City: Detroit \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nba-golden-state-warriors",
+    "name": "Golden State Warriors",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/gs.png",
+    "answers": [
+      "Warriors"
+    ],
+    "hint": "City: Golden State \u2022 Mascot starts with W"
+  },
+  {
+    "id": "nba-houston-rockets",
+    "name": "Houston Rockets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/hou.png",
+    "answers": [
+      "Rockets"
+    ],
+    "hint": "City: Houston \u2022 Mascot starts with R"
+  },
+  {
+    "id": "nba-indiana-pacers",
+    "name": "Indiana Pacers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/ind.png",
+    "answers": [
+      "Pacers"
+    ],
+    "hint": "City: Indiana \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nba-la-clippers",
+    "name": "Los Angeles Clippers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/lac.png",
+    "answers": [
+      "Clippers",
+      "LA Clippers",
+      "L.A. Clippers"
+    ],
+    "hint": "City: Los Angeles \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nba-los-angeles-lakers",
+    "name": "Los Angeles Lakers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/lal.png",
+    "answers": [
+      "Lakers",
+      "LA Lakers",
+      "L.A. Lakers"
+    ],
+    "hint": "City: Los Angeles \u2022 Mascot starts with L"
+  },
+  {
+    "id": "nba-memphis-grizzlies",
+    "name": "Memphis Grizzlies",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/mem.png",
+    "answers": [
+      "Grizzlies",
+      "Grizz"
+    ],
+    "hint": "City: Memphis \u2022 Mascot starts with G"
+  },
+  {
+    "id": "nba-miami-heat",
+    "name": "Miami Heat",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/mia.png",
+    "answers": [
+      "Heat"
+    ],
+    "hint": "City: Miami \u2022 Mascot starts with H"
+  },
+  {
+    "id": "nba-milwaukee-bucks",
+    "name": "Milwaukee Bucks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/mil.png",
+    "answers": [
+      "Bucks"
+    ],
+    "hint": "City: Milwaukee \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nba-minnesota-timberwolves",
+    "name": "Minnesota Timberwolves",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/min.png",
+    "answers": [
+      "Timberwolves",
+      "Wolves"
+    ],
+    "hint": "City: Minnesota \u2022 Mascot starts with T"
+  },
+  {
+    "id": "nba-new-orleans-pelicans",
+    "name": "New Orleans Pelicans",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/no.png",
+    "answers": [
+      "Pelicans",
+      "Pels"
+    ],
+    "hint": "City: New Orleans \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nba-new-york-knicks",
+    "name": "New York Knicks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/ny.png",
+    "answers": [
+      "Knicks"
+    ],
+    "hint": "City: New York \u2022 Mascot starts with K"
+  },
+  {
+    "id": "nba-oklahoma-city-thunder",
+    "name": "Oklahoma City Thunder",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/okc.png",
+    "answers": [
+      "Thunder"
+    ],
+    "hint": "City: Oklahoma City \u2022 Mascot starts with T"
+  },
+  {
+    "id": "nba-orlando-magic",
+    "name": "Orlando Magic",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/orl.png",
+    "answers": [
+      "Magic"
+    ],
+    "hint": "City: Orlando \u2022 Mascot starts with M"
+  },
+  {
+    "id": "nba-philadelphia-76ers",
+    "name": "Philadelphia 76ers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/phi.png",
+    "answers": [
+      "76ers",
+      "Sixers"
+    ],
+    "hint": "City: Philadelphia \u2022 Mascot starts with 7"
+  },
+  {
+    "id": "nba-phoenix-suns",
+    "name": "Phoenix Suns",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/phx.png",
+    "answers": [
+      "Suns"
+    ],
+    "hint": "City: Phoenix \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nba-portland-trail-blazers",
+    "name": "Portland Trail Blazers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/por.png",
+    "answers": [
+      "Trail Blazers",
+      "Blazers"
+    ],
+    "hint": "City: Portland Trail \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nba-sacramento-kings",
+    "name": "Sacramento Kings",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/sac.png",
+    "answers": [
+      "Kings"
+    ],
+    "hint": "City: Sacramento \u2022 Mascot starts with K"
+  },
+  {
+    "id": "nba-san-antonio-spurs",
+    "name": "San Antonio Spurs",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/sa.png",
+    "answers": [
+      "Spurs"
+    ],
+    "hint": "City: San Antonio \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nba-toronto-raptors",
+    "name": "Toronto Raptors",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/tor.png",
+    "answers": [
+      "Raptors"
+    ],
+    "hint": "City: Toronto \u2022 Mascot starts with R"
+  },
+  {
+    "id": "nba-utah-jazz",
+    "name": "Utah Jazz",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/utah.png",
+    "answers": [
+      "Jazz"
+    ],
+    "hint": "City: Utah \u2022 Mascot starts with J"
+  },
+  {
+    "id": "nba-washington-wizards",
+    "name": "Washington Wizards",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500-dark/wsh.png",
+    "answers": [
+      "Wizards"
+    ],
+    "hint": "City: Washington \u2022 Mascot starts with W"
+  }
+]

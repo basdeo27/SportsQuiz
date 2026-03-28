@@ -1,0 +1,299 @@
+[
+  {
+    "id": "nfl-arizona-cardinals",
+    "name": "Arizona Cardinals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ari.png",
+    "answers": [
+      "Cardinals"
+    ],
+    "hint": "City: Arizona \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nfl-atlanta-falcons",
+    "name": "Atlanta Falcons",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+    "answers": [
+      "Falcons"
+    ],
+    "hint": "City: Atlanta \u2022 Mascot starts with F"
+  },
+  {
+    "id": "nfl-baltimore-ravens",
+    "name": "Baltimore Ravens",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/bal.png",
+    "answers": [
+      "Ravens"
+    ],
+    "hint": "City: Baltimore \u2022 Mascot starts with R"
+  },
+  {
+    "id": "nfl-buffalo-bills",
+    "name": "Buffalo Bills",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png",
+    "answers": [
+      "Bills"
+    ],
+    "hint": "City: Buffalo \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nfl-carolina-panthers",
+    "name": "Carolina Panthers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png",
+    "answers": [
+      "Panthers"
+    ],
+    "hint": "City: Carolina \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nfl-chicago-bears",
+    "name": "Chicago Bears",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png",
+    "answers": [
+      "Bears"
+    ],
+    "hint": "City: Chicago \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nfl-cincinnati-bengals",
+    "name": "Cincinnati Bengals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cin.png",
+    "answers": [
+      "Bengals"
+    ],
+    "hint": "City: Cincinnati \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nfl-cleveland-browns",
+    "name": "Cleveland Browns",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png",
+    "answers": [
+      "Browns"
+    ],
+    "hint": "City: Cleveland \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nfl-dallas-cowboys",
+    "name": "Dallas Cowboys",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png",
+    "answers": [
+      "Cowboys"
+    ],
+    "hint": "City: Dallas \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nfl-denver-broncos",
+    "name": "Denver Broncos",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/den.png",
+    "answers": [
+      "Broncos"
+    ],
+    "hint": "City: Denver \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nfl-detroit-lions",
+    "name": "Detroit Lions",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png",
+    "answers": [
+      "Lions"
+    ],
+    "hint": "City: Detroit \u2022 Mascot starts with L"
+  },
+  {
+    "id": "nfl-green-bay-packers",
+    "name": "Green Bay Packers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png",
+    "answers": [
+      "Packers"
+    ],
+    "hint": "City: Green Bay \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nfl-houston-texans",
+    "name": "Houston Texans",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png",
+    "answers": [
+      "Texans"
+    ],
+    "hint": "City: Houston \u2022 Mascot starts with T"
+  },
+  {
+    "id": "nfl-indianapolis-colts",
+    "name": "Indianapolis Colts",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png",
+    "answers": [
+      "Colts"
+    ],
+    "hint": "City: Indianapolis \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nfl-jacksonville-jaguars",
+    "name": "Jacksonville Jaguars",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/jax.png",
+    "answers": [
+      "Jaguars",
+      "Jags"
+    ],
+    "hint": "City: Jacksonville \u2022 Mascot starts with J"
+  },
+  {
+    "id": "nfl-kansas-city-chiefs",
+    "name": "Kansas City Chiefs",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png",
+    "answers": [
+      "Chiefs",
+      "KC Chiefs"
+    ],
+    "hint": "City: Kansas City \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nfl-las-vegas-raiders",
+    "name": "Las Vegas Raiders",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lv.png",
+    "answers": [
+      "Raiders"
+    ],
+    "hint": "City: Las Vegas \u2022 Mascot starts with R"
+  },
+  {
+    "id": "nfl-los-angeles-chargers",
+    "name": "Los Angeles Chargers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lac.png",
+    "answers": [
+      "Chargers",
+      "LA Chargers",
+      "L.A. Chargers"
+    ],
+    "hint": "City: Los Angeles \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nfl-los-angeles-rams",
+    "name": "Los Angeles Rams",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lar.png",
+    "answers": [
+      "Rams",
+      "LA Rams",
+      "L.A. Rams"
+    ],
+    "hint": "City: Los Angeles \u2022 Mascot starts with R"
+  },
+  {
+    "id": "nfl-miami-dolphins",
+    "name": "Miami Dolphins",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/mia.png",
+    "answers": [
+      "Dolphins"
+    ],
+    "hint": "City: Miami \u2022 Mascot starts with D"
+  },
+  {
+    "id": "nfl-minnesota-vikings",
+    "name": "Minnesota Vikings",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/min.png",
+    "answers": [
+      "Vikings"
+    ],
+    "hint": "City: Minnesota \u2022 Mascot starts with V"
+  },
+  {
+    "id": "nfl-new-england-patriots",
+    "name": "New England Patriots",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png",
+    "answers": [
+      "Patriots",
+      "Pats"
+    ],
+    "hint": "City: New England \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nfl-new-orleans-saints",
+    "name": "New Orleans Saints",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png",
+    "answers": [
+      "Saints"
+    ],
+    "hint": "City: New Orleans \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nfl-new-york-giants",
+    "name": "New York Giants",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyg.png",
+    "answers": [
+      "Giants"
+    ],
+    "hint": "City: New York \u2022 Mascot starts with G"
+  },
+  {
+    "id": "nfl-new-york-jets",
+    "name": "New York Jets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png",
+    "answers": [
+      "Jets"
+    ],
+    "hint": "City: New York \u2022 Mascot starts with J"
+  },
+  {
+    "id": "nfl-philadelphia-eagles",
+    "name": "Philadelphia Eagles",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/phi.png",
+    "answers": [
+      "Eagles"
+    ],
+    "hint": "City: Philadelphia \u2022 Mascot starts with E"
+  },
+  {
+    "id": "nfl-pittsburgh-steelers",
+    "name": "Pittsburgh Steelers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png",
+    "answers": [
+      "Steelers"
+    ],
+    "hint": "City: Pittsburgh \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nfl-san-francisco-49ers",
+    "name": "San Francisco 49ers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sf.png",
+    "answers": [
+      "49ers",
+      "Niners"
+    ],
+    "hint": "City: San Francisco \u2022 Mascot starts with 4"
+  },
+  {
+    "id": "nfl-seattle-seahawks",
+    "name": "Seattle Seahawks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sea.png",
+    "answers": [
+      "Seahawks"
+    ],
+    "hint": "City: Seattle \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nfl-tampa-bay-buccaneers",
+    "name": "Tampa Bay Buccaneers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/tb.png",
+    "answers": [
+      "Buccaneers",
+      "Bucs"
+    ],
+    "hint": "City: Tampa Bay \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nfl-tennessee-titans",
+    "name": "Tennessee Titans",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png",
+    "answers": [
+      "Titans"
+    ],
+    "hint": "City: Tennessee \u2022 Mascot starts with T"
+  },
+  {
+    "id": "nfl-washington-commanders",
+    "name": "Washington Commanders",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/wsh.png",
+    "answers": [
+      "Commanders"
+    ],
+    "hint": "City: Washington \u2022 Mascot starts with C"
+  }
+]

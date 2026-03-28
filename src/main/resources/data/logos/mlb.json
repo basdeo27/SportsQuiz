@@ -1,0 +1,285 @@
+[
+  {
+    "id": "mlb-arizona-diamondbacks",
+    "name": "Arizona Diamondbacks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ari.png",
+    "answers": [
+      "Diamondbacks",
+      "D-backs",
+      "Dbacks"
+    ],
+    "hint": "City: Arizona \u2022 Mascot starts with D"
+  },
+  {
+    "id": "mlb-atlanta-braves",
+    "name": "Atlanta Braves",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/atl.png",
+    "answers": [
+      "Braves"
+    ],
+    "hint": "City: Atlanta \u2022 Mascot starts with B"
+  },
+  {
+    "id": "mlb-baltimore-orioles",
+    "name": "Baltimore Orioles",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/bal.png",
+    "answers": [
+      "Orioles"
+    ],
+    "hint": "City: Baltimore \u2022 Mascot starts with O"
+  },
+  {
+    "id": "mlb-boston-red-sox",
+    "name": "Boston Red Sox",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/bos.png",
+    "answers": [
+      "Red Sox"
+    ],
+    "hint": "City: Boston Red \u2022 Mascot starts with S"
+  },
+  {
+    "id": "mlb-chicago-cubs",
+    "name": "Chicago Cubs",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/chc.png",
+    "answers": [
+      "Cubs"
+    ],
+    "hint": "City: Chicago \u2022 Mascot starts with C"
+  },
+  {
+    "id": "mlb-chicago-white-sox",
+    "name": "Chicago White Sox",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/chw.png",
+    "answers": [
+      "White Sox"
+    ],
+    "hint": "City: Chicago White \u2022 Mascot starts with S"
+  },
+  {
+    "id": "mlb-cincinnati-reds",
+    "name": "Cincinnati Reds",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/cin.png",
+    "answers": [
+      "Reds"
+    ],
+    "hint": "City: Cincinnati \u2022 Mascot starts with R"
+  },
+  {
+    "id": "mlb-cleveland-guardians",
+    "name": "Cleveland Guardians",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/cle.png",
+    "answers": [
+      "Guardians"
+    ],
+    "hint": "City: Cleveland \u2022 Mascot starts with G"
+  },
+  {
+    "id": "mlb-colorado-rockies",
+    "name": "Colorado Rockies",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/col.png",
+    "answers": [
+      "Rockies"
+    ],
+    "hint": "City: Colorado \u2022 Mascot starts with R"
+  },
+  {
+    "id": "mlb-detroit-tigers",
+    "name": "Detroit Tigers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/det.png",
+    "answers": [
+      "Tigers"
+    ],
+    "hint": "City: Detroit \u2022 Mascot starts with T"
+  },
+  {
+    "id": "mlb-houston-astros",
+    "name": "Houston Astros",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/hou.png",
+    "answers": [
+      "Astros"
+    ],
+    "hint": "City: Houston \u2022 Mascot starts with A"
+  },
+  {
+    "id": "mlb-kansas-city-royals",
+    "name": "Kansas City Royals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/kc.png",
+    "answers": [
+      "Royals"
+    ],
+    "hint": "City: Kansas City \u2022 Mascot starts with R"
+  },
+  {
+    "id": "mlb-los-angeles-angels",
+    "name": "Los Angeles Angels",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/laa.png",
+    "answers": [
+      "Angels",
+      "LA Angels",
+      "L.A. Angels"
+    ],
+    "hint": "City: Los Angeles \u2022 Mascot starts with A"
+  },
+  {
+    "id": "mlb-los-angeles-dodgers",
+    "name": "Los Angeles Dodgers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/lad.png",
+    "answers": [
+      "Dodgers",
+      "LA Dodgers",
+      "L.A. Dodgers"
+    ],
+    "hint": "City: Los Angeles \u2022 Mascot starts with D"
+  },
+  {
+    "id": "mlb-miami-marlins",
+    "name": "Miami Marlins",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/mia.png",
+    "answers": [
+      "Marlins"
+    ],
+    "hint": "City: Miami \u2022 Mascot starts with M"
+  },
+  {
+    "id": "mlb-milwaukee-brewers",
+    "name": "Milwaukee Brewers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/mil.png",
+    "answers": [
+      "Brewers"
+    ],
+    "hint": "City: Milwaukee \u2022 Mascot starts with B"
+  },
+  {
+    "id": "mlb-minnesota-twins",
+    "name": "Minnesota Twins",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/min.png",
+    "answers": [
+      "Twins"
+    ],
+    "hint": "City: Minnesota \u2022 Mascot starts with T"
+  },
+  {
+    "id": "mlb-new-york-mets",
+    "name": "New York Mets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/nym.png",
+    "answers": [
+      "Mets"
+    ],
+    "hint": "City: New York \u2022 Mascot starts with M"
+  },
+  {
+    "id": "mlb-new-york-yankees",
+    "name": "New York Yankees",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/nyy.png",
+    "answers": [
+      "Yankees",
+      "Yanks"
+    ],
+    "hint": "City: New York \u2022 Mascot starts with Y"
+  },
+  {
+    "id": "mlb-oakland-athletics",
+    "name": "Oakland Athletics",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ath.png",
+    "answers": [
+      "Athletics",
+      "A's",
+      "As"
+    ],
+    "hint": "City: Oakland \u2022 Mascot starts with A"
+  },
+  {
+    "id": "mlb-philadelphia-phillies",
+    "name": "Philadelphia Phillies",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/phi.png",
+    "answers": [
+      "Phillies"
+    ],
+    "hint": "City: Philadelphia \u2022 Mascot starts with P"
+  },
+  {
+    "id": "mlb-pittsburgh-pirates",
+    "name": "Pittsburgh Pirates",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/pit.png",
+    "answers": [
+      "Pirates"
+    ],
+    "hint": "City: Pittsburgh \u2022 Mascot starts with P"
+  },
+  {
+    "id": "mlb-san-diego-padres",
+    "name": "San Diego Padres",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sd.png",
+    "answers": [
+      "Padres"
+    ],
+    "hint": "City: San Diego \u2022 Mascot starts with P"
+  },
+  {
+    "id": "mlb-san-francisco-giants",
+    "name": "San Francisco Giants",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sf.png",
+    "answers": [
+      "Giants"
+    ],
+    "hint": "City: San Francisco \u2022 Mascot starts with G"
+  },
+  {
+    "id": "mlb-seattle-mariners",
+    "name": "Seattle Mariners",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sea.png",
+    "answers": [
+      "Mariners",
+      "M's"
+    ],
+    "hint": "City: Seattle \u2022 Mascot starts with M"
+  },
+  {
+    "id": "mlb-st-louis-cardinals",
+    "name": "St. Louis Cardinals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/stl.png",
+    "answers": [
+      "Cardinals",
+      "Cards"
+    ],
+    "hint": "City: St. Louis \u2022 Mascot starts with C"
+  },
+  {
+    "id": "mlb-tampa-bay-rays",
+    "name": "Tampa Bay Rays",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tb.png",
+    "answers": [
+      "Rays"
+    ],
+    "hint": "City: Tampa Bay \u2022 Mascot starts with R"
+  },
+  {
+    "id": "mlb-texas-rangers",
+    "name": "Texas Rangers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tex.png",
+    "answers": [
+      "Rangers"
+    ],
+    "hint": "City: Texas \u2022 Mascot starts with R"
+  },
+  {
+    "id": "mlb-toronto-blue-jays",
+    "name": "Toronto Blue Jays",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tor.png",
+    "answers": [
+      "Blue Jays",
+      "Jays"
+    ],
+    "hint": "City: Toronto Blue \u2022 Mascot starts with J"
+  },
+  {
+    "id": "mlb-washington-nationals",
+    "name": "Washington Nationals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/wsh.png",
+    "answers": [
+      "Nationals",
+      "Nats"
+    ],
+    "hint": "City: Washington \u2022 Mascot starts with N"
+  }
+]

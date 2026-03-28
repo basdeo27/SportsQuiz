@@ -1,0 +1,307 @@
+[
+  {
+    "id": "nhl-anaheim-ducks",
+    "name": "Anaheim Ducks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ana.png",
+    "answers": [
+      "Ducks"
+    ],
+    "hint": "City: Anaheim \u2022 Mascot starts with D"
+  },
+  {
+    "id": "nhl-arizona-coyotes",
+    "name": "Arizona Coyotes",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/utah.png",
+    "answers": [
+      "Coyotes",
+      "Yotes"
+    ],
+    "hint": "City: Arizona \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nhl-boston-bruins",
+    "name": "Boston Bruins",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/bos.png",
+    "answers": [
+      "Bruins"
+    ],
+    "hint": "City: Boston \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nhl-buffalo-sabres",
+    "name": "Buffalo Sabres",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/buf.png",
+    "answers": [
+      "Sabres"
+    ],
+    "hint": "City: Buffalo \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nhl-calgary-flames",
+    "name": "Calgary Flames",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cgy.png",
+    "answers": [
+      "Flames"
+    ],
+    "hint": "City: Calgary \u2022 Mascot starts with F"
+  },
+  {
+    "id": "nhl-carolina-hurricanes",
+    "name": "Carolina Hurricanes",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/car.png",
+    "answers": [
+      "Hurricanes",
+      "Canes"
+    ],
+    "hint": "City: Carolina \u2022 Mascot starts with H"
+  },
+  {
+    "id": "nhl-chicago-blackhawks",
+    "name": "Chicago Blackhawks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/chi.png",
+    "answers": [
+      "Blackhawks",
+      "Hawks"
+    ],
+    "hint": "City: Chicago \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nhl-colorado-avalanche",
+    "name": "Colorado Avalanche",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/col.png",
+    "answers": [
+      "Avalanche",
+      "Avs"
+    ],
+    "hint": "City: Colorado \u2022 Mascot starts with A"
+  },
+  {
+    "id": "nhl-columbus-blue-jackets",
+    "name": "Columbus Blue Jackets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cbj.png",
+    "answers": [
+      "Blue Jackets",
+      "Jackets"
+    ],
+    "hint": "City: Columbus Blue \u2022 Mascot starts with J"
+  },
+  {
+    "id": "nhl-dallas-stars",
+    "name": "Dallas Stars",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/dal.png",
+    "answers": [
+      "Stars"
+    ],
+    "hint": "City: Dallas \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nhl-detroit-red-wings",
+    "name": "Detroit Red Wings",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/det.png",
+    "answers": [
+      "Red Wings",
+      "Wings"
+    ],
+    "hint": "City: Detroit Red \u2022 Mascot starts with W"
+  },
+  {
+    "id": "nhl-edmonton-oilers",
+    "name": "Edmonton Oilers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/edm.png",
+    "answers": [
+      "Oilers"
+    ],
+    "hint": "City: Edmonton \u2022 Mascot starts with O"
+  },
+  {
+    "id": "nhl-florida-panthers",
+    "name": "Florida Panthers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/fla.png",
+    "answers": [
+      "Panthers"
+    ],
+    "hint": "City: Florida \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nhl-los-angeles-kings",
+    "name": "Los Angeles Kings",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/la.png",
+    "answers": [
+      "Kings",
+      "LA Kings",
+      "L.A. Kings"
+    ],
+    "hint": "City: Los Angeles \u2022 Mascot starts with K"
+  },
+  {
+    "id": "nhl-minnesota-wild",
+    "name": "Minnesota Wild",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/min.png",
+    "answers": [
+      "Wild"
+    ],
+    "hint": "City: Minnesota \u2022 Mascot starts with W"
+  },
+  {
+    "id": "nhl-montreal-canadiens",
+    "name": "Montreal Canadiens",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/mtl.png",
+    "answers": [
+      "Canadiens",
+      "Habs"
+    ],
+    "hint": "City: Montreal \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nhl-nashville-predators",
+    "name": "Nashville Predators",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nsh.png",
+    "answers": [
+      "Predators",
+      "Preds"
+    ],
+    "hint": "City: Nashville \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nhl-new-jersey-devils",
+    "name": "New Jersey Devils",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nj.png",
+    "answers": [
+      "Devils"
+    ],
+    "hint": "City: New Jersey \u2022 Mascot starts with D"
+  },
+  {
+    "id": "nhl-new-york-islanders",
+    "name": "New York Islanders",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyi.png",
+    "answers": [
+      "Islanders",
+      "Isles"
+    ],
+    "hint": "City: New York \u2022 Mascot starts with I"
+  },
+  {
+    "id": "nhl-new-york-rangers",
+    "name": "New York Rangers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyr.png",
+    "answers": [
+      "Rangers"
+    ],
+    "hint": "City: New York \u2022 Mascot starts with R"
+  },
+  {
+    "id": "nhl-ottawa-senators",
+    "name": "Ottawa Senators",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ott.png",
+    "answers": [
+      "Senators",
+      "Sens"
+    ],
+    "hint": "City: Ottawa \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nhl-philadelphia-flyers",
+    "name": "Philadelphia Flyers",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/phi.png",
+    "answers": [
+      "Flyers"
+    ],
+    "hint": "City: Philadelphia \u2022 Mascot starts with F"
+  },
+  {
+    "id": "nhl-pittsburgh-penguins",
+    "name": "Pittsburgh Penguins",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/pit.png",
+    "answers": [
+      "Penguins",
+      "Pens"
+    ],
+    "hint": "City: Pittsburgh \u2022 Mascot starts with P"
+  },
+  {
+    "id": "nhl-san-jose-sharks",
+    "name": "San Jose Sharks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sj.png",
+    "answers": [
+      "Sharks"
+    ],
+    "hint": "City: San Jose \u2022 Mascot starts with S"
+  },
+  {
+    "id": "nhl-seattle-kraken",
+    "name": "Seattle Kraken",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sea.png",
+    "answers": [
+      "Kraken"
+    ],
+    "hint": "City: Seattle \u2022 Mascot starts with K"
+  },
+  {
+    "id": "nhl-st-louis-blues",
+    "name": "St. Louis Blues",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/stl.png",
+    "answers": [
+      "Blues"
+    ],
+    "hint": "City: St. Louis \u2022 Mascot starts with B"
+  },
+  {
+    "id": "nhl-tampa-bay-lightning",
+    "name": "Tampa Bay Lightning",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tb.png",
+    "answers": [
+      "Lightning",
+      "Bolts"
+    ],
+    "hint": "City: Tampa Bay \u2022 Mascot starts with L"
+  },
+  {
+    "id": "nhl-toronto-maple-leafs",
+    "name": "Toronto Maple Leafs",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tor.png",
+    "answers": [
+      "Maple Leafs",
+      "Leafs"
+    ],
+    "hint": "City: Toronto Maple \u2022 Mascot starts with L"
+  },
+  {
+    "id": "nhl-vancouver-canucks",
+    "name": "Vancouver Canucks",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/van.png",
+    "answers": [
+      "Canucks"
+    ],
+    "hint": "City: Vancouver \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nhl-vegas-golden-knights",
+    "name": "Vegas Golden Knights",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png",
+    "answers": [
+      "Golden Knights",
+      "Knights"
+    ],
+    "hint": "City: Vegas Golden \u2022 Mascot starts with K"
+  },
+  {
+    "id": "nhl-washington-capitals",
+    "name": "Washington Capitals",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wsh.png",
+    "answers": [
+      "Capitals",
+      "Caps"
+    ],
+    "hint": "City: Washington \u2022 Mascot starts with C"
+  },
+  {
+    "id": "nhl-winnipeg-jets",
+    "name": "Winnipeg Jets",
+    "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wpg.png",
+    "answers": [
+      "Jets"
+    ],
+    "hint": "City: Winnipeg \u2022 Mascot starts with J"
+  }
+]
