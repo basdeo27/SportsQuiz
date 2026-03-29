@@ -2,12 +2,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import logo from "./assets/sports-quiz-logo.png";
 
 type League = "NBA" | "MLB" | "NFL" | "NHL" | "EPL";
+type QuizType = "LOGO" | "FACE";
 
 type QuizQuestion = {
   id: string;
   league: League;
   logoUrl: string;
   fullName: string;
+  hint?: string | null;
 };
 
 type QuizResponse = {
@@ -38,7 +40,26 @@ type QuizReviewResponse = {
   score: number;
 };
 
+const API_ROOT = import.meta.env.VITE_API_BASE_URL ?? "";
+const API_BASE_URL = `${API_ROOT.replace(/\/$/, "")}/v0`;
+
 const allLeagues: League[] = ["NBA", "MLB", "NFL", "NHL", "EPL"];
+const disabledLeagues: League[] = ["EPL"];
+const availableLeagues = allLeagues.filter(
+  (league) => !disabledLeagues.includes(league)
+);
+const quizTypeOptions = [
+  {
+    value: "LOGO",
+    label: "Logos",
+    description: "Guess the team from its badge or crest."
+  },
+  {
+    value: "FACE",
+    label: "Faces",
+    description: "Guess the player from a headshot. Easy and medium use all-stars only."
+  }
+] as const;
 const difficultyOptions = [
   {
     value: "EASY",
@@ -57,16 +78,17 @@ const difficultyOptions = [
   }
 ] as const;
 
-type Screen = "home" | "setup" | "quiz" | "complete" | "review";
+type Screen = "home" | "mode" | "setup" | "quiz" | "complete" | "review";
 
 const MIN_QUESTIONS = 1;
 const MAX_QUESTIONS = 25;
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>("home");
+  const [quizType, setQuizType] = useState<QuizType>("LOGO");
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [selectedLeagues, setSelectedLeagues] = useState<Set<League>>(
-    new Set(allLeagues)
+    new Set(availableLeagues)
   );
   const [difficulty, setDifficulty] =
     useState<(typeof difficultyOptions)[number]["value"]>("EASY");
@@ -119,6 +141,7 @@ export default function App() {
     setHintsByQuestion({});
     setHintedCount(0);
     setDifficulty("EASY");
+    setQuizType("LOGO");
     setError(null);
   };
 
@@ -150,13 +173,14 @@ export default function App() {
     setFeedback(null);
     setFeedbackStatus(null);
     try {
-      const response = await fetch("/v0/quiz", {
+      const response = await fetch(`${API_BASE_URL}/quiz`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+                body: JSON.stringify({
           leagues: Array.from(selectedLeagues),
           numberOfQuestions,
-          difficulty
+          difficulty,
+          type: quizType
         })
       });
 
@@ -198,13 +222,14 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("/v0/quiz/answer", {
+      const response = await fetch(`${API_BASE_URL}/quiz/answer`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           quizId,
           questionId: currentQuestion.id,
-          answer: submittedAnswer
+          answer: submittedAnswer,
+          hintUsed: Boolean(hintsByQuestion[currentQuestion.id])
         })
       });
 
@@ -275,12 +300,13 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("/v0/quiz/skip", {
+      const response = await fetch(`${API_BASE_URL}/quiz/skip`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           quizId,
-          questionId: currentQuestion.id
+          questionId: currentQuestion.id,
+          hintUsed: Boolean(hintsByQuestion[currentQuestion.id])
         })
       });
 
@@ -311,43 +337,19 @@ export default function App() {
     }
   };
 
-  const requestHint = async () => {
+  const requestHint = () => {
     if (!currentQuestion || loading) {
       return;
     }
     if (hintsByQuestion[currentQuestion.id]) {
       return;
     }
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("/v0/quiz/hint", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          quizId,
-          questionId: currentQuestion.id
-        })
-      });
-
-      if (!response.ok) {
-        const payload = (await response.json()) as { message?: string };
-        throw new Error(payload.message || "Failed to get hint.");
-      }
-
-      const payload = (await response.json()) as { hint: string; hinted: boolean };
-      setHintsByQuestion((prev) => ({
-        ...prev,
-        [currentQuestion.id]: payload.hint
-      }));
-      if (payload.hinted) {
-        setHintedCount((prev) => prev + 1);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unexpected error.");
-    } finally {
-      setLoading(false);
-    }
+    const hintText = currentQuestion.hint ?? "No hint available.";
+    setHintsByQuestion((prev) => ({
+      ...prev,
+      [currentQuestion.id]: hintText
+    }));
+    setHintedCount((prev) => prev + 1);
   };
 
   const fetchReviewData = async (showReview: boolean) => {
@@ -357,7 +359,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/v0/quiz/${quizId}`);
+      const response = await fetch(`${API_BASE_URL}/quiz/${quizId}`);
       if (!response.ok) {
         const payload = (await response.json()) as { message?: string };
         throw new Error(payload.message || "Failed to load quiz review.");
@@ -373,6 +375,9 @@ export default function App() {
       setLoading(false);
     }
   };
+
+  const quizTypeLabel = quizType === "LOGO" ? "Logos" : "Faces";
+  const quizImageAlt = quizType === "LOGO" ? "team logo" : "player headshot";
 
   return (
     <div className="app">
@@ -395,15 +400,55 @@ export default function App() {
             <p className="supporting">
               Choose your leagues, set your length, and race through the logos.
             </p>
-            <button className="primary-button" onClick={() => setScreen("setup")}>
+            <button className="primary-button" onClick={() => setScreen("mode")}>
               New Quiz
             </button>
           </section>
         )}
 
+        {screen === "mode" && (
+          <section className="card setup">
+            <h2>Choose your quiz</h2>
+            <p className="supporting">
+              Start with the question style, then narrow down the leagues.
+            </p>
+            <div className="quiz-type-grid">
+              {quizTypeOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  className={`quiz-type-card ${
+                    quizType === option.value ? "is-selected" : ""
+                  }`}
+                  onClick={() => {
+                    setQuizType(option.value);
+                    setError(null);
+                    setScreen("setup");
+                  }}
+                >
+                  <div className="quiz-type-card__title">{option.label}</div>
+                  <div className="quiz-type-card__description">
+                    {option.description}
+                  </div>
+                </button>
+              ))}
+            </div>
+            <div className="setup__actions">
+              <button className="ghost-button" onClick={goHome}>
+                Back
+              </button>
+            </div>
+          </section>
+        )}
+
         {screen === "setup" && (
           <section className="card setup">
-            <h2>Build your quiz</h2>
+            <h2>Build your {quizType === "LOGO" ? "logo" : "face"} quiz</h2>
+            <p className="supporting">
+              {quizType === "LOGO"
+                ? "Pick the leagues, question count, and difficulty."
+                : "Pick the leagues, question count, and difficulty. Easy and medium face quizzes are limited to all-stars."}
+            </p>
             <div className="setup__row">
               <label htmlFor="questionCount">Number of questions</label>
               <div className="setup__count">
@@ -424,7 +469,7 @@ export default function App() {
             <div className="setup__row">
               <p>Select leagues</p>
               <div className="league-grid">
-                {allLeagues.map((league) => (
+                {availableLeagues.map((league) => (
                   <label key={league} className="league-chip">
                     <input
                       type="checkbox"
@@ -460,11 +505,25 @@ export default function App() {
               </div>
             </div>
 
+            <div className="setup__row">
+              <p>Quiz type</p>
+              <div className="quiz-type-inline">
+                <span className="tag">{quizTypeLabel}</span>
+                <button
+                  type="button"
+                  className="ghost-button"
+                  onClick={() => setScreen("mode")}
+                >
+                  Change
+                </button>
+              </div>
+            </div>
+
             {error && <div className="message error">{error}</div>}
 
             <div className="setup__actions">
-              <button className="ghost-button" onClick={goHome}>
-                Cancel
+              <button className="ghost-button" onClick={() => setScreen("mode")}>
+                Back
               </button>
               <button
                 className="primary-button"
@@ -483,12 +542,14 @@ export default function App() {
               <span>
                 Question {currentIndex + 1} of {questions.length}
               </span>
-              <span className="tag">{currentQuestion.league}</span>
+              <span className="tag">
+                {currentQuestion.league} · {quizTypeLabel}
+              </span>
             </div>
             <div className="logo-frame">
               <img
                 src={currentQuestion.logoUrl}
-                alt={`${currentQuestion.league} team logo`}
+                alt={`${currentQuestion.league} ${quizImageAlt}`}
               />
             </div>
             <form
@@ -500,7 +561,11 @@ export default function App() {
             >
               <input
                 type="text"
-                placeholder="Type the team name..."
+                placeholder={
+                  quizType === "LOGO"
+                    ? "Type the team name..."
+                    : "Type the player name..."
+                }
                 value={answer}
                 onChange={(event) => setAnswer(event.target.value)}
                 disabled={loading}
@@ -612,7 +677,7 @@ export default function App() {
                   </div>
                   <div className="review__content">
                     <div className="review__logo">
-                      <img src={result.logoUrl} alt={`${result.league} team logo`} />
+                      <img src={result.logoUrl} alt={`${result.league} ${quizImageAlt}`} />
                     </div>
                     <div className="review__answers">
                       <div className="review__row">

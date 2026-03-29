@@ -5,6 +5,8 @@ data class Question(
     val league: League,
     val logoUrl: String,
     val fullName: String,
+    val teamId: String? = null,
+    val hint: String? = null,
     val correctAnswers: Set<String>,
     val submittedAnswer: String? = null,
     val isCorrect: Boolean? = null,

@@ -22,8 +22,8 @@ if ! aws ecr describe-repositories --repository-names "${REPO}" --region "${REGI
   aws ecr create-repository --repository-name "${REPO}" --region "${REGION}" >/dev/null
 fi
 
-echo "Building image..."
-docker build -t "${IMAGE_LOCAL}" .
+echo "Building image (linux/amd64)..."
+docker build --platform=linux/amd64 -t "${IMAGE_LOCAL}" .
 
 echo "Tagging image..."
 docker tag "${IMAGE_LOCAL}" "${IMAGE_REMOTE}"

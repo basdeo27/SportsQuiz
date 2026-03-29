@@ -1,5 +1,6 @@
 package com.elliotmoose.Sports.Quiz.model
 
 enum class QuizType {
-    LOGO
+    LOGO,
+    FACE
 }

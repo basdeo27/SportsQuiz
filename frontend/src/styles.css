@@ -166,6 +166,54 @@ body {
   margin-top: 32px;
 }
 
+.quiz-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.quiz-type-card {
+  text-align: left;
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, rgba(12, 19, 29, 0.95), rgba(7, 12, 18, 0.95));
+  color: #f8f7f2;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.quiz-type-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(247, 198, 96, 0.4);
+}
+
+.quiz-type-card.is-selected {
+  border-color: rgba(242, 95, 92, 0.7);
+  box-shadow: 0 12px 28px rgba(242, 95, 92, 0.25);
+}
+
+.quiz-type-card__title {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.quiz-type-card__description {
+  font-size: 14px;
+  color: #cbd4e1;
+  line-height: 1.5;
+}
+
+.quiz-type-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .difficulty-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

@@ -5,6 +5,11 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties(
-    value = [QuizSettingsProperties::class, QuizStorageProperties::class, QuizDynamoProperties::class]
+    value = [
+        QuizSettingsProperties::class,
+        QuizStorageProperties::class,
+        QuizDynamoProperties::class,
+        QuizCorsProperties::class
+    ]
 )
 class AppConfig

@@ -5,13 +5,19 @@ spring:
     active: prod
 
 quiz:
+  cors:
+    allowed-origins:
+      - https://d2323rgqey2wlv.cloudfront.net
+      - http://localhost:5173
   questions:
     storage: local
   results:
-    storage: dynamo
+    storage: local
   settings:
     min-questions: 1
     max-questions: 25
+    disabled-leagues:
+      - EPL
   dynamo:
     endpoint: "https://dynamodb.eu-west-2.amazonaws.com"
     region: eu-west-2

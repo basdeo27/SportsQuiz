@@ -29,8 +29,15 @@ class QuizService(
         require(quizRequest.leagues.isNotEmpty()) {
             "At least one league must be selected."
         }
+        require(quizRequest.leagues.intersect(settings.disabledLeagues).isEmpty()) {
+            "One or more selected leagues are currently disabled."
+        }
 
-        val availableQuestions = questionRepository.getQuestions(quizRequest.leagues)
+        val availableQuestions = questionRepository.getQuestions(
+            quizRequest.leagues,
+            quizRequest.type,
+            quizRequest.difficulty
+        )
         require(availableQuestions.size >= quizRequest.numberOfQuestions) {
             "Not enough questions for the selected leagues."
         }
@@ -90,11 +97,12 @@ class QuizService(
         val updatedQuestions = if (shouldAdvance) {
             quiz.questions.map { questionItem ->
                 if (questionItem.id == question.id) {
-                    questionItem.copy(
-                        submittedAnswer = answerRequest.answer,
-                        isCorrect = isCorrect,
-                        isSkipped = false
-                    )
+                questionItem.copy(
+                    submittedAnswer = answerRequest.answer,
+                    isCorrect = isCorrect,
+                    isSkipped = false,
+                    hinted = answerRequest.hintUsed
+                )
                 } else {
                     questionItem
                 }
@@ -136,7 +144,8 @@ class QuizService(
                 questionItem.copy(
                     submittedAnswer = null,
                     isCorrect = false,
-                    isSkipped = true
+                    isSkipped = true,
+                    hinted = skipRequest.hintUsed
                 )
             } else {
                 questionItem
@@ -150,39 +159,6 @@ class QuizService(
             skipped = true,
             correctAnswer = question.fullName
         )
-    }
-
-    fun hintQuestion(hintRequest: HintRequest): HintResponse {
-        val quiz = quizzes[hintRequest.quizId]
-            ?: throw IllegalArgumentException("Quiz not found.")
-        val question = quiz.questions.firstOrNull { it.id == hintRequest.questionId }
-            ?: throw IllegalArgumentException("Question not found.")
-
-        val hint = buildHint(question.fullName)
-        val updatedQuestions = quiz.questions.map { questionItem ->
-            if (questionItem.id == question.id) {
-                questionItem.copy(hinted = true)
-            } else {
-                questionItem
-            }
-        }
-        quizzes[quiz.id] = quiz.copy(questions = updatedQuestions)
-
-        return HintResponse(
-            hint = hint,
-            hinted = true
-        )
-    }
-
-    private fun buildHint(fullName: String): String {
-        val tokens = fullName.trim().split(Regex("\\s+"))
-        if (tokens.isEmpty()) {
-            return "No hint available."
-        }
-        val city = if (tokens.size > 1) tokens.dropLast(1).joinToString(" ") else tokens[0]
-        val mascot = tokens.last()
-        val mascotInitial = mascot.firstOrNull()?.uppercaseChar() ?: '?'
-        return "City: $city • Mascot starts with $mascotInitial"
     }
 
     private fun markCompletedIfDone(quiz: Quiz): Quiz {

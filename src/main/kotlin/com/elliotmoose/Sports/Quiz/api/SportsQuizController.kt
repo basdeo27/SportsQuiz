@@ -1,22 +1,8 @@
 package com.elliotmoose.Sports.Quiz.api
 
-import com.elliotmoose.Sports.Quiz.model.AnswerRequest
-import com.elliotmoose.Sports.Quiz.model.AnswerResponse
-import com.elliotmoose.Sports.Quiz.model.HintRequest
-import com.elliotmoose.Sports.Quiz.model.HintResponse
-import com.elliotmoose.Sports.Quiz.model.QuizRequest
-import com.elliotmoose.Sports.Quiz.model.QuizResponse
-import com.elliotmoose.Sports.Quiz.model.QuizReviewResponse
-import com.elliotmoose.Sports.Quiz.model.QuizResultsResponse
-import com.elliotmoose.Sports.Quiz.model.SkipRequest
-import com.elliotmoose.Sports.Quiz.model.SkipResponse
+import com.elliotmoose.Sports.Quiz.model.*
 import com.elliotmoose.Sports.Quiz.service.QuizService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v0/quiz")
@@ -36,11 +22,6 @@ class SportsQuizController(val quizService: QuizService) {
     @PostMapping("/skip")
     fun skipQuestion(@RequestBody req: SkipRequest): SkipResponse {
         return quizService.skipQuestion(req)
-    }
-
-    @PostMapping("/hint")
-    fun hintQuestion(@RequestBody req: HintRequest): HintResponse {
-        return quizService.hintQuestion(req)
     }
 
     @GetMapping("/results")

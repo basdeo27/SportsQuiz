@@ -127,9 +127,14 @@ class DynamoSeeder(
                     "logoUrl" to AttributeValue.builder().s(team.logoUrl).build(),
                     "answers" to AttributeValue.builder().ss(team.answers).build()
                 )
+                val finalItem = if (!team.hint.isNullOrBlank()) {
+                    item + ("hint" to AttributeValue.builder().s(team.hint).build())
+                } else {
+                    item
+                }
                 dynamoDbClient.putItem { builder ->
                     builder.tableName(properties.teamsTableName)
-                    builder.item(item)
+                    builder.item(finalItem)
                 }
             }
         }
@@ -152,7 +157,7 @@ class DynamoSeeder(
     }
 
     private fun loadTeams(league: League): List<TeamEntry> {
-        val resource = ClassPathResource("data/${league.name.lowercase()}.json")
+        val resource = ClassPathResource("data/logos/${league.name.lowercase()}.json")
         return objectMapper.readValue(resource.inputStream, object : TypeReference<List<TeamEntry>>() {})
     }
 }
