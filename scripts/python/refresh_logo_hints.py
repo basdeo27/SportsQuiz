@@ -100,12 +100,18 @@ class ClaudeHintGenerationClient(HintGenerationClient):
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Refresh logo quiz hints for a league using a configurable AI provider."
+        description="Refresh quiz hints for a league using a configurable AI provider."
+    )
+    parser.add_argument(
+        "--type",
+        choices=["logo", "face"],
+        default="logo",
+        help="Quiz type: 'logo' for team logo hints, 'face' for player face hints. Default: logo",
     )
     parser.add_argument(
         "--input",
         default="src/main/resources/data/logos/mlb.json",
-        help="Path to the league logo JSON file.",
+        help="Path to the league JSON file.",
     )
     parser.add_argument(
         "--output",
@@ -136,20 +142,20 @@ def parse_args() -> argparse.Namespace:
         "--batch-size",
         type=int,
         default=DEFAULT_BATCH_SIZE,
-        help=f"Number of teams to send per request. Default: {DEFAULT_BATCH_SIZE}",
+        help=f"Number of entries to send per request. Default: {DEFAULT_BATCH_SIZE}",
     )
     return parser.parse_args()
 
 
-def load_teams(path: Path) -> list[dict[str, Any]]:
+def load_entries(path: Path) -> list[dict[str, Any]]:
     with path.open("r", encoding="utf-8") as infile:
-        teams = json.load(infile)
-    if not isinstance(teams, list) or not teams:
+        entries = json.load(infile)
+    if not isinstance(entries, list) or not entries:
         raise ValueError(f"{path} does not contain a non-empty JSON array.")
-    return teams
+    return entries
 
 
-def build_prompt(league: str, teams: list[dict[str, Any]]) -> str:
+def build_logo_prompt(league: str, teams: list[dict[str, Any]]) -> str:
     team_names = [team["name"] for team in teams]
     compact_teams = [
         {
@@ -201,6 +207,57 @@ Teams to annotate:
 """.strip()
 
 
+def build_face_prompt(league: str, players: list[dict[str, Any]]) -> str:
+    player_names = [player["name"] for player in players]
+    compact_players = [
+        {
+            "id": player["id"],
+            "name": player["name"],
+            "team": player.get("team", ""),
+            "answers": player.get("answers", []),
+        }
+        for player in players
+    ]
+    return f"""
+You are writing hints for a sports player face quiz.
+
+Context:
+- League: {league}
+- We show users one player's headshot photo at a time.
+- The user is trying to guess the player's name from their photo.
+- Here is the full list of players in this batch so hints can be distinctive:
+{json.dumps(player_names, indent=2)}
+
+Task:
+- For every player below, write exactly 3 hints total: one EASY hint, one MEDIUM hint, and one HARD hint.
+- EASY should be quite helpful (e.g. the team they currently play for, a major award or championship).
+- MEDIUM should be moderately helpful (e.g. a notable career stat or milestone).
+- HARD should be intentionally subtle or obscure (e.g. a lesser-known fact about their career or background).
+- Do not reveal the player's first name, last name, or full name.
+- Do not mention the player's jersey number.
+- Prefer facts that help distinguish this player from others in the same league.
+- Keep each hint to one sentence.
+- Return valid JSON only.
+
+Return this exact shape:
+{{
+  "teams": [
+    {{
+      "id": "player-id",
+      "hints": {{
+        "EASY": ["..."],
+        "MEDIUM": ["..."],
+        "HARD": ["..."]
+      }}
+    }}
+  ]
+}}
+
+Players to annotate:
+{json.dumps(compact_players, indent=2)}
+""".strip()
+
+
 def parse_json_content(content: str) -> dict[str, Any]:
     stripped = content.strip()
     try:
@@ -249,37 +306,41 @@ def chunked(items: list[dict[str, Any]], size: int) -> list[list[dict[str, Any]]
     return [items[index:index + size] for index in range(0, len(items), size)]
 
 
-def normalize_hint_list(team_id: str, hints: dict[str, Any]) -> dict[str, list[str]]:
+def normalize_hint_list(entry_id: str, hints: dict[str, Any]) -> dict[str, list[str]]:
     normalized: dict[str, list[str]] = {}
     for difficulty in DIFFICULTIES:
         values = hints.get(difficulty)
         if not isinstance(values, list):
-            raise ValueError(f"{team_id}: {difficulty} must be a list.")
+            raise ValueError(f"{entry_id}: {difficulty} must be a list.")
         cleaned = [str(value).strip() for value in values if str(value).strip()]
         if not cleaned:
-            raise ValueError(f"{team_id}: {difficulty} must contain at least one hint.")
+            raise ValueError(f"{entry_id}: {difficulty} must contain at least one hint.")
         normalized[difficulty] = cleaned
     return normalized
 
 
-def validate_payload(payload: dict[str, Any], teams: list[dict[str, Any]]) -> dict[str, dict[str, list[str]]]:
-    generated_teams = payload.get("teams")
-    if not isinstance(generated_teams, list):
+def validate_payload(
+    payload: dict[str, Any],
+    entries: list[dict[str, Any]],
+    quiz_type: str,
+) -> dict[str, dict[str, list[str]]]:
+    generated_entries = payload.get("teams")
+    if not isinstance(generated_entries, list):
         raise ValueError("Response JSON must include a `teams` array.")
 
     by_id: dict[str, dict[str, list[str]]] = {}
-    for item in generated_teams:
+    for item in generated_entries:
         if not isinstance(item, dict):
-            raise ValueError("Each generated team entry must be an object.")
-        team_id = item.get("id")
+            raise ValueError("Each generated entry must be an object.")
+        entry_id = item.get("id")
         hints = item.get("hints")
-        if not isinstance(team_id, str) or not team_id:
-            raise ValueError("Each generated team entry must include a string `id`.")
+        if not isinstance(entry_id, str) or not entry_id:
+            raise ValueError("Each generated entry must include a string `id`.")
         if not isinstance(hints, dict):
-            raise ValueError(f"{team_id}: missing `hints` object.")
-        by_id[team_id] = normalize_hint_list(team_id, hints)
+            raise ValueError(f"{entry_id}: missing `hints` object.")
+        by_id[entry_id] = normalize_hint_list(entry_id, hints)
 
-    input_ids = {team["id"] for team in teams}
+    input_ids = {entry["id"] for entry in entries}
     generated_ids = set(by_id)
     missing_ids = sorted(input_ids - generated_ids)
     extra_ids = sorted(generated_ids - input_ids)
@@ -288,31 +349,29 @@ def validate_payload(payload: dict[str, Any], teams: list[dict[str, Any]]) -> di
             f"Generated ids did not match input ids. Missing={missing_ids}, extra={extra_ids}"
         )
 
-    for team in teams:
-        full_name = team["name"].strip().lower()
-        for difficulty, hints in by_id[team["id"]].items():
+    for entry in entries:
+        full_name = entry["name"].strip().lower()
+        names_to_check = [full_name]
+        if quiz_type == "face":
+            # Also guard against last name alone being revealed
+            last_name = full_name.split()[-1]
+            if last_name != full_name:
+                names_to_check.append(last_name)
+        for difficulty, hints in by_id[entry["id"]].items():
             for hint in hints:
-                if full_name in hint.lower():
-                    raise ValueError(
-                        f"{team['id']}: {difficulty} hint reveals the full team name: {hint}"
-                    )
+                for name in names_to_check:
+                    if name in hint.lower():
+                        raise ValueError(
+                            f"{entry['id']}: {difficulty} hint reveals the name: {hint!r}"
+                        )
+
     return by_id
 
 
 def merge_hints(
-    teams: list[dict[str, Any]], generated_hints: dict[str, dict[str, list[str]]]
+    entries: list[dict[str, Any]], generated_hints: dict[str, dict[str, list[str]]]
 ) -> list[dict[str, Any]]:
-    updated_teams: list[dict[str, Any]] = []
-    for team in teams:
-        updated_team = {
-            "id": team["id"],
-            "name": team["name"],
-            "logoUrl": team["logoUrl"],
-            "answers": team.get("answers", []),
-            "hints": generated_hints[team["id"]],
-        }
-        updated_teams.append(updated_team)
-    return updated_teams
+    return [{**entry, "hints": generated_hints[entry["id"]]} for entry in entries]
 
 
 def main() -> int:
@@ -328,32 +387,36 @@ def main() -> int:
     if args.batch_size <= 0:
         raise SystemExit("--batch-size must be greater than 0.")
 
-    teams = load_teams(input_path)
+    entries = load_entries(input_path)
     generated_hints: dict[str, dict[str, list[str]]] = {}
-    team_batches = chunked(teams, args.batch_size)
+    batches = chunked(entries, args.batch_size)
 
-    print(f"Using AI provider={provider}, model={model}")
+    print(f"Using AI provider={provider}, model={model}, type={args.type}")
 
-    for batch_index, team_batch in enumerate(team_batches, start=1):
+    for batch_index, batch in enumerate(batches, start=1):
         print(
             f"Requesting hints for batch {batch_index} of "
-            f"{len(team_batches)} ({len(team_batch)} teams)..."
+            f"{len(batches)} ({len(batch)} entries)..."
         )
-        prompt = build_prompt(args.league, team_batch)
+        if args.type == "face":
+            prompt = build_face_prompt(args.league, batch)
+        else:
+            prompt = build_logo_prompt(args.league, batch)
+
         payload = client.request_hints(
             model=model,
             prompt=prompt,
             timeout_ms=args.timeout_ms,
         )
-        generated_hints.update(validate_payload(payload, team_batch))
+        generated_hints.update(validate_payload(payload, batch, args.type))
 
-    updated_teams = merge_hints(teams, generated_hints)
+    updated_entries = merge_hints(entries, generated_hints)
 
     with output_path.open("w", encoding="utf-8") as outfile:
-        json.dump(updated_teams, outfile, indent=2)
+        json.dump(updated_entries, outfile, indent=2)
         outfile.write("\n")
 
-    print(f"Wrote refreshed hints for {len(updated_teams)} teams to {output_path}")
+    print(f"Wrote refreshed hints for {len(updated_entries)} entries to {output_path}")
     return 0
 
 
