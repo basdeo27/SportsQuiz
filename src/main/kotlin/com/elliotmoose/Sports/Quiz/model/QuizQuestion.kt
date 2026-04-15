@@ -5,5 +5,5 @@ data class QuizQuestion(
     val league: League,
     val logoUrl: String,
     val fullName: String,
-    val hint: String? = null
+    val hints: Map<QuizDifficulty, List<String>> = emptyMap()
 )

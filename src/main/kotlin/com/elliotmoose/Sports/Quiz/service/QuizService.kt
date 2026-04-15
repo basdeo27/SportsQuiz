@@ -26,8 +26,12 @@ class QuizService(
         require(quizRequest.numberOfQuestions in settings.minQuestions..settings.maxQuestions) {
             "numberOfQuestions must be between ${settings.minQuestions} and ${settings.maxQuestions}."
         }
-        require(quizRequest.leagues.isNotEmpty()) {
-            "At least one league must be selected."
+        require(hasValidSelection(quizRequest)) {
+            if (quizRequest.type == QuizType.FACE && quizRequest.teamIds.isNotEmpty()) {
+                "At least one team must be selected."
+            } else {
+                "At least one league must be selected."
+            }
         }
         require(quizRequest.leagues.intersect(settings.disabledLeagues).isEmpty()) {
             "One or more selected leagues are currently disabled."
@@ -36,7 +40,8 @@ class QuizService(
         val availableQuestions = questionRepository.getQuestions(
             quizRequest.leagues,
             quizRequest.type,
-            quizRequest.difficulty
+            quizRequest.difficulty,
+            quizRequest.teamIds
         )
         require(availableQuestions.size >= quizRequest.numberOfQuestions) {
             "Not enough questions for the selected leagues."
@@ -54,6 +59,13 @@ class QuizService(
         quizzes[quiz.id] = quiz
         attemptsByQuiz[quiz.id] = ConcurrentHashMap()
         return quiz
+    }
+
+    fun getFaceTeamOptions(leagues: Set<League>): List<FaceTeamOption> {
+        require(leagues.intersect(settings.disabledLeagues).isEmpty()) {
+            "One or more selected leagues are currently disabled."
+        }
+        return questionRepository.getFaceTeamOptions(leagues)
     }
 
     fun submitAnswer(answerRequest: AnswerRequest): AnswerResponse {
@@ -198,6 +210,13 @@ class QuizService(
             score = summary.score,
             completedAtMillis = quiz.completedAtMillis ?: System.currentTimeMillis()
         )
+    }
+
+    private fun hasValidSelection(quizRequest: QuizRequest): Boolean {
+        return when (quizRequest.type) {
+            QuizType.LOGO -> quizRequest.leagues.isNotEmpty()
+            QuizType.FACE -> quizRequest.leagues.isNotEmpty() || quizRequest.teamIds.isNotEmpty()
+        }
     }
 
     private fun isAnswerMatch(normalizedAnswer: String, candidate: String): Boolean {

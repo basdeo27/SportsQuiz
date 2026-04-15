@@ -12,7 +12,7 @@ data class QuizResponse(
                     league = it.league,
                     logoUrl = it.logoUrl,
                     fullName = it.fullName,
-                    hint = it.hint
+                    hints = it.hints
                 )
             }
             return QuizResponse(quiz.id, questions)

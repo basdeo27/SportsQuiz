@@ -6,8 +6,10 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest
 import com.elliotmoose.Sports.Quiz.config.QuizDynamoProperties
+import com.elliotmoose.Sports.Quiz.model.HintUtils
 import com.elliotmoose.Sports.Quiz.model.League
 import com.elliotmoose.Sports.Quiz.model.Question
+import com.elliotmoose.Sports.Quiz.model.FaceTeamOption
 import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
 import com.elliotmoose.Sports.Quiz.model.QuizType
 
@@ -21,7 +23,8 @@ class DynamoQuizRepository(
     override fun getQuestions(
         leagues: Set<League>,
         type: QuizType,
-        difficulty: QuizDifficulty
+        difficulty: QuizDifficulty,
+        teamIds: Set<String>
     ): List<Question> {
         require(type == QuizType.LOGO) {
             "FACE quizzes are only supported with local question storage."
@@ -29,6 +32,10 @@ class DynamoQuizRepository(
         return leagues.flatMap { league ->
             queryByLeague(league)
         }
+    }
+
+    override fun getFaceTeamOptions(leagues: Set<League>): List<FaceTeamOption> {
+        return emptyList()
     }
 
     private fun queryByLeague(league: League): List<Question> {
@@ -49,20 +56,30 @@ class DynamoQuizRepository(
                 league = league,
                 logoUrl = item["logoUrl"]?.s().orEmpty(),
                 fullName = item["name"]?.s().orEmpty(),
-                hint = item["hint"]?.s() ?: buildHint(item["name"]?.s().orEmpty()),
+                hints = HintUtils.resolveLogoHints(
+                    fullName = item["name"]?.s().orEmpty(),
+                    hints = readHints(item["hints"]),
+                    legacyHint = item["hint"]?.s()
+                ),
                 correctAnswers = answers + (item["name"]?.s().orEmpty())
             )
         }
     }
 
-    private fun buildHint(fullName: String): String {
-        val tokens = fullName.trim().split(Regex("\\s+"))
-        if (tokens.isEmpty()) {
-            return "No hint available."
-        }
-        val city = if (tokens.size > 1) tokens.dropLast(1).joinToString(" ") else tokens[0]
-        val mascot = tokens.last()
-        val mascotInitial = mascot.firstOrNull()?.uppercaseChar() ?: '?'
-        return "City: $city • Mascot starts with $mascotInitial"
+    private fun readHints(attribute: AttributeValue?): Map<QuizDifficulty, List<String>> {
+        val hintMap = attribute?.m().orEmpty()
+        return QuizDifficulty.entries.mapNotNull { difficulty ->
+            val values = hintMap[difficulty.name]
+                ?.l()
+                ?.mapNotNull { it.s() }
+                ?.map { it.trim() }
+                ?.filter { it.isNotBlank() }
+                .orEmpty()
+            if (values.isEmpty()) {
+                null
+            } else {
+                difficulty to values
+            }
+        }.toMap()
     }
 }

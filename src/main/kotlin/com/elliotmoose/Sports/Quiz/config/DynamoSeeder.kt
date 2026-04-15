@@ -1,6 +1,8 @@
 package com.elliotmoose.Sports.Quiz.config
 
 import com.elliotmoose.Sports.Quiz.model.League
+import com.elliotmoose.Sports.Quiz.model.HintUtils
+import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
 import com.elliotmoose.Sports.Quiz.model.TeamEntry
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -125,19 +127,25 @@ class DynamoSeeder(
                     "id" to AttributeValue.builder().s(team.id).build(),
                     "name" to AttributeValue.builder().s(team.name).build(),
                     "logoUrl" to AttributeValue.builder().s(team.logoUrl).build(),
-                    "answers" to AttributeValue.builder().ss(team.answers).build()
+                    "answers" to AttributeValue.builder().ss(team.answers).build(),
+                    "hints" to hintsAttribute(HintUtils.resolveLogoHints(team.name, team.hints, team.hint))
                 )
-                val finalItem = if (!team.hint.isNullOrBlank()) {
-                    item + ("hint" to AttributeValue.builder().s(team.hint).build())
-                } else {
-                    item
-                }
                 dynamoDbClient.putItem { builder ->
                     builder.tableName(properties.teamsTableName)
-                    builder.item(finalItem)
+                    builder.item(item)
                 }
             }
         }
+    }
+
+    private fun hintsAttribute(hints: Map<QuizDifficulty, List<String>>): AttributeValue {
+        val nestedMap = hints.entries.associate { (difficulty, values) ->
+            difficulty.name to
+            AttributeValue.builder()
+                .l(values.map { value -> AttributeValue.builder().s(value).build() })
+                .build()
+        }
+        return AttributeValue.builder().m(nestedMap).build()
     }
 
     private fun waitForTable(tableName: String = properties.teamsTableName) {

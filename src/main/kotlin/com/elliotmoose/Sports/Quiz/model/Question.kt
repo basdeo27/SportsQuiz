@@ -6,7 +6,7 @@ data class Question(
     val logoUrl: String,
     val fullName: String,
     val teamId: String? = null,
-    val hint: String? = null,
+    val hints: Map<QuizDifficulty, List<String>> = emptyMap(),
     val correctAnswers: Set<String>,
     val submittedAnswer: String? = null,
     val isCorrect: Boolean? = null,

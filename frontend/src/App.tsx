@@ -3,18 +3,27 @@ import logo from "./assets/sports-quiz-logo.png";
 
 type League = "NBA" | "MLB" | "NFL" | "NHL" | "EPL";
 type QuizType = "LOGO" | "FACE";
+type QuizDifficulty = "EASY" | "MEDIUM" | "HARD";
+type FaceQuizMode = "LEAGUE" | "TEAM";
 
 type QuizQuestion = {
   id: string;
   league: League;
   logoUrl: string;
   fullName: string;
-  hint?: string | null;
+  hints?: Partial<Record<QuizDifficulty, string[]>> | null;
 };
 
 type QuizResponse = {
   quizId: string;
   questions: QuizQuestion[];
+};
+
+type FaceTeamOption = {
+  teamId: string;
+  teamName: string;
+  league: League;
+  playerCount: number;
 };
 
 type QuizReviewQuestion = {
@@ -78,7 +87,14 @@ const difficultyOptions = [
   }
 ] as const;
 
-type Screen = "home" | "mode" | "setup" | "quiz" | "complete" | "review";
+type Screen =
+  | "home"
+  | "mode"
+  | "faceScope"
+  | "setup"
+  | "quiz"
+  | "complete"
+  | "review";
 
 const MIN_QUESTIONS = 1;
 const MAX_QUESTIONS = 25;
@@ -86,10 +102,16 @@ const MAX_QUESTIONS = 25;
 export default function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [quizType, setQuizType] = useState<QuizType>("LOGO");
+  const [faceQuizMode, setFaceQuizMode] = useState<FaceQuizMode>("LEAGUE");
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [selectedLeagues, setSelectedLeagues] = useState<Set<League>>(
     new Set(availableLeagues)
   );
+  const [faceTeamOptions, setFaceTeamOptions] = useState<FaceTeamOption[]>([]);
+  const [selectedFaceTeamIds, setSelectedFaceTeamIds] = useState<Set<string>>(
+    new Set()
+  );
+  const [teamSearch, setTeamSearch] = useState("");
   const [difficulty, setDifficulty] =
     useState<(typeof difficultyOptions)[number]["value"]>("EASY");
   const [quizId, setQuizId] = useState("");
@@ -142,6 +164,10 @@ export default function App() {
     setHintedCount(0);
     setDifficulty("EASY");
     setQuizType("LOGO");
+    setFaceQuizMode("LEAGUE");
+    setSelectedLeagues(new Set(availableLeagues));
+    setSelectedFaceTeamIds(new Set());
+    setTeamSearch("");
     setError(null);
   };
 
@@ -162,8 +188,60 @@ export default function App() {
     });
   };
 
+  const toggleFaceTeam = (teamId: string) => {
+    setSelectedFaceTeamIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(teamId)) {
+        next.delete(teamId);
+      } else {
+        next.add(teamId);
+      }
+      return next;
+    });
+  };
+
+  const loadFaceTeams = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/quiz/face-teams`);
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Failed to load face teams.");
+      }
+      const payload = (await response.json()) as FaceTeamOption[];
+      setFaceTeamOptions(payload);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const chooseFaceQuizMode = async (mode: FaceQuizMode) => {
+    setFaceQuizMode(mode);
+    setError(null);
+    if (mode === "TEAM" && faceTeamOptions.length === 0) {
+      await loadFaceTeams();
+    }
+    setScreen("setup");
+  };
+
   const startQuiz = async () => {
-    if (selectedLeagues.size === 0) {
+    const selectedTeams = faceTeamOptions.filter((team) =>
+      selectedFaceTeamIds.has(team.teamId)
+    );
+    const leaguesForRequest =
+      quizType === "FACE" && faceQuizMode === "TEAM"
+        ? Array.from(new Set(selectedTeams.map((team) => team.league)))
+        : Array.from(selectedLeagues);
+
+    if (quizType === "FACE" && faceQuizMode === "TEAM") {
+      if (selectedFaceTeamIds.size === 0) {
+        setError("Pick at least one team to begin.");
+        return;
+      }
+    } else if (selectedLeagues.size === 0) {
       setError("Pick at least one league to begin.");
       return;
     }
@@ -177,10 +255,14 @@ export default function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-          leagues: Array.from(selectedLeagues),
+          leagues: leaguesForRequest,
           numberOfQuestions,
           difficulty,
-          type: quizType
+          type: quizType,
+          teamIds:
+            quizType === "FACE" && faceQuizMode === "TEAM"
+              ? Array.from(selectedFaceTeamIds)
+              : []
         })
       });
 
@@ -344,7 +426,9 @@ export default function App() {
     if (hintsByQuestion[currentQuestion.id]) {
       return;
     }
-    const hintText = currentQuestion.hint ?? "No hint available.";
+    const hintText =
+      currentQuestion.hints?.[difficulty]?.find((hint) => hint.trim().length > 0) ??
+      "No hint available.";
     setHintsByQuestion((prev) => ({
       ...prev,
       [currentQuestion.id]: hintText
@@ -378,6 +462,18 @@ export default function App() {
 
   const quizTypeLabel = quizType === "LOGO" ? "Logos" : "Faces";
   const quizImageAlt = quizType === "LOGO" ? "team logo" : "player headshot";
+  const filteredFaceTeams = useMemo(() => {
+    const query = teamSearch.trim().toLowerCase();
+    if (!query) {
+      return faceTeamOptions;
+    }
+    return faceTeamOptions.filter((team) => {
+      return (
+        team.teamName.toLowerCase().includes(query) ||
+        team.league.toLowerCase().includes(query)
+      );
+    });
+  }, [faceTeamOptions, teamSearch]);
 
   return (
     <div className="app">
@@ -422,8 +518,12 @@ export default function App() {
                   }`}
                   onClick={() => {
                     setQuizType(option.value);
+                    if (option.value === "FACE") {
+                      setScreen("faceScope");
+                    } else {
+                      setScreen("setup");
+                    }
                     setError(null);
-                    setScreen("setup");
                   }}
                 >
                   <div className="quiz-type-card__title">{option.label}</div>
@@ -441,13 +541,57 @@ export default function App() {
           </section>
         )}
 
+        {screen === "faceScope" && (
+          <section className="card setup">
+            <h2>Choose your face quiz</h2>
+            <p className="supporting">
+              Pick whether to quiz by league or narrow the faces down to one or more
+              specific teams.
+            </p>
+            <div className="quiz-type-grid">
+              <button
+                type="button"
+                className={`quiz-type-card ${
+                  faceQuizMode === "LEAGUE" ? "is-selected" : ""
+                }`}
+                onClick={() => chooseFaceQuizMode("LEAGUE")}
+              >
+                <div className="quiz-type-card__title">By League</div>
+                <div className="quiz-type-card__description">
+                  Select one or more leagues. Easy and medium stay all-star only.
+                </div>
+              </button>
+              <button
+                type="button"
+                className={`quiz-type-card ${
+                  faceQuizMode === "TEAM" ? "is-selected" : ""
+                }`}
+                onClick={() => chooseFaceQuizMode("TEAM")}
+              >
+                <div className="quiz-type-card__title">By Team</div>
+                <div className="quiz-type-card__description">
+                  Select one or more teams. Any player from those teams can appear.
+                </div>
+              </button>
+            </div>
+            {error && <div className="message error">{error}</div>}
+            <div className="setup__actions">
+              <button className="ghost-button" onClick={() => setScreen("mode")}>
+                Back
+              </button>
+            </div>
+          </section>
+        )}
+
         {screen === "setup" && (
           <section className="card setup">
             <h2>Build your {quizType === "LOGO" ? "logo" : "face"} quiz</h2>
             <p className="supporting">
               {quizType === "LOGO"
                 ? "Pick the leagues, question count, and difficulty."
-                : "Pick the leagues, question count, and difficulty. Easy and medium face quizzes are limited to all-stars."}
+                : faceQuizMode === "TEAM"
+                  ? "Pick the teams, question count, and difficulty. Team face quizzes can include any player on the selected teams."
+                  : "Pick the leagues, question count, and difficulty. Easy and medium face quizzes are limited to all-stars."}
             </p>
             <div className="setup__row">
               <label htmlFor="questionCount">Number of questions</label>
@@ -467,19 +611,62 @@ export default function App() {
             </div>
 
             <div className="setup__row">
-              <p>Select leagues</p>
-              <div className="league-grid">
-                {availableLeagues.map((league) => (
-                  <label key={league} className="league-chip">
-                    <input
-                      type="checkbox"
-                      checked={selectedLeagues.has(league)}
-                      onChange={() => toggleLeague(league)}
-                    />
-                    <span>{league}</span>
-                  </label>
-                ))}
-              </div>
+              {quizType === "FACE" && faceQuizMode === "TEAM" ? (
+                <>
+                  <div className="setup__split">
+                    <p>Select teams</p>
+                    <span className="tag">
+                      {selectedFaceTeamIds.size} selected
+                    </span>
+                  </div>
+                  <input
+                    className="setup__search"
+                    type="text"
+                    placeholder="Search teams or leagues..."
+                    value={teamSearch}
+                    onChange={(event) => setTeamSearch(event.target.value)}
+                    disabled={loading}
+                  />
+                  <div className="team-grid">
+                    {filteredFaceTeams.map((team) => (
+                      <button
+                        key={team.teamId}
+                        type="button"
+                        className={`team-card ${
+                          selectedFaceTeamIds.has(team.teamId) ? "is-selected" : ""
+                        }`}
+                        onClick={() => toggleFaceTeam(team.teamId)}
+                      >
+                        <div className="team-card__title">{team.teamName}</div>
+                        <div className="team-card__meta">
+                          {team.league} · {team.playerCount} players
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                  {!loading && filteredFaceTeams.length === 0 && (
+                    <div className="message error">
+                      No teams match that search.
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <p>Select leagues</p>
+                  <div className="league-grid">
+                    {availableLeagues.map((league) => (
+                      <label key={league} className="league-chip">
+                        <input
+                          type="checkbox"
+                          checked={selectedLeagues.has(league)}
+                          onChange={() => toggleLeague(league)}
+                        />
+                        <span>{league}</span>
+                      </label>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="setup__row">
@@ -512,7 +699,9 @@ export default function App() {
                 <button
                   type="button"
                   className="ghost-button"
-                  onClick={() => setScreen("mode")}
+                  onClick={() =>
+                    setScreen(quizType === "FACE" ? "faceScope" : "mode")
+                  }
                 >
                   Change
                 </button>
@@ -522,7 +711,10 @@ export default function App() {
             {error && <div className="message error">{error}</div>}
 
             <div className="setup__actions">
-              <button className="ghost-button" onClick={() => setScreen("mode")}>
+              <button
+                className="ghost-button"
+                onClick={() => setScreen(quizType === "FACE" ? "faceScope" : "mode")}
+              >
                 Back
               </button>
               <button

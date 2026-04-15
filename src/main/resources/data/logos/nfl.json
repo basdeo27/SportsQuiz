@@ -6,7 +6,17 @@
     "answers": [
       "Cardinals"
     ],
-    "hint": "City: Arizona \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team is the oldest continuously run professional football franchise in the United States."
+      ],
+      "MEDIUM": [
+        "They play their home games in the state known for the Grand Canyon."
+      ],
+      "HARD": [
+        "Their original name was inspired by the color of used jerseys purchased from the University of Chicago."
+      ]
+    }
   },
   {
     "id": "nfl-atlanta-falcons",
@@ -15,7 +25,17 @@
     "answers": [
       "Falcons"
     ],
-    "hint": "City: Atlanta \u2022 Mascot starts with F"
+    "hints": {
+      "EASY": [
+        "This team's name was chosen by a schoolteacher in a contest."
+      ],
+      "MEDIUM": [
+        "They are the only NFL team based in the state of Georgia."
+      ],
+      "HARD": [
+        "The peregrine falcon, the world's fastest bird, is the species their mascot is based on."
+      ]
+    }
   },
   {
     "id": "nfl-baltimore-ravens",
@@ -24,7 +44,17 @@
     "answers": [
       "Ravens"
     ],
-    "hint": "City: Baltimore \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team's name was inspired by a famous poem written by Edgar Allan Poe."
+      ],
+      "MEDIUM": [
+        "They are one of two NFL teams that have a bird as their mascot but are not named after an eagle."
+      ],
+      "HARD": [
+        "The team's marching band is known as the 'Marching Ravens' and performs at every home game."
+      ]
+    }
   },
   {
     "id": "nfl-buffalo-bills",
@@ -33,7 +63,17 @@
     "answers": [
       "Bills"
     ],
-    "hint": "City: Buffalo \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is known for playing in one of the coldest stadiums in the NFL."
+      ],
+      "MEDIUM": [
+        "They are the only NFL team that plays home games in the state of New York."
+      ],
+      "HARD": [
+        "The team was named after a famous Wild West showman, not the animal."
+      ]
+    }
   },
   {
     "id": "nfl-carolina-panthers",
@@ -42,7 +82,17 @@
     "answers": [
       "Panthers"
     ],
-    "hint": "City: Carolina \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team's colors are black, blue, and silver."
+      ],
+      "MEDIUM": [
+        "They are one of two NFL teams that represent an entire state rather than a specific city."
+      ],
+      "HARD": [
+        "The black panther is the only big cat that doesn't roar."
+      ]
+    }
   },
   {
     "id": "nfl-chicago-bears",
@@ -51,7 +101,17 @@
     "answers": [
       "Bears"
     ],
-    "hint": "City: Chicago \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is one of the original franchises of the NFL, founded in 1920."
+      ],
+      "MEDIUM": [
+        "They have won more games than any other NFL team in history."
+      ],
+      "HARD": [
+        "The team's founder, George Halas, was nicknamed 'Papa Bear'."
+      ]
+    }
   },
   {
     "id": "nfl-cincinnati-bengals",
@@ -60,7 +120,17 @@
     "answers": [
       "Bengals"
     ],
-    "hint": "City: Cincinnati \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team's helmet features tiger stripes."
+      ],
+      "MEDIUM": [
+        "They play their home games in Ohio, near the Kentucky border."
+      ],
+      "HARD": [
+        "The Bengal tiger is native to regions far from their home state, such as India and Southeast Asia."
+      ]
+    }
   },
   {
     "id": "nfl-cleveland-browns",
@@ -69,7 +139,17 @@
     "answers": [
       "Browns"
     ],
-    "hint": "City: Cleveland \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is named after its first coach, not a color or animal."
+      ],
+      "MEDIUM": [
+        "They are one of the few NFL teams without a logo on their helmet."
+      ],
+      "HARD": [
+        "The team's original owner was a famous boxing promoter."
+      ]
+    }
   },
   {
     "id": "nfl-dallas-cowboys",
@@ -78,7 +158,17 @@
     "answers": [
       "Cowboys"
     ],
-    "hint": "City: Dallas \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team is often associated with the color blue and a lone star."
+      ],
+      "MEDIUM": [
+        "They are one of the most valuable sports franchises in the world."
+      ],
+      "HARD": [
+        "Their home stadium is nicknamed 'Jerry World' after their owner."
+      ]
+    }
   },
   {
     "id": "nfl-denver-broncos",
@@ -87,7 +177,17 @@
     "answers": [
       "Broncos"
     ],
-    "hint": "City: Denver \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team's nickname refers to a strong, wild horse."
+      ],
+      "MEDIUM": [
+        "They play their home games in a city known as the 'Mile High City'."
+      ],
+      "HARD": [
+        "Their former quarterback, John Elway, is now a part of the front office."
+      ]
+    }
   },
   {
     "id": "nfl-detroit-lions",
@@ -96,7 +196,17 @@
     "answers": [
       "Lions"
     ],
-    "hint": "City: Detroit \u2022 Mascot starts with L"
+    "hints": {
+      "EASY": [
+        "This team's nickname is a large, powerful big cat."
+      ],
+      "MEDIUM": [
+        "They traditionally play on Thanksgiving Day."
+      ],
+      "HARD": [
+        "Their logo features a lion with a flowing mane, inspired by a 1950s design."
+      ]
+    }
   },
   {
     "id": "nfl-green-bay-packers",
@@ -105,7 +215,17 @@
     "answers": [
       "Packers"
     ],
-    "hint": "City: Green Bay \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team is the only non-profit, community-owned major league team in the U.S."
+      ],
+      "MEDIUM": [
+        "They play in the smallest market in the league, located in Wisconsin."
+      ],
+      "HARD": [
+        "Their iconic 'G' logo was introduced in 1961 and stands for 'Greatness'."
+      ]
+    }
   },
   {
     "id": "nfl-houston-texans",
@@ -114,7 +234,17 @@
     "answers": [
       "Texans"
     ],
-    "hint": "City: Houston \u2022 Mascot starts with T"
+    "hints": {
+      "EASY": [
+        "This team is the youngest franchise in the league, founded in 2002."
+      ],
+      "MEDIUM": [
+        "They represent a city known for its space exploration history."
+      ],
+      "HARD": [
+        "Their logo features a bull's head with a lone star, symbolizing Texas."
+      ]
+    }
   },
   {
     "id": "nfl-indianapolis-colts",
@@ -123,7 +253,17 @@
     "answers": [
       "Colts"
     ],
-    "hint": "City: Indianapolis \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team's nickname refers to a young male horse."
+      ],
+      "MEDIUM": [
+        "They relocated from Baltimore to their current city in 1984."
+      ],
+      "HARD": [
+        "Their former quarterback, Peyton Manning, is a two-time Super Bowl winner."
+      ]
+    }
   },
   {
     "id": "nfl-jacksonville-jaguars",
@@ -133,7 +273,17 @@
       "Jaguars",
       "Jags"
     ],
-    "hint": "City: Jacksonville \u2022 Mascot starts with J"
+    "hints": {
+      "EASY": [
+        "This team's nickname is a large, spotted wild cat."
+      ],
+      "MEDIUM": [
+        "They play in a stadium with a unique pool and cabana seating."
+      ],
+      "HARD": [
+        "Their teal color scheme was inspired by the owner's love of the ocean."
+      ]
+    }
   },
   {
     "id": "nfl-kansas-city-chiefs",
@@ -143,7 +293,17 @@
       "Chiefs",
       "KC Chiefs"
     ],
-    "hint": "City: Kansas City \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team's fans are known for their loud, passionate support and the 'Tomahawk Chop'."
+      ],
+      "MEDIUM": [
+        "They play in a stadium named after an arrowhead."
+      ],
+      "HARD": [
+        "Their founder, Lamar Hunt, coined the term 'Super Bowl'."
+      ]
+    }
   },
   {
     "id": "nfl-las-vegas-raiders",
@@ -152,7 +312,17 @@
     "answers": [
       "Raiders"
     ],
-    "hint": "City: Las Vegas \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team is known for its silver and black color scheme."
+      ],
+      "MEDIUM": [
+        "Their home games are played in a city famous for its vibrant nightlife and casinos."
+      ],
+      "HARD": [
+        "The team was originally based in a city that hosted the 1962 World's Fair."
+      ]
+    }
   },
   {
     "id": "nfl-los-angeles-chargers",
@@ -163,7 +333,17 @@
       "LA Chargers",
       "L.A. Chargers"
     ],
-    "hint": "City: Los Angeles \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team's colors are powder blue, gold, and white."
+      ],
+      "MEDIUM": [
+        "They recently relocated back to a city known for Hollywood and sunny beaches."
+      ],
+      "HARD": [
+        "Their mascot is a bolt of electricity, inspired by their original home city's weather phenomenon."
+      ]
+    }
   },
   {
     "id": "nfl-los-angeles-rams",
@@ -174,7 +354,17 @@
       "LA Rams",
       "L.A. Rams"
     ],
-    "hint": "City: Los Angeles \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team features a ram's horn prominently in its design."
+      ],
+      "MEDIUM": [
+        "They moved back to Los Angeles after over two decades in another city."
+      ],
+      "HARD": [
+        "Their team name is shared with a male sheep, an animal known for its curved horns."
+      ]
+    }
   },
   {
     "id": "nfl-miami-dolphins",
@@ -183,7 +373,17 @@
     "answers": [
       "Dolphins"
     ],
-    "hint": "City: Miami \u2022 Mascot starts with D"
+    "hints": {
+      "EASY": [
+        "This team is represented by a marine mammal known for its intelligence and playfulness."
+      ],
+      "MEDIUM": [
+        "They play their home games in a city famous for its tropical climate and beaches."
+      ],
+      "HARD": [
+        "The only team in the league to complete a perfect season, including playoffs."
+      ]
+    }
   },
   {
     "id": "nfl-minnesota-vikings",
@@ -192,7 +392,17 @@
     "answers": [
       "Vikings"
     ],
-    "hint": "City: Minnesota \u2022 Mascot starts with V"
+    "hints": {
+      "EASY": [
+        "This team's logo features a profile of a Norse explorer."
+      ],
+      "MEDIUM": [
+        "They play in a state known as the 'Land of 10,000 Lakes'."
+      ],
+      "HARD": [
+        "Their mascot is inspired by seafaring warriors from medieval Scandinavia."
+      ]
+    }
   },
   {
     "id": "nfl-new-england-patriots",
@@ -202,7 +412,17 @@
       "Patriots",
       "Pats"
     ],
-    "hint": "City: New England \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team's colors are navy blue, red, white, and silver."
+      ],
+      "MEDIUM": [
+        "They are based in a region known for its colonial history and clam chowder."
+      ],
+      "HARD": [
+        "Their most famous quarterback led them to six championships in the 21st century."
+      ]
+    }
   },
   {
     "id": "nfl-new-orleans-saints",
@@ -211,7 +431,17 @@
     "answers": [
       "Saints"
     ],
-    "hint": "City: New Orleans \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team's colors are black, gold, and white."
+      ],
+      "MEDIUM": [
+        "They play in a city famous for Mardi Gras and jazz music."
+      ],
+      "HARD": [
+        "Their name is inspired by a classic song recorded on All Saints' Day."
+      ]
+    }
   },
   {
     "id": "nfl-new-york-giants",
@@ -220,7 +450,17 @@
     "answers": [
       "Giants"
     ],
-    "hint": "City: New York \u2022 Mascot starts with G"
+    "hints": {
+      "EASY": [
+        "This team's colors are blue, red, white, and gray."
+      ],
+      "MEDIUM": [
+        "They share their home city with another team in the same league."
+      ],
+      "HARD": [
+        "Their name is a nod to the city's nickname, 'Gotham'."
+      ]
+    }
   },
   {
     "id": "nfl-new-york-jets",
@@ -229,7 +469,17 @@
     "answers": [
       "Jets"
     ],
-    "hint": "City: New York \u2022 Mascot starts with J"
+    "hints": {
+      "EASY": [
+        "This team plays its home games in the same city as the Giants."
+      ],
+      "MEDIUM": [
+        "Their colors are green and white, inspired by a former owner's alma mater."
+      ],
+      "HARD": [
+        "They were originally named after a nearby airport's commercial flights."
+      ]
+    }
   },
   {
     "id": "nfl-philadelphia-eagles",
@@ -238,7 +488,17 @@
     "answers": [
       "Eagles"
     ],
-    "hint": "City: Philadelphia \u2022 Mascot starts with E"
+    "hints": {
+      "EASY": [
+        "This team is based in the city known as the birthplace of America."
+      ],
+      "MEDIUM": [
+        "Their mascot is a bird of prey known for its sharp vision and powerful talons."
+      ],
+      "HARD": [
+        "The team's fight song references a historic bell that symbolizes freedom."
+      ]
+    }
   },
   {
     "id": "nfl-pittsburgh-steelers",
@@ -247,7 +507,17 @@
     "answers": [
       "Steelers"
     ],
-    "hint": "City: Pittsburgh \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team is from a city famous for its steel industry."
+      ],
+      "MEDIUM": [
+        "They have won six Super Bowls, tied for the most in NFL history."
+      ],
+      "HARD": [
+        "Their logo features three four-pointed stars called 'hypocycloids.'"
+      ]
+    }
   },
   {
     "id": "nfl-san-francisco-49ers",
@@ -257,7 +527,17 @@
       "49ers",
       "Niners"
     ],
-    "hint": "City: San Francisco \u2022 Mascot starts with 4"
+    "hints": {
+      "EASY": [
+        "This team is named after the gold rush prospectors of the 1840s."
+      ],
+      "MEDIUM": [
+        "They play their home games in the same state as the Rams and Chargers."
+      ],
+      "HARD": [
+        "Their logo's colors are inspired by the uniforms of the California gold miners."
+      ]
+    }
   },
   {
     "id": "nfl-seattle-seahawks",
@@ -266,7 +546,17 @@
     "answers": [
       "Seahawks"
     ],
-    "hint": "City: Seattle \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team is the only NFL franchise based in the Pacific Northwest."
+      ],
+      "MEDIUM": [
+        "Their mascot is a large, predatory bird known for its distinctive cry."
+      ],
+      "HARD": [
+        "The team's name was chosen through a fan contest in 1975."
+      ]
+    }
   },
   {
     "id": "nfl-tampa-bay-buccaneers",
@@ -276,7 +566,17 @@
       "Buccaneers",
       "Bucs"
     ],
-    "hint": "City: Tampa Bay \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is based in a city known for its pirate history and theme parks."
+      ],
+      "MEDIUM": [
+        "Their colors are red, pewter, black, and orange, resembling pirate flags."
+      ],
+      "HARD": [
+        "They were the first team to win a Super Bowl in their own stadium."
+      ]
+    }
   },
   {
     "id": "nfl-tennessee-titans",
@@ -285,7 +585,17 @@
     "answers": [
       "Titans"
     ],
-    "hint": "City: Tennessee \u2022 Mascot starts with T"
+    "hints": {
+      "EASY": [
+        "This team is named after mythological figures known for their strength and power."
+      ],
+      "MEDIUM": [
+        "They were originally based in Houston before relocating."
+      ],
+      "HARD": [
+        "Their logo features a stylized 'T' with three stars, representing the state flag."
+      ]
+    }
   },
   {
     "id": "nfl-washington-commanders",
@@ -294,6 +604,16 @@
     "answers": [
       "Commanders"
     ],
-    "hint": "City: Washington \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team is based in the nation's capital."
+      ],
+      "MEDIUM": [
+        "They were previously known by a controversial nickname that referenced Native Americans."
+      ],
+      "HARD": [
+        "Their fight song is one of the most recognizable in the NFL."
+      ]
+    }
   }
 ]

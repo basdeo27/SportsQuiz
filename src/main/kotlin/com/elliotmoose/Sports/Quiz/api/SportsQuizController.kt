@@ -24,6 +24,11 @@ class SportsQuizController(val quizService: QuizService) {
         return quizService.skipQuestion(req)
     }
 
+    @GetMapping("/face-teams")
+    fun getFaceTeams(@RequestParam(required = false) leagues: Set<League>?): List<FaceTeamOption> {
+        return quizService.getFaceTeamOptions(leagues ?: emptySet())
+    }
+
     @GetMapping("/results")
     fun getResults(): QuizResultsResponse {
         return QuizResultsResponse(quizService.getResults())

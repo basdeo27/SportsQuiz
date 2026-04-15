@@ -8,7 +8,17 @@
       "D-backs",
       "Dbacks"
     ],
-    "hint": "City: Arizona \u2022 Mascot starts with D"
+    "hints": {
+      "EASY": [
+        "This team is based in the Sonoran Desert."
+      ],
+      "MEDIUM": [
+        "Their name refers to a venomous snake found in their home state."
+      ],
+      "HARD": [
+        "This team's mascot snake species is known for its diamond-shaped pattern on its back."
+      ]
+    }
   },
   {
     "id": "mlb-atlanta-braves",
@@ -17,7 +27,17 @@
     "answers": [
       "Braves"
     ],
-    "hint": "City: Atlanta \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is the oldest continuously operating franchise in Major League Baseball."
+      ],
+      "MEDIUM": [
+        "They moved to their current city in 1966 after previously being based in Milwaukee."
+      ],
+      "HARD": [
+        "Their tomahawk chop chant originated from Florida State University fans."
+      ]
+    }
   },
   {
     "id": "mlb-baltimore-orioles",
@@ -26,7 +46,17 @@
     "answers": [
       "Orioles"
     ],
-    "hint": "City: Baltimore \u2022 Mascot starts with O"
+    "hints": {
+      "EASY": [
+        "This team plays its home games near the Inner Harbor of its city."
+      ],
+      "MEDIUM": [
+        "Their name comes from a small, colorful bird found in their region."
+      ],
+      "HARD": [
+        "The male of this bird species is known for its vibrant orange and black plumage."
+      ]
+    }
   },
   {
     "id": "mlb-boston-red-sox",
@@ -35,7 +65,17 @@
     "answers": [
       "Red Sox"
     ],
-    "hint": "City: Boston Red \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team plays at Fenway Park, the oldest ballpark in MLB."
+      ],
+      "MEDIUM": [
+        "They are known for their long-standing rivalry with the New York Yankees."
+      ],
+      "HARD": [
+        "Their iconic left-field wall is called the 'Green Monster'."
+      ]
+    }
   },
   {
     "id": "mlb-chicago-cubs",
@@ -44,7 +84,17 @@
     "answers": [
       "Cubs"
     ],
-    "hint": "City: Chicago \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team plays its home games at Wrigley Field, known for its ivy-covered outfield walls."
+      ],
+      "MEDIUM": [
+        "They are one of two MLB teams based in the same city."
+      ],
+      "HARD": [
+        "They ended a 108-year World Series championship drought in 2016."
+      ]
+    }
   },
   {
     "id": "mlb-chicago-white-sox",
@@ -53,7 +103,17 @@
     "answers": [
       "White Sox"
     ],
-    "hint": "City: Chicago White \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team is one of two MLB teams based in the Windy City."
+      ],
+      "MEDIUM": [
+        "They play on the South Side of their city, unlike their crosstown rivals."
+      ],
+      "HARD": [
+        "They were involved in the infamous 1919 Black Sox scandal."
+      ]
+    }
   },
   {
     "id": "mlb-cincinnati-reds",
@@ -62,7 +122,17 @@
     "answers": [
       "Reds"
     ],
-    "hint": "City: Cincinnati \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team is known as the first professional baseball team, founded in 1869."
+      ],
+      "MEDIUM": [
+        "They play their home games near the Ohio River."
+      ],
+      "HARD": [
+        "Their original name was the 'Red Stockings'."
+      ]
+    }
   },
   {
     "id": "mlb-cleveland-guardians",
@@ -71,7 +141,17 @@
     "answers": [
       "Guardians"
     ],
-    "hint": "City: Cleveland \u2022 Mascot starts with G"
+    "hints": {
+      "EASY": [
+        "This team recently changed its name to reflect protectors of hope and strength."
+      ],
+      "MEDIUM": [
+        "They play their home games near Lake Erie."
+      ],
+      "HARD": [
+        "Their previous name referenced a controversial caricature from the early 20th century."
+      ]
+    }
   },
   {
     "id": "mlb-colorado-rockies",
@@ -80,7 +160,17 @@
     "answers": [
       "Rockies"
     ],
-    "hint": "City: Colorado \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team plays its home games in a city known for its high elevation and proximity to the Rocky Mountains."
+      ],
+      "MEDIUM": [
+        "Their mascot is named 'Dinger,' a purple triceratops."
+      ],
+      "HARD": [
+        "This team's original logo featured a mountain peak with a baseball embedded in it."
+      ]
+    }
   },
   {
     "id": "mlb-detroit-tigers",
@@ -89,7 +179,17 @@
     "answers": [
       "Tigers"
     ],
-    "hint": "City: Detroit \u2022 Mascot starts with T"
+    "hints": {
+      "EASY": [
+        "This team is based in the Motor City and has a striped feline as its namesake."
+      ],
+      "MEDIUM": [
+        "They were the first American League team to win back-to-back World Series titles."
+      ],
+      "HARD": [
+        "Their mascot, Paws, is known for wearing a jersey with the number 00."
+      ]
+    }
   },
   {
     "id": "mlb-houston-astros",
@@ -98,7 +198,17 @@
     "answers": [
       "Astros"
     ],
-    "hint": "City: Houston \u2022 Mascot starts with A"
+    "hints": {
+      "EASY": [
+        "This team's name reflects its city's connection to the space program."
+      ],
+      "MEDIUM": [
+        "They were the first major league team to originate from the state of Texas."
+      ],
+      "HARD": [
+        "Their original team colors included 'Astrodome orange,' named after their former stadium."
+      ]
+    }
   },
   {
     "id": "mlb-kansas-city-royals",
@@ -107,7 +217,17 @@
     "answers": [
       "Royals"
     ],
-    "hint": "City: Kansas City \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team is named in honor of the American Royal, a livestock show and rodeo held in its city."
+      ],
+      "MEDIUM": [
+        "They won their first World Series title in 1985."
+      ],
+      "HARD": [
+        "Their mascot, Sluggerrr, is a lion who wears a crown."
+      ]
+    }
   },
   {
     "id": "mlb-los-angeles-angels",
@@ -118,7 +238,17 @@
       "LA Angels",
       "L.A. Angels"
     ],
-    "hint": "City: Los Angeles \u2022 Mascot starts with A"
+    "hints": {
+      "EASY": [
+        "This team's name is inspired by the Spanish translation of 'The Angels.'"
+      ],
+      "MEDIUM": [
+        "They were originally based in Los Angeles before moving to nearby Anaheim."
+      ],
+      "HARD": [
+        "Their mascot, Rally Monkey, became famous during their 2002 World Series run."
+      ]
+    }
   },
   {
     "id": "mlb-los-angeles-dodgers",
@@ -129,7 +259,17 @@
       "LA Dodgers",
       "L.A. Dodgers"
     ],
-    "hint": "City: Los Angeles \u2022 Mascot starts with D"
+    "hints": {
+      "EASY": [
+        "This team moved to Los Angeles from Brooklyn in 1958."
+      ],
+      "MEDIUM": [
+        "They are known for their iconic blue and white color scheme."
+      ],
+      "HARD": [
+        "Their mascot, a dog named 'The Phillie Phanatic's rival,' is named 'Dodger.'"
+      ]
+    }
   },
   {
     "id": "mlb-miami-marlins",
@@ -138,7 +278,17 @@
     "answers": [
       "Marlins"
     ],
-    "hint": "City: Miami \u2022 Mascot starts with M"
+    "hints": {
+      "EASY": [
+        "This team is based in a coastal city known for its vibrant marine life."
+      ],
+      "MEDIUM": [
+        "They won their first World Series title in 1997, just five years after their inception."
+      ],
+      "HARD": [
+        "Their mascot, Billy the Marlin, is a fish who wears a jersey with the number 1."
+      ]
+    }
   },
   {
     "id": "mlb-milwaukee-brewers",
@@ -147,7 +297,17 @@
     "answers": [
       "Brewers"
     ],
-    "hint": "City: Milwaukee \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team's name pays homage to its city's brewing heritage."
+      ],
+      "MEDIUM": [
+        "They were originally an American League team before switching to the National League in 1998."
+      ],
+      "HARD": [
+        "Their mascot, Bernie Brewer, slides into a giant mug of beer after home runs."
+      ]
+    }
   },
   {
     "id": "mlb-minnesota-twins",
@@ -156,7 +316,17 @@
     "answers": [
       "Twins"
     ],
-    "hint": "City: Minnesota \u2022 Mascot starts with T"
+    "hints": {
+      "EASY": [
+        "This team is named after the 'Twin Cities' of Minneapolis and St. Paul."
+      ],
+      "MEDIUM": [
+        "They were the first team in their league to have a fully enclosed, climate-controlled stadium."
+      ],
+      "HARD": [
+        "Their original logo featured two baseball players shaking hands, symbolizing the union of the two cities."
+      ]
+    }
   },
   {
     "id": "mlb-new-york-mets",
@@ -165,7 +335,17 @@
     "answers": [
       "Mets"
     ],
-    "hint": "City: New York \u2022 Mascot starts with M"
+    "hints": {
+      "EASY": [
+        "This team's colors are orange and blue, representing the city's Dutch heritage."
+      ],
+      "MEDIUM": [
+        "They won their first World Series in 1969, a year famously dubbed their 'Miracle' season."
+      ],
+      "HARD": [
+        "Their mascot, Mr. Met, was the first live-action mascot in Major League history."
+      ]
+    }
   },
   {
     "id": "mlb-new-york-yankees",
@@ -175,7 +355,17 @@
       "Yankees",
       "Yanks"
     ],
-    "hint": "City: New York \u2022 Mascot starts with Y"
+    "hints": {
+      "EASY": [
+        "This team is the most successful franchise in their league's history, with 27 championships."
+      ],
+      "MEDIUM": [
+        "They play their home games in the Bronx, the only New York City borough on the mainland."
+      ],
+      "HARD": [
+        "Their iconic pinstripes were originally introduced to make a star player look slimmer."
+      ]
+    }
   },
   {
     "id": "mlb-oakland-athletics",
@@ -186,7 +376,17 @@
       "A's",
       "As"
     ],
-    "hint": "City: Oakland \u2022 Mascot starts with A"
+    "hints": {
+      "EASY": [
+        "This team is often associated with the color green and a distinctive elephant mascot."
+      ],
+      "MEDIUM": [
+        "They were originally based in Philadelphia before moving to Kansas City and then to their current city."
+      ],
+      "HARD": [
+        "Their elephant mascot was adopted after a rival manager called them 'white elephants' in 1902."
+      ]
+    }
   },
   {
     "id": "mlb-philadelphia-phillies",
@@ -195,7 +395,17 @@
     "answers": [
       "Phillies"
     ],
-    "hint": "City: Philadelphia \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team is the oldest continuous, one-name, one-city franchise in all of professional sports."
+      ],
+      "MEDIUM": [
+        "They play their home games in a stadium named after a famous American patriot and scientist."
+      ],
+      "HARD": [
+        "Their mascot, the Phillie Phanatic, is one of the most recognizable and controversial in sports."
+      ]
+    }
   },
   {
     "id": "mlb-pittsburgh-pirates",
@@ -204,7 +414,17 @@
     "answers": [
       "Pirates"
     ],
-    "hint": "City: Pittsburgh \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team's colors are black and gold, matching the city's flag."
+      ],
+      "MEDIUM": [
+        "They were the first team to win a World Series on a walk-off home run in 1960."
+      ],
+      "HARD": [
+        "Their name was inspired by a rival team's accusation of 'pirating' a player in 1891."
+      ]
+    }
   },
   {
     "id": "mlb-san-diego-padres",
@@ -213,7 +433,17 @@
     "answers": [
       "Padres"
     ],
-    "hint": "City: San Diego \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team's name is Spanish for 'fathers,' referencing the city's historic Spanish missions."
+      ],
+      "MEDIUM": [
+        "They play their home games in a stadium located in downtown near the Gaslamp Quarter."
+      ],
+      "HARD": [
+        "Their mascot, the Swinging Friar, was inspired by the Franciscan friars who founded the city's missions."
+      ]
+    }
   },
   {
     "id": "mlb-san-francisco-giants",
@@ -222,7 +452,17 @@
     "answers": [
       "Giants"
     ],
-    "hint": "City: San Francisco \u2022 Mascot starts with G"
+    "hints": {
+      "EASY": [
+        "This team moved to their current city from New York in 1958."
+      ],
+      "MEDIUM": [
+        "They play their home games in a stadium known for its views of the San Francisco Bay."
+      ],
+      "HARD": [
+        "Their name was originally a reference to the team's tall players in the 1880s."
+      ]
+    }
   },
   {
     "id": "mlb-seattle-mariners",
@@ -232,7 +472,17 @@
       "Mariners",
       "M's"
     ],
-    "hint": "City: Seattle \u2022 Mascot starts with M"
+    "hints": {
+      "EASY": [
+        "This team plays its home games in the Pacific Northwest, near the Puget Sound."
+      ],
+      "MEDIUM": [
+        "Their colors include navy blue, northwest green, and silver, inspired by the region's maritime heritage."
+      ],
+      "HARD": [
+        "The team's name references a profession historically tied to the city's port and fishing industry."
+      ]
+    }
   },
   {
     "id": "mlb-st-louis-cardinals",
@@ -242,7 +492,17 @@
       "Cardinals",
       "Cards"
     ],
-    "hint": "City: St. Louis \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team is named after a bright red bird commonly found in North America."
+      ],
+      "MEDIUM": [
+        "They are one of the oldest and most successful franchises, with a long history in the Midwest."
+      ],
+      "HARD": [
+        "The bird this team is named after is known for its distinctive song and is the state bird of seven U.S. states."
+      ]
+    }
   },
   {
     "id": "mlb-tampa-bay-rays",
@@ -251,7 +511,17 @@
     "answers": [
       "Rays"
     ],
-    "hint": "City: Tampa Bay \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team plays its home games in Florida, near the Gulf of Mexico."
+      ],
+      "MEDIUM": [
+        "Their colors include navy blue, Columbia blue, and gold, reflecting a coastal theme."
+      ],
+      "HARD": [
+        "The team's name refers to a type of fish that emits light and is commonly found in deep ocean waters."
+      ]
+    }
   },
   {
     "id": "mlb-texas-rangers",
@@ -260,7 +530,17 @@
     "answers": [
       "Rangers"
     ],
-    "hint": "City: Texas \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team is based in the Lone Star State and plays in the Dallas-Fort Worth area."
+      ],
+      "MEDIUM": [
+        "Their name is inspired by a law enforcement agency known for patrolling the state's vast landscapes."
+      ],
+      "HARD": [
+        "The team's original name was inspired by a group formed in the 19th century to protect settlers from outlaws."
+      ]
+    }
   },
   {
     "id": "mlb-toronto-blue-jays",
@@ -270,7 +550,17 @@
       "Blue Jays",
       "Jays"
     ],
-    "hint": "City: Toronto Blue \u2022 Mascot starts with J"
+    "hints": {
+      "EASY": [
+        "This team is the only one in the league based outside the United States, in Canada."
+      ],
+      "MEDIUM": [
+        "Their colors include royal blue, navy blue, red, and white, and they are named after a bird."
+      ],
+      "HARD": [
+        "The bird this team is named after is known for its intelligence and ability to mimic sounds, including human speech."
+      ]
+    }
   },
   {
     "id": "mlb-washington-nationals",
@@ -280,6 +570,16 @@
       "Nationals",
       "Nats"
     ],
-    "hint": "City: Washington \u2022 Mascot starts with N"
+    "hints": {
+      "EASY": [
+        "This team plays its home games in the capital city of the United States."
+      ],
+      "MEDIUM": [
+        "Their colors include red, white, and blue, reflecting patriotic themes."
+      ],
+      "HARD": [
+        "The team's name is derived from a term used to describe citizens of a particular country, emphasizing national pride."
+      ]
+    }
   }
 ]

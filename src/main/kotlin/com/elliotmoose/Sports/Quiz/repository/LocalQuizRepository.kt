@@ -3,6 +3,8 @@ package com.elliotmoose.Sports.Quiz.repository
 import com.elliotmoose.Sports.Quiz.model.League
 import com.elliotmoose.Sports.Quiz.model.Question
 import com.elliotmoose.Sports.Quiz.model.FaceEntry
+import com.elliotmoose.Sports.Quiz.model.FaceTeamOption
+import com.elliotmoose.Sports.Quiz.model.HintUtils
 import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
 import com.elliotmoose.Sports.Quiz.model.QuizType
 import com.elliotmoose.Sports.Quiz.model.TeamEntry
@@ -23,7 +25,8 @@ class LocalQuizRepository(private val objectMapper: ObjectMapper) : QuestionRepo
     override fun getQuestions(
         leagues: Set<League>,
         type: QuizType,
-        difficulty: QuizDifficulty
+        difficulty: QuizDifficulty,
+        teamIds: Set<String>
     ): List<Question> {
         return when (type) {
             QuizType.LOGO -> leagues.flatMap { league ->
@@ -33,15 +36,29 @@ class LocalQuizRepository(private val objectMapper: ObjectMapper) : QuestionRepo
                         league = league,
                         logoUrl = team.logoUrl,
                         fullName = team.name,
-                        hint = team.hint ?: buildHint(team.name),
+                        hints = HintUtils.resolveLogoHints(team.name, team.hints, team.hint),
                         correctAnswers = (team.answers + team.name).toSet()
                     )
                 }
             }
-            QuizType.FACE -> leagues.flatMap { league ->
+            QuizType.FACE -> {
+                val includedLeagues = if (leagues.isEmpty() && teamIds.isNotEmpty()) {
+                    facesData.keys
+                } else {
+                    leagues
+                }
+
+                includedLeagues.flatMap { league ->
                 facesData[league].orEmpty()
                     .asSequence()
-                    .filter { face -> difficulty == QuizDifficulty.HARD || face.isAllStar }
+                    .filter { face ->
+                        teamIds.isEmpty() || teamIds.contains(face.teamId)
+                    }
+                    .filter { face ->
+                        teamIds.isNotEmpty() ||
+                            difficulty == QuizDifficulty.HARD ||
+                            face.isAllStar
+                    }
                     .map { face ->
                         Question(
                             id = face.id,
@@ -49,13 +66,37 @@ class LocalQuizRepository(private val objectMapper: ObjectMapper) : QuestionRepo
                             logoUrl = face.headshotUrl,
                             fullName = face.name,
                             teamId = face.teamId,
-                            hint = "Team: ${face.team}",
+                            hints = HintUtils.buildFaceHints(face.team),
                             correctAnswers = (face.answers + face.name).toSet()
                         )
                     }
                     .toList()
             }
+            }
         }
+    }
+
+    override fun getFaceTeamOptions(leagues: Set<League>): List<FaceTeamOption> {
+        val includedLeagues = if (leagues.isEmpty()) {
+            facesData.keys
+        } else {
+            facesData.keys.intersect(leagues)
+        }
+
+        return includedLeagues
+            .flatMap { league ->
+                facesData[league].orEmpty()
+                    .groupBy { face -> face.teamId to face.team }
+                    .map { (teamKey, teamFaces) ->
+                        FaceTeamOption(
+                            teamId = teamKey.first,
+                            teamName = teamKey.second,
+                            league = league,
+                            playerCount = teamFaces.size
+                        )
+                    }
+            }
+            .sortedWith(compareBy<FaceTeamOption>({ it.league.name }, { it.teamName }))
     }
 
     private fun loadTeamsData(): Map<League, List<TeamEntry>> {
@@ -71,16 +112,5 @@ class LocalQuizRepository(private val objectMapper: ObjectMapper) : QuestionRepo
             val resource = ClassPathResource("data/faces/${league.name.lowercase()}.json")
             objectMapper.readValue(resource.inputStream, object : TypeReference<List<FaceEntry>>() {})
         }
-    }
-
-    private fun buildHint(fullName: String): String {
-        val tokens = fullName.trim().split(Regex("\\s+"))
-        if (tokens.isEmpty()) {
-            return "No hint available."
-        }
-        val city = if (tokens.size > 1) tokens.dropLast(1).joinToString(" ") else tokens[0]
-        val mascot = tokens.last()
-        val mascotInitial = mascot.firstOrNull()?.uppercaseChar() ?: '?'
-        return "City: $city • Mascot starts with $mascotInitial"
     }
 }

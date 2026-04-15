@@ -6,7 +6,17 @@
     "answers": [
       "Ducks"
     ],
-    "hint": "City: Anaheim \u2022 Mascot starts with D"
+    "hints": {
+      "EASY": [
+        "This team is based in a city known for its famous theme park."
+      ],
+      "MEDIUM": [
+        "Their name was inspired by a popular 1990s hockey movie."
+      ],
+      "HARD": [
+        "This team's original colors were eggplant and jade before rebranding."
+      ]
+    }
   },
   {
     "id": "nhl-arizona-coyotes",
@@ -16,7 +26,17 @@
       "Coyotes",
       "Yotes"
     ],
-    "hint": "City: Arizona \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team plays in the hottest major North American sports city."
+      ],
+      "MEDIUM": [
+        "Their mascot is a desert-dwelling canine known for its howl."
+      ],
+      "HARD": [
+        "This team once had a controversial alternate logo featuring a howling animal with a hockey stick."
+      ]
+    }
   },
   {
     "id": "nhl-boston-bruins",
@@ -25,7 +45,17 @@
     "answers": [
       "Bruins"
     ],
-    "hint": "City: Boston \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is one of the Original Six NHL franchises."
+      ],
+      "MEDIUM": [
+        "They play in a city famous for its historic tea party."
+      ],
+      "HARD": [
+        "Their name refers to a large, shaggy mammal found in colder climates."
+      ]
+    }
   },
   {
     "id": "nhl-buffalo-sabres",
@@ -34,7 +64,17 @@
     "answers": [
       "Sabres"
     ],
-    "hint": "City: Buffalo \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team is based in a city known for its chicken wings."
+      ],
+      "MEDIUM": [
+        "Their name refers to a type of sword historically used by cavalry."
+      ],
+      "HARD": [
+        "This team once had a logo featuring two crossed swords."
+      ]
+    }
   },
   {
     "id": "nhl-calgary-flames",
@@ -43,7 +83,17 @@
     "answers": [
       "Flames"
     ],
-    "hint": "City: Calgary \u2022 Mascot starts with F"
+    "hints": {
+      "EASY": [
+        "This team is based in a Canadian city known for its annual rodeo."
+      ],
+      "MEDIUM": [
+        "Their name represents a powerful and destructive natural force."
+      ],
+      "HARD": [
+        "This team was originally based in a city in the southern United States before relocating."
+      ]
+    }
   },
   {
     "id": "nhl-carolina-hurricanes",
@@ -53,7 +103,17 @@
       "Hurricanes",
       "Canes"
     ],
-    "hint": "City: Carolina \u2022 Mascot starts with H"
+    "hints": {
+      "EASY": [
+        "This team is based in a state known for its frequent tropical storms."
+      ],
+      "MEDIUM": [
+        "Their name refers to a type of severe weather system with high winds."
+      ],
+      "HARD": [
+        "This team's mascot is named Stormy, a reference to their nickname."
+      ]
+    }
   },
   {
     "id": "nhl-chicago-blackhawks",
@@ -63,7 +123,17 @@
       "Blackhawks",
       "Hawks"
     ],
-    "hint": "City: Chicago \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is one of the Original Six NHL franchises."
+      ],
+      "MEDIUM": [
+        "They play in a city known for its deep-dish pizza."
+      ],
+      "HARD": [
+        "Their name honors a Sauk Native American leader."
+      ]
+    }
   },
   {
     "id": "nhl-colorado-avalanche",
@@ -73,7 +143,17 @@
       "Avalanche",
       "Avs"
     ],
-    "hint": "City: Colorado \u2022 Mascot starts with A"
+    "hints": {
+      "EASY": [
+        "This team is based in a city known for its high altitude and mountainous terrain."
+      ],
+      "MEDIUM": [
+        "Their name refers to a rapid flow of snow down a mountainside."
+      ],
+      "HARD": [
+        "This team won its first Stanley Cup just one year after relocating from Quebec."
+      ]
+    }
   },
   {
     "id": "nhl-columbus-blue-jackets",
@@ -83,7 +163,17 @@
       "Blue Jackets",
       "Jackets"
     ],
-    "hint": "City: Columbus Blue \u2022 Mascot starts with J"
+    "hints": {
+      "EASY": [
+        "This team is named after a piece of military uniform associated with the American Civil War."
+      ],
+      "MEDIUM": [
+        "They are the only NHL team based in the state of Ohio."
+      ],
+      "HARD": [
+        "Their mascot, 'Stinger,' is a yellowjacket, a type of wasp known for its aggressive behavior."
+      ]
+    }
   },
   {
     "id": "nhl-dallas-stars",
@@ -92,7 +182,17 @@
     "answers": [
       "Stars"
     ],
-    "hint": "City: Dallas \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team plays in the state known for its association with cowboys and space exploration."
+      ],
+      "MEDIUM": [
+        "They won their only Stanley Cup in the 1998-99 season."
+      ],
+      "HARD": [
+        "Their home arena is located in the city that was once known as the 'City of the Turtle' by Native Americans."
+      ]
+    }
   },
   {
     "id": "nhl-detroit-red-wings",
@@ -102,7 +202,17 @@
       "Red Wings",
       "Wings"
     ],
-    "hint": "City: Detroit Red \u2022 Mascot starts with W"
+    "hints": {
+      "EASY": [
+        "This team is one of the 'Original Six' NHL teams and shares its nickname with a part of an airplane."
+      ],
+      "MEDIUM": [
+        "They have won the most Stanley Cups among American NHL teams."
+      ],
+      "HARD": [
+        "Their octopus-throwing tradition started in 1952 when a local fish market owner threw one onto the ice for good luck."
+      ]
+    }
   },
   {
     "id": "nhl-edmonton-oilers",
@@ -111,7 +221,17 @@
     "answers": [
       "Oilers"
     ],
-    "hint": "City: Edmonton \u2022 Mascot starts with O"
+    "hints": {
+      "EASY": [
+        "This team is based in a city known for its vast oil reserves in Canada."
+      ],
+      "MEDIUM": [
+        "They won five Stanley Cups in the 1980s, largely thanks to a legendary player wearing number 99."
+      ],
+      "HARD": [
+        "Their name reflects the city's role as the 'Oil Capital of Canada'."
+      ]
+    }
   },
   {
     "id": "nhl-florida-panthers",
@@ -120,7 +240,17 @@
     "answers": [
       "Panthers"
     ],
-    "hint": "City: Florida \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team is named after a large, endangered wild cat native to the Americas."
+      ],
+      "MEDIUM": [
+        "They play in the same state as the Everglades, a natural habitat for their namesake animal."
+      ],
+      "HARD": [
+        "The Florida panther is the only known breeding population of panthers east of the Mississippi River."
+      ]
+    }
   },
   {
     "id": "nhl-los-angeles-kings",
@@ -131,7 +261,17 @@
       "LA Kings",
       "L.A. Kings"
     ],
-    "hint": "City: Los Angeles \u2022 Mascot starts with K"
+    "hints": {
+      "EASY": [
+        "This team plays in a city famous for Hollywood and celebrity culture."
+      ],
+      "MEDIUM": [
+        "They won their first Stanley Cup in 2012, led by a player nicknamed 'Kopitar'."
+      ],
+      "HARD": [
+        "Their colors, silver and black, were inspired by the colors of a luxury car brand."
+      ]
+    }
   },
   {
     "id": "nhl-minnesota-wild",
@@ -140,7 +280,17 @@
     "answers": [
       "Wild"
     ],
-    "hint": "City: Minnesota \u2022 Mascot starts with W"
+    "hints": {
+      "EASY": [
+        "This team represents a state known as the 'Land of 10,000 Lakes'."
+      ],
+      "MEDIUM": [
+        "Their name reflects the untamed and natural wilderness of their home state."
+      ],
+      "HARD": [
+        "Their logo subtly incorporates the shape of a forest, a river, and a shooting star."
+      ]
+    }
   },
   {
     "id": "nhl-montreal-canadiens",
@@ -150,7 +300,17 @@
       "Canadiens",
       "Habs"
     ],
-    "hint": "City: Montreal \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team is the oldest and most successful in NHL history, with 24 Stanley Cups."
+      ],
+      "MEDIUM": [
+        "They are the only NHL team with a French nickname, reflecting their city's primary language."
+      ],
+      "HARD": [
+        "Their nickname, 'Habs,' is short for 'Les Habitants,' referring to early French settlers in Canada."
+      ]
+    }
   },
   {
     "id": "nhl-nashville-predators",
@@ -160,7 +320,17 @@
       "Predators",
       "Preds"
     ],
-    "hint": "City: Nashville \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team is based in the home of country music."
+      ],
+      "MEDIUM": [
+        "Their mascot is a saber-toothed cat, an extinct predator."
+      ],
+      "HARD": [
+        "The team's name was inspired by a partial fossil found during an excavation for a building in the city."
+      ]
+    }
   },
   {
     "id": "nhl-new-jersey-devils",
@@ -169,7 +339,17 @@
     "answers": [
       "Devils"
     ],
-    "hint": "City: New Jersey \u2022 Mascot starts with D"
+    "hints": {
+      "EASY": [
+        "This team plays in the same state as the Statue of Liberty."
+      ],
+      "MEDIUM": [
+        "Their name refers to a mythical creature linked to a local legend about a creature seen in the woods."
+      ],
+      "HARD": [
+        "The team's name was chosen through a fan vote, beating out options like 'Blades' and 'Americans'."
+      ]
+    }
   },
   {
     "id": "nhl-new-york-islanders",
@@ -179,7 +359,17 @@
       "Islanders",
       "Isles"
     ],
-    "hint": "City: New York \u2022 Mascot starts with I"
+    "hints": {
+      "EASY": [
+        "This team is one of two NHL teams based in New York City's boroughs."
+      ],
+      "MEDIUM": [
+        "They play near the ocean, fitting their nickname."
+      ],
+      "HARD": [
+        "The team's colors were originally chosen to reflect the flag of their home county."
+      ]
+    }
   },
   {
     "id": "nhl-new-york-rangers",
@@ -188,7 +378,17 @@
     "answers": [
       "Rangers"
     ],
-    "hint": "City: New York \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team plays in the most famous arena in Manhattan."
+      ],
+      "MEDIUM": [
+        "Their name references a law enforcement group known for patrolling wild areas."
+      ],
+      "HARD": [
+        "They were the first NHL team in the United States to win the Stanley Cup."
+      ]
+    }
   },
   {
     "id": "nhl-ottawa-senators",
@@ -198,7 +398,17 @@
       "Senators",
       "Sens"
     ],
-    "hint": "City: Ottawa \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team is based in Canada's capital city."
+      ],
+      "MEDIUM": [
+        "Their name honors the historical political leaders of the country."
+      ],
+      "HARD": [
+        "The original team with this name won multiple Stanley Cups in the early 1900s before folding."
+      ]
+    }
   },
   {
     "id": "nhl-philadelphia-flyers",
@@ -207,7 +417,17 @@
     "answers": [
       "Flyers"
     ],
-    "hint": "City: Philadelphia \u2022 Mascot starts with F"
+    "hints": {
+      "EASY": [
+        "This team is known for its fierce and physical style of play."
+      ],
+      "MEDIUM": [
+        "Their name was inspired by the idea of speed and agility."
+      ],
+      "HARD": [
+        "The team's mascot is a giant, orange creature named Gritty."
+      ]
+    }
   },
   {
     "id": "nhl-pittsburgh-penguins",
@@ -217,7 +437,17 @@
       "Penguins",
       "Pens"
     ],
-    "hint": "City: Pittsburgh \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team is based in the city famous for its steel industry."
+      ],
+      "MEDIUM": [
+        "Their mascot is a flightless bird that thrives in cold climates."
+      ],
+      "HARD": [
+        "The team's original logo featured a penguin skating with a scarf."
+      ]
+    }
   },
   {
     "id": "nhl-san-jose-sharks",
@@ -226,7 +456,17 @@
     "answers": [
       "Sharks"
     ],
-    "hint": "City: San Jose \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team is based in Northern California, near Silicon Valley."
+      ],
+      "MEDIUM": [
+        "Their name reflects a powerful ocean predator."
+      ],
+      "HARD": [
+        "The team's mascot is named S.J. Sharkie and is known for his energetic antics."
+      ]
+    }
   },
   {
     "id": "nhl-seattle-kraken",
@@ -235,7 +475,17 @@
     "answers": [
       "Kraken"
     ],
-    "hint": "City: Seattle \u2022 Mascot starts with K"
+    "hints": {
+      "EASY": [
+        "This team is the newest expansion franchise in its league, joining in 2021."
+      ],
+      "MEDIUM": [
+        "Their name is inspired by a mythical sea creature known for causing shipwrecks."
+      ],
+      "HARD": [
+        "The team's colors are a nod to the deep waters of the Pacific Northwest and the local maritime history."
+      ]
+    }
   },
   {
     "id": "nhl-st-louis-blues",
@@ -244,7 +494,17 @@
     "answers": [
       "Blues"
     ],
-    "hint": "City: St. Louis \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team shares its name with a genre of music that originated in the American South."
+      ],
+      "MEDIUM": [
+        "They won their first Stanley Cup in 2019 after decades of play."
+      ],
+      "HARD": [
+        "The team's logo has evolved from a musical note to a more abstract design over the years."
+      ]
+    }
   },
   {
     "id": "nhl-tampa-bay-lightning",
@@ -254,7 +514,17 @@
       "Lightning",
       "Bolts"
     ],
-    "hint": "City: Tampa Bay \u2022 Mascot starts with L"
+    "hints": {
+      "EASY": [
+        "This team is nicknamed after a powerful natural electrical discharge."
+      ],
+      "MEDIUM": [
+        "They play their home games in a state known for its frequent thunderstorms."
+      ],
+      "HARD": [
+        "The team's mascot is named ThunderBug, a lightning-inspired character."
+      ]
+    }
   },
   {
     "id": "nhl-toronto-maple-leafs",
@@ -264,7 +534,17 @@
       "Maple Leafs",
       "Leafs"
     ],
-    "hint": "City: Toronto Maple \u2022 Mascot starts with L"
+    "hints": {
+      "EASY": [
+        "This team is one of the 'Original Six' franchises in its league."
+      ],
+      "MEDIUM": [
+        "They are based in Canada's largest city and have a leaf as their central symbol."
+      ],
+      "HARD": [
+        "The team's logo has featured a maple leaf since 1927, a national symbol of Canada."
+      ]
+    }
   },
   {
     "id": "nhl-vancouver-canucks",
@@ -273,7 +553,17 @@
     "answers": [
       "Canucks"
     ],
-    "hint": "City: Vancouver \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team is based in a city known for its scenic mountains and coastal views."
+      ],
+      "MEDIUM": [
+        "Their name is derived from a term historically used to describe a guide or interpreter in the region."
+      ],
+      "HARD": [
+        "The team's original logo featured a hockey stick-wielding character named 'Johnny Canuck'."
+      ]
+    }
   },
   {
     "id": "nhl-vegas-golden-knights",
@@ -283,7 +573,17 @@
       "Golden Knights",
       "Knights"
     ],
-    "hint": "City: Vegas Golden \u2022 Mascot starts with K"
+    "hints": {
+      "EASY": [
+        "This team is based in a city famous for its casinos and entertainment."
+      ],
+      "MEDIUM": [
+        "Their name combines a precious metal with a medieval warrior."
+      ],
+      "HARD": [
+        "The team's primary color is steel gray, inspired by armor."
+      ]
+    }
   },
   {
     "id": "nhl-washington-capitals",
@@ -293,7 +593,17 @@
       "Capitals",
       "Caps"
     ],
-    "hint": "City: Washington \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team is based in the capital city of the United States."
+      ],
+      "MEDIUM": [
+        "They won their first Stanley Cup in 2018, led by a star Russian forward."
+      ],
+      "HARD": [
+        "The team's secondary logo features a bald eagle, a national symbol of the U.S."
+      ]
+    }
   },
   {
     "id": "nhl-winnipeg-jets",
@@ -302,6 +612,16 @@
     "answers": [
       "Jets"
     ],
-    "hint": "City: Winnipeg \u2022 Mascot starts with J"
+    "hints": {
+      "EASY": [
+        "This team is named after a type of high-speed aircraft."
+      ],
+      "MEDIUM": [
+        "They relocated from another city in 2011 to return to their original home."
+      ],
+      "HARD": [
+        "The team's logo features a jet silhouette inspired by the Royal Canadian Air Force."
+      ]
+    }
   }
 ]

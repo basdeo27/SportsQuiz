@@ -7,7 +7,17 @@
       "Hawks",
       "ATL Hawks"
     ],
-    "hint": "City: Atlanta \u2022 Mascot starts with H"
+    "hints": {
+      "EASY": [
+        "This team is named after a bird of prey known for its sharp vision and powerful talons."
+      ],
+      "MEDIUM": [
+        "This team's home city is known for its role in the civil rights movement."
+      ],
+      "HARD": [
+        "This bird's scientific name is Accipitriformes, and it can see ultraviolet light."
+      ]
+    }
   },
   {
     "id": "nba-boston-celtics",
@@ -16,7 +26,17 @@
     "answers": [
       "Celtics"
     ],
-    "hint": "City: Boston \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team is associated with a group of people from Ireland, Scotland, and Wales."
+      ],
+      "MEDIUM": [
+        "They play in a city famous for its historic tea party."
+      ],
+      "HARD": [
+        "The team's mascot, Lucky, is a leprechaun inspired by a 19th-century cartoon character."
+      ]
+    }
   },
   {
     "id": "nba-brooklyn-nets",
@@ -25,7 +45,17 @@
     "answers": [
       "Nets"
     ],
-    "hint": "City: Brooklyn \u2022 Mascot starts with N"
+    "hints": {
+      "EASY": [
+        "This team's name refers to a piece of equipment used in a popular sport."
+      ],
+      "MEDIUM": [
+        "They play in a borough of New York City known for its bridge."
+      ],
+      "HARD": [
+        "The team's black and white colors were inspired by the city's subway system."
+      ]
+    }
   },
   {
     "id": "nba-charlotte-hornets",
@@ -34,7 +64,17 @@
     "answers": [
       "Hornets"
     ],
-    "hint": "City: Charlotte \u2022 Mascot starts with H"
+    "hints": {
+      "EASY": [
+        "This team is named after an insect known for its painful sting."
+      ],
+      "MEDIUM": [
+        "Their home city was named after a British queen."
+      ],
+      "HARD": [
+        "The original team was named after a Revolutionary War general's tactic to harass the British."
+      ]
+    }
   },
   {
     "id": "nba-chicago-bulls",
@@ -43,7 +83,17 @@
     "answers": [
       "Bulls"
     ],
-    "hint": "City: Chicago \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is named after a large, powerful farm animal."
+      ],
+      "MEDIUM": [
+        "They play in the city known as the 'Windy City'."
+      ],
+      "HARD": [
+        "The team's mascot, Benny, was introduced in 1969 and is one of the oldest in the league."
+      ]
+    }
   },
   {
     "id": "nba-cleveland-cavaliers",
@@ -53,7 +103,17 @@
       "Cavaliers",
       "Cavs"
     ],
-    "hint": "City: Cleveland \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team's name refers to a knight or a soldier of noble birth."
+      ],
+      "MEDIUM": [
+        "They play in a city on the shores of Lake Erie."
+      ],
+      "HARD": [
+        "The team was named through a fan contest in 1970, with 'Cavaliers' winning over 'Jays'."
+      ]
+    }
   },
   {
     "id": "nba-dallas-mavericks",
@@ -63,7 +123,17 @@
       "Mavericks",
       "Mavs"
     ],
-    "hint": "City: Dallas \u2022 Mascot starts with M"
+    "hints": {
+      "EASY": [
+        "This team's name refers to an independent-minded person, often a cowboy."
+      ],
+      "MEDIUM": [
+        "They play in a city known for its association with the TV show 'Dallas'."
+      ],
+      "HARD": [
+        "The name was chosen to reflect the independent spirit of Texas."
+      ]
+    }
   },
   {
     "id": "nba-denver-nuggets",
@@ -72,7 +142,17 @@
     "answers": [
       "Nuggets"
     ],
-    "hint": "City: Denver \u2022 Mascot starts with N"
+    "hints": {
+      "EASY": [
+        "This team's name refers to a small, valuable piece of precious metal."
+      ],
+      "MEDIUM": [
+        "They play in a city known as the 'Mile High City'."
+      ],
+      "HARD": [
+        "The team was originally named the 'Larks' before changing to reflect the city's gold rush history."
+      ]
+    }
   },
   {
     "id": "nba-detroit-pistons",
@@ -81,7 +161,17 @@
     "answers": [
       "Pistons"
     ],
-    "hint": "City: Detroit \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team is based in the Motor City, known for its automotive industry."
+      ],
+      "MEDIUM": [
+        "They won back-to-back NBA championships in the late 1980s and early 1990s."
+      ],
+      "HARD": [
+        "Their mascot's name is Hooper, and he's known for his acrobatic dunks during games."
+      ]
+    }
   },
   {
     "id": "nba-golden-state-warriors",
@@ -90,7 +180,17 @@
     "answers": [
       "Warriors"
     ],
-    "hint": "City: Golden State \u2022 Mascot starts with W"
+    "hints": {
+      "EASY": [
+        "This team plays its home games in the San Francisco Bay Area."
+      ],
+      "MEDIUM": [
+        "They set the record for the most wins in a regular season with 73 in 2015-16."
+      ],
+      "HARD": [
+        "Their original name was the Philadelphia Warriors, founded in 1946."
+      ]
+    }
   },
   {
     "id": "nba-houston-rockets",
@@ -99,7 +199,17 @@
     "answers": [
       "Rockets"
     ],
-    "hint": "City: Houston \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This team is based in a city known for its space exploration history."
+      ],
+      "MEDIUM": [
+        "They drafted Hakeem Olajuwon, one of the greatest centers in NBA history."
+      ],
+      "HARD": [
+        "Their mascot, Clutch the Bear, was introduced in 2005."
+      ]
+    }
   },
   {
     "id": "nba-indiana-pacers",
@@ -108,7 +218,17 @@
     "answers": [
       "Pacers"
     ],
-    "hint": "City: Indiana \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team is named after the pace car used in the Indianapolis 500."
+      ],
+      "MEDIUM": [
+        "They were part of the ABA before joining the NBA in 1976."
+      ],
+      "HARD": [
+        "Their home arena is named after a former vice president of the United States."
+      ]
+    }
   },
   {
     "id": "nba-la-clippers",
@@ -119,7 +239,17 @@
       "LA Clippers",
       "L.A. Clippers"
     ],
-    "hint": "City: Los Angeles \u2022 Mascot starts with C"
+    "hints": {
+      "EASY": [
+        "This team shares its city with another NBA team but plays in a different arena."
+      ],
+      "MEDIUM": [
+        "They were originally based in San Diego before moving to their current city."
+      ],
+      "HARD": [
+        "Their mascot, Chuck the Condor, was introduced in 2016."
+      ]
+    }
   },
   {
     "id": "nba-los-angeles-lakers",
@@ -130,7 +260,17 @@
       "LA Lakers",
       "L.A. Lakers"
     ],
-    "hint": "City: Los Angeles \u2022 Mascot starts with L"
+    "hints": {
+      "EASY": [
+        "This team has won the most NBA championships in league history."
+      ],
+      "MEDIUM": [
+        "They originally played in Minneapolis before moving to their current city."
+      ],
+      "HARD": [
+        "Their name references the state's nickname, 'Land of 10,000 Lakes.'"
+      ]
+    }
   },
   {
     "id": "nba-memphis-grizzlies",
@@ -140,7 +280,17 @@
       "Grizzlies",
       "Grizz"
     ],
-    "hint": "City: Memphis \u2022 Mascot starts with G"
+    "hints": {
+      "EASY": [
+        "This team is named after a large, powerful bear native to North America."
+      ],
+      "MEDIUM": [
+        "They were originally based in Vancouver before relocating to their current city."
+      ],
+      "HARD": [
+        "Their mascot, Grizz, was named after a fan contest in 2004."
+      ]
+    }
   },
   {
     "id": "nba-miami-heat",
@@ -149,7 +299,17 @@
     "answers": [
       "Heat"
     ],
-    "hint": "City: Miami \u2022 Mascot starts with H"
+    "hints": {
+      "EASY": [
+        "This team is based in a city known for its hot and humid climate."
+      ],
+      "MEDIUM": [
+        "They won their first NBA championship in 2006 led by Dwyane Wade."
+      ],
+      "HARD": [
+        "Their mascot, Burnie, is a fireball character introduced in 1988."
+      ]
+    }
   },
   {
     "id": "nba-milwaukee-bucks",
@@ -158,7 +318,17 @@
     "answers": [
       "Bucks"
     ],
-    "hint": "City: Milwaukee \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is named after a male deer, known for its large antlers."
+      ],
+      "MEDIUM": [
+        "They play their home games in Wisconsin, a state famous for its cheese and beer."
+      ],
+      "HARD": [
+        "Their mascot's name is Bango, inspired by a local sports radio host's catchphrase."
+      ]
+    }
   },
   {
     "id": "nba-minnesota-timberwolves",
@@ -168,7 +338,17 @@
       "Timberwolves",
       "Wolves"
     ],
-    "hint": "City: Minnesota \u2022 Mascot starts with T"
+    "hints": {
+      "EASY": [
+        "This team is named after a large, wild canine species native to North America."
+      ],
+      "MEDIUM": [
+        "They represent a state known as the 'Land of 10,000 Lakes'."
+      ],
+      "HARD": [
+        "Their mascot, Crunch, is named after the sound of snow underfoot in their home state."
+      ]
+    }
   },
   {
     "id": "nba-new-orleans-pelicans",
@@ -178,7 +358,17 @@
       "Pelicans",
       "Pels"
     ],
-    "hint": "City: New Orleans \u2022 Mascot starts with P"
+    "hints": {
+      "EASY": [
+        "This team is named after a large water bird known for its expandable throat pouch."
+      ],
+      "MEDIUM": [
+        "They play in a city famous for Mardi Gras and jazz music."
+      ],
+      "HARD": [
+        "Before adopting their current name, they were briefly known as the Hornets."
+      ]
+    }
   },
   {
     "id": "nba-new-york-knicks",
@@ -187,7 +377,17 @@
     "answers": [
       "Knicks"
     ],
-    "hint": "City: New York \u2022 Mascot starts with K"
+    "hints": {
+      "EASY": [
+        "This team is one of only two NBA teams based in New York City."
+      ],
+      "MEDIUM": [
+        "Their name is short for 'Knickerbockers,' a term linked to early Dutch settlers."
+      ],
+      "HARD": [
+        "They were one of the original teams in the Basketball Association of America (BAA) in 1946."
+      ]
+    }
   },
   {
     "id": "nba-oklahoma-city-thunder",
@@ -196,7 +396,17 @@
     "answers": [
       "Thunder"
     ],
-    "hint": "City: Oklahoma City \u2022 Mascot starts with T"
+    "hints": {
+      "EASY": [
+        "This team is named after a natural phenomenon often associated with storms."
+      ],
+      "MEDIUM": [
+        "They relocated from Seattle in 2008, where they were originally known as the SuperSonics."
+      ],
+      "HARD": [
+        "Their mascot, Rumble, is a bison, reflecting the state's Native American heritage."
+      ]
+    }
   },
   {
     "id": "nba-orlando-magic",
@@ -205,7 +415,17 @@
     "answers": [
       "Magic"
     ],
-    "hint": "City: Orlando \u2022 Mascot starts with M"
+    "hints": {
+      "EASY": [
+        "This team's name evokes a sense of wonder and fantasy, fitting for their home near Disney World."
+      ],
+      "MEDIUM": [
+        "They play in a city known for its theme parks and warm, sunny weather."
+      ],
+      "HARD": [
+        "Their original mascot, Stuff the Magic Dragon, was inspired by a popular 1960s song."
+      ]
+    }
   },
   {
     "id": "nba-philadelphia-76ers",
@@ -215,7 +435,17 @@
       "76ers",
       "Sixers"
     ],
-    "hint": "City: Philadelphia \u2022 Mascot starts with 7"
+    "hints": {
+      "EASY": [
+        "This team's name references a pivotal year in American history, 1776."
+      ],
+      "MEDIUM": [
+        "They play in a city known as the 'Birthplace of America'."
+      ],
+      "HARD": [
+        "Their mascot, Franklin the Dog, is named after Benjamin Franklin, a famous resident of their city."
+      ]
+    }
   },
   {
     "id": "nba-phoenix-suns",
@@ -224,7 +454,17 @@
     "answers": [
       "Suns"
     ],
-    "hint": "City: Phoenix \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team is named after the star at the center of our solar system."
+      ],
+      "MEDIUM": [
+        "They play in a city known for its desert climate and extremely hot summers."
+      ],
+      "HARD": [
+        "Their original colors were purple and orange, inspired by the hues of a desert sunset."
+      ]
+    }
   },
   {
     "id": "nba-portland-trail-blazers",
@@ -234,7 +474,17 @@
       "Trail Blazers",
       "Blazers"
     ],
-    "hint": "City: Portland Trail \u2022 Mascot starts with B"
+    "hints": {
+      "EASY": [
+        "This team is based in the Pacific Northwest and plays home games in Oregon."
+      ],
+      "MEDIUM": [
+        "Their logo features a unique design representing two teams competing in a five-on-five format."
+      ],
+      "HARD": [
+        "The team's name was chosen through a public contest in 1970, beating out suggestions like 'Pioneers' and 'Mountaineers'."
+      ]
+    }
   },
   {
     "id": "nba-sacramento-kings",
@@ -243,7 +493,17 @@
     "answers": [
       "Kings"
     ],
-    "hint": "City: Sacramento \u2022 Mascot starts with K"
+    "hints": {
+      "EASY": [
+        "This team is the only NBA franchise located in Northern California."
+      ],
+      "MEDIUM": [
+        "Their mascot is a lion, fitting for their regal nickname."
+      ],
+      "HARD": [
+        "The franchise was originally founded in 1923 as the Rochester Seagrams, long before moving to its current city."
+      ]
+    }
   },
   {
     "id": "nba-san-antonio-spurs",
@@ -252,7 +512,17 @@
     "answers": [
       "Spurs"
     ],
-    "hint": "City: San Antonio \u2022 Mascot starts with S"
+    "hints": {
+      "EASY": [
+        "This team is based in Texas and has won multiple championships with a famous coach."
+      ],
+      "MEDIUM": [
+        "Their mascot is a horse, which aligns with a key part of their nickname."
+      ],
+      "HARD": [
+        "The team's name was inspired by the spur, a device used in cattle ranching, reflecting the region's cowboy culture."
+      ]
+    }
   },
   {
     "id": "nba-toronto-raptors",
@@ -261,7 +531,17 @@
     "answers": [
       "Raptors"
     ],
-    "hint": "City: Toronto \u2022 Mascot starts with R"
+    "hints": {
+      "EASY": [
+        "This is the only NBA team based outside of the United States."
+      ],
+      "MEDIUM": [
+        "Their nickname is a type of dinosaur, popularized by a 1990s movie."
+      ],
+      "HARD": [
+        "The team's original logo featured a basketball-dribbling dinosaur breaking through a basketball hoop."
+      ]
+    }
   },
   {
     "id": "nba-utah-jazz",
@@ -270,7 +550,17 @@
     "answers": [
       "Jazz"
     ],
-    "hint": "City: Utah \u2022 Mascot starts with J"
+    "hints": {
+      "EASY": [
+        "This team was originally based in New Orleans, a city known for its music."
+      ],
+      "MEDIUM": [
+        "Their nickname reflects a genre of music, though they play in a state not traditionally associated with it."
+      ],
+      "HARD": [
+        "The team's colors were inspired by the landscape of southern Utah, including red rock formations."
+      ]
+    }
   },
   {
     "id": "nba-washington-wizards",
@@ -279,6 +569,16 @@
     "answers": [
       "Wizards"
     ],
-    "hint": "City: Washington \u2022 Mascot starts with W"
+    "hints": {
+      "EASY": [
+        "This team is based in the capital of the United States."
+      ],
+      "MEDIUM": [
+        "Their nickname suggests magic or fantasy, and their mascot is a wizard."
+      ],
+      "HARD": [
+        "The franchise was originally named the 'Bullets' but changed its name in 1997 due to concerns over gun violence."
+      ]
+    }
   }
 ]
