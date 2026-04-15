@@ -1,0 +1,132 @@
+name: Deploy Main
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Run tests
+        run: ./gradlew test
+
+  deploy-backend:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          load: true
+          tags: sports-quiz:${{ env.IMAGE_TAG }}
+
+      - name: Push image to Lightsail container registry
+        id: push-image
+        run: |
+          PUSH_OUTPUT=$(aws lightsail push-container-image \
+            --region "$AWS_REGION" \
+            --service-name "${{ secrets.LIGHTSAIL_SERVICE_NAME }}" \
+            --label app \
+            --image "sports-quiz:$IMAGE_TAG")
+          echo "$PUSH_OUTPUT"
+          LIGHTSAIL_IMAGE=$(echo "$PUSH_OUTPUT" | grep 'Refer to this image' | sed 's/.*"\(:[^"]*\)".*/\1/')
+          echo "lightsail_image=$LIGHTSAIL_IMAGE" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy to Lightsail container service
+        env:
+          LIGHTSAIL_IMAGE: ${{ steps.push-image.outputs.lightsail_image }}
+          SERVICE_NAME: ${{ secrets.LIGHTSAIL_SERVICE_NAME }}
+        run: |
+          CONTAINERS=$(jq -n \
+            --arg image "$LIGHTSAIL_IMAGE" \
+            '{"app":{"image":$image,"ports":{"8080":"HTTP"}}}')
+          aws lightsail create-container-service-deployment \
+            --region "$AWS_REGION" \
+            --service-name "$SERVICE_NAME" \
+            --containers "$CONTAINERS" \
+            --public-endpoint '{"containerName":"app","containerPort":8080}'
+
+  deploy-frontend:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+        run: npm run build
+
+      - name: Sync frontend to S3
+        run: aws s3 sync frontend/dist s3://${{ secrets.S3_BUCKET }} --delete --region ${{ env.AWS_REGION }}
+
+      - name: Invalidate CloudFront
+        if: ${{ env.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+        env:
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" --paths '/*'
