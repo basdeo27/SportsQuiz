@@ -1,4 +1,4 @@
-package com.elliotmoose.Sports.Quiz.config
+package com.elliotmoose.Sports.Quiz.util
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

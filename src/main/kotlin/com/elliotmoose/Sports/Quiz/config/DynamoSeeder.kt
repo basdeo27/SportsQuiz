@@ -4,6 +4,9 @@ import com.elliotmoose.Sports.Quiz.model.League
 import com.elliotmoose.Sports.Quiz.model.HintUtils
 import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
 import com.elliotmoose.Sports.Quiz.model.TeamEntry
+import com.elliotmoose.Sports.Quiz.quiz.properties.QuizDynamoProperties
+import com.elliotmoose.Sports.Quiz.quiz.properties.QuizQuestionStorageProperties
+import com.elliotmoose.Sports.Quiz.results.properties.ResultsStorageProperties
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
@@ -19,14 +22,15 @@ class DynamoSeeder(
     private val dynamoDbClient: DynamoDbClient,
     private val objectMapper: ObjectMapper,
     private val properties: QuizDynamoProperties,
-    private val storageProperties: QuizStorageProperties
+    private val questionStorageProperties: QuizQuestionStorageProperties,
+    private val resultsStorageProperties: ResultsStorageProperties
 ) {
     private val logger = LoggerFactory.getLogger(DynamoSeeder::class.java)
 
     @Bean
     fun dynamoSeederRunner(): ApplicationRunner {
         return ApplicationRunner {
-            if (storageProperties.results.storage == "dynamo") {
+            if (resultsStorageProperties.storage == "dynamo") {
                 try {
                     ensureResultsTable()
                 } catch (ex: Exception) {
@@ -34,7 +38,7 @@ class DynamoSeeder(
                 }
             }
 
-            if (storageProperties.questions.storage != "dynamo" || !properties.seed) {
+            if (questionStorageProperties.storage != "dynamo" || !properties.seed) {
                 return@ApplicationRunner
             }
             try {

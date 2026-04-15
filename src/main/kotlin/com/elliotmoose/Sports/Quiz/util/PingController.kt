@@ -1,4 +1,4 @@
-package com.elliotmoose.Sports.Quiz.api
+package com.elliotmoose.Sports.Quiz.util
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
