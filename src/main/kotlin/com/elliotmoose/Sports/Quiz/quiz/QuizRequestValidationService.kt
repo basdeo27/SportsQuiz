@@ -14,7 +14,7 @@ class QuizRequestValidationService(
         availableQuestions: List<Question>
     ) {
         validateSelection(quizRequest)
-        validateDisabledLeagues(quizRequest.leagues)
+        validateDisabledLeagues(quizRequest.leagues, quizRequest.type)
         validateQuestionCount(quizRequest.numberOfQuestions)
         if (availableQuestions.size < quizRequest.numberOfQuestions) {
             throw InvalidQuizRequestException("Not enough questions for the selected leagues.")
@@ -22,7 +22,7 @@ class QuizRequestValidationService(
     }
 
     fun validateFaceTeamOptionsRequest(leagues: Set<League>) {
-        validateDisabledLeagues(leagues)
+        validateDisabledLeagues(leagues, QuizType.FACE)
     }
 
     fun validateQuizExists(quizId: String, quiz: Quiz?): Quiz =
@@ -45,8 +45,12 @@ class QuizRequestValidationService(
         }
     }
 
-    private fun validateDisabledLeagues(leagues: Set<League>) {
-        if (leagues.intersect(settings.disabledLeagues).isNotEmpty()) {
+    private fun validateDisabledLeagues(leagues: Set<League>, quizType: QuizType) {
+        val disabledLeagues = when (quizType) {
+            QuizType.LOGO -> settings.disabledLogoLeagues
+            QuizType.FACE -> settings.disabledFaceLeagues
+        }
+        if (leagues.intersect(disabledLeagues).isNotEmpty()) {
             throw InvalidQuizRequestException("One or more selected leagues are currently disabled.")
         }
     }

@@ -52,11 +52,6 @@ type QuizReviewResponse = {
 const API_ROOT = import.meta.env.VITE_API_BASE_URL ?? "";
 const API_BASE_URL = `${API_ROOT.replace(/\/$/, "")}/v0`;
 
-const allLeagues: League[] = ["NBA", "MLB", "NFL", "NHL", "EPL"];
-const disabledLeagues: League[] = ["EPL"];
-const availableLeagues = allLeagues.filter(
-  (league) => !disabledLeagues.includes(league)
-);
 const quizTypeOptions = [
   {
     value: "LOGO",
@@ -104,9 +99,8 @@ export default function App() {
   const [quizType, setQuizType] = useState<QuizType>("LOGO");
   const [faceQuizMode, setFaceQuizMode] = useState<FaceQuizMode>("LEAGUE");
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
-  const [selectedLeagues, setSelectedLeagues] = useState<Set<League>>(
-    new Set(availableLeagues)
-  );
+  const [availableLeaguesByType, setAvailableLeaguesByType] = useState<Record<QuizType, League[]>>({ LOGO: [], FACE: [] });
+  const [selectedLeagues, setSelectedLeagues] = useState<Set<League>>(new Set());
   const [faceTeamOptions, setFaceTeamOptions] = useState<FaceTeamOption[]>([]);
   const [selectedFaceTeamIds, setSelectedFaceTeamIds] = useState<Set<string>>(
     new Set()
@@ -143,6 +137,15 @@ export default function App() {
   );
 
   useEffect(() => {
+    fetch(`${API_BASE_URL}/quiz/leagues`)
+      .then((r) => r.json())
+      .then((data: Record<QuizType, League[]>) => {
+        setAvailableLeaguesByType(data);
+        setSelectedLeagues(new Set(data.LOGO));
+      });
+  }, []);
+
+  useEffect(() => {
     if (screen === "quiz" && answerInputRef.current) {
       answerInputRef.current.focus();
     }
@@ -165,7 +168,7 @@ export default function App() {
     setDifficulty("EASY");
     setQuizType("LOGO");
     setFaceQuizMode("LEAGUE");
-    setSelectedLeagues(new Set(availableLeagues));
+    setSelectedLeagues(new Set(availableLeaguesByType.LOGO));
     setSelectedFaceTeamIds(new Set());
     setTeamSearch("");
     setError(null);
@@ -518,6 +521,7 @@ export default function App() {
                   }`}
                   onClick={() => {
                     setQuizType(option.value);
+                    setSelectedLeagues(new Set(option.value === "FACE" ? availableLeaguesByType.FACE : availableLeaguesByType.LOGO));
                     if (option.value === "FACE") {
                       setScreen("faceScope");
                     } else {
@@ -654,7 +658,7 @@ export default function App() {
                 <>
                   <p>Select leagues</p>
                   <div className="league-grid">
-                    {availableLeagues.map((league) => (
+                    {(quizType === "FACE" ? availableLeaguesByType.FACE : availableLeaguesByType.LOGO).map((league) => (
                       <label key={league} className="league-chip">
                         <input
                           type="checkbox"

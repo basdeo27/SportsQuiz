@@ -29,6 +29,11 @@ class QuizController(private val quizService: QuizService) {
         return quizService.getFaceTeamOptions(leagues ?: emptySet())
     }
 
+    @GetMapping("/leagues")
+    fun getAvailableLeagues(): Map<QuizType, List<League>> {
+        return quizService.getAvailableLeagues()
+    }
+
     @GetMapping("/{quizId}")
     fun getQuiz(@PathVariable quizId: String): QuizReviewResponse {
         return quizService.getQuiz(quizId)

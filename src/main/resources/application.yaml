@@ -16,8 +16,9 @@ quiz:
   settings:
     min-questions: 1
     max-questions: 25
-    disabled-leagues:
+    disabled-logo-leagues:
       - EPL
+    disabled-face-leagues: []
   dynamo:
     endpoint: "https://dynamodb.eu-west-2.amazonaws.com"
     region: eu-west-2

@@ -2,6 +2,7 @@ package com.elliotmoose.Sports.Quiz.quiz
 
 import com.elliotmoose.Sports.Quiz.model.*
 import com.elliotmoose.Sports.Quiz.quiz.difficulty.DifficultyService
+import com.elliotmoose.Sports.Quiz.quiz.properties.QuizSettingsProperties
 import com.elliotmoose.Sports.Quiz.quiz.repository.QuestionRepository
 import com.elliotmoose.Sports.Quiz.results.model.QuizResult
 import com.elliotmoose.Sports.Quiz.results.repository.ResultRepository
@@ -15,7 +16,8 @@ class QuizService(
     private val questionRepository: QuestionRepository,
     private val resultRepository: ResultRepository,
     private val difficultyService: DifficultyService,
-    private val requestValidationService: QuizRequestValidationService
+    private val requestValidationService: QuizRequestValidationService,
+    private val settings: QuizSettingsProperties
 ) {
 
     private val quizzes = ConcurrentHashMap<String, Quiz>()
@@ -182,6 +184,11 @@ class QuizService(
             .replace(Regex("\\s+"), " ")
             .trim()
     }
+
+    fun getAvailableLeagues(): Map<QuizType, List<League>> = mapOf(
+        QuizType.LOGO to League.entries.filter { it !in settings.disabledLogoLeagues },
+        QuizType.FACE to League.entries.filter { it !in settings.disabledFaceLeagues }
+    )
 
     companion object {
         private const val SINGLE_USER_ID = "single-user"

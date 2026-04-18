@@ -107,7 +107,7 @@ class LocalQuizRepository(private val objectMapper: ObjectMapper) : QuestionRepo
     }
 
     private fun loadFacesData(): Map<League, List<FaceEntry>> {
-        val supportedLeagues = listOf(League.NBA, League.NHL, League.MLB, League.NFL)
+        val supportedLeagues = listOf(League.NBA, League.NHL, League.MLB, League.NFL, League.EPL)
         return supportedLeagues.associateWith { league ->
             val resource = ClassPathResource("data/faces/${league.name.lowercase()}.json")
             objectMapper.readValue(resource.inputStream, object : TypeReference<List<FaceEntry>>() {})

@@ -15,6 +15,7 @@ DIFFICULTIES = ("EASY", "MEDIUM", "HARD")
 DEFAULT_TIMEOUT_MS = 300000
 DEFAULT_BATCH_SIZE = 10
 DEFAULT_PROVIDER = "claude"
+MAX_RETRIES = 3
 DEFAULT_MODELS = {
     "claude": "claude-3-7-sonnet-latest",
     "mistral": "mistral-large-latest",
@@ -319,11 +320,11 @@ def normalize_hint_list(entry_id: str, hints: dict[str, Any]) -> dict[str, list[
     return normalized
 
 
-def validate_payload(
+def validate_structure(
     payload: dict[str, Any],
     entries: list[dict[str, Any]],
-    quiz_type: str,
 ) -> dict[str, dict[str, list[str]]]:
+    """Validates response structure and returns hints keyed by entry ID. Raises on bad shape."""
     generated_entries = payload.get("teams")
     if not isinstance(generated_entries, list):
         raise ValueError("Response JSON must include a `teams` array.")
@@ -349,23 +350,32 @@ def validate_payload(
             f"Generated ids did not match input ids. Missing={missing_ids}, extra={extra_ids}"
         )
 
+    return by_id
+
+
+def find_name_violations(
+    by_id: dict[str, dict[str, list[str]]],
+    entries: list[dict[str, Any]],
+    quiz_type: str,
+) -> list[dict[str, Any]]:
+    """Returns the subset of entries whose generated hints reveal the entry name."""
+    violations = []
     for entry in entries:
         full_name = entry["name"].strip().lower()
         names_to_check = [full_name]
         if quiz_type == "face":
-            # Also guard against last name alone being revealed
             last_name = full_name.split()[-1]
             if last_name != full_name:
                 names_to_check.append(last_name)
-        for difficulty, hints in by_id[entry["id"]].items():
-            for hint in hints:
-                for name in names_to_check:
-                    if name in hint.lower():
-                        raise ValueError(
-                            f"{entry['id']}: {difficulty} hint reveals the name: {hint!r}"
-                        )
-
-    return by_id
+        hints_for_entry = by_id.get(entry["id"], {})
+        if any(
+            name in hint.lower()
+            for hints in hints_for_entry.values()
+            for hint in hints
+            for name in names_to_check
+        ):
+            violations.append(entry)
+    return violations
 
 
 def merge_hints(
@@ -398,17 +408,28 @@ def main() -> int:
             f"Requesting hints for batch {batch_index} of "
             f"{len(batches)} ({len(batch)} entries)..."
         )
-        if args.type == "face":
-            prompt = build_face_prompt(args.league, batch)
-        else:
-            prompt = build_logo_prompt(args.league, batch)
+        prompt = build_face_prompt(args.league, batch) if args.type == "face" else build_logo_prompt(args.league, batch)
+        payload = client.request_hints(model=model, prompt=prompt, timeout_ms=args.timeout_ms)
+        by_id = validate_structure(payload, batch)
 
-        payload = client.request_hints(
-            model=model,
-            prompt=prompt,
-            timeout_ms=args.timeout_ms,
-        )
-        generated_hints.update(validate_payload(payload, batch, args.type))
+        # Retry any entries whose hints reveal the player/team name
+        to_retry = find_name_violations(by_id, batch, args.type)
+        for attempt in range(1, MAX_RETRIES + 1):
+            if not to_retry:
+                break
+            names = [e["name"] for e in to_retry]
+            print(f"  {len(to_retry)} entries revealed names in hints, retrying (attempt {attempt}/{MAX_RETRIES}): {names}")
+            retry_prompt = build_face_prompt(args.league, to_retry) if args.type == "face" else build_logo_prompt(args.league, to_retry)
+            retry_payload = client.request_hints(model=model, prompt=retry_prompt, timeout_ms=args.timeout_ms)
+            retry_by_id = validate_structure(retry_payload, to_retry)
+            by_id.update(retry_by_id)
+            to_retry = find_name_violations(retry_by_id, to_retry, args.type)
+
+        if to_retry:
+            names = [e["name"] for e in to_retry]
+            raise SystemExit(f"Entries still revealed names after {MAX_RETRIES} retries: {names}")
+
+        generated_hints.update(by_id)
 
     updated_entries = merge_hints(entries, generated_hints)
 
