@@ -64,6 +64,11 @@ jobs:
           load: true
           tags: sports-quiz:${{ env.IMAGE_TAG }}
 
+      - name: Install lightsailctl
+        run: |
+          sudo curl -fsSL https://github.com/aws/lightsailctl/releases/latest/download/lightsailctl-linux-amd64 -o /usr/local/bin/lightsailctl
+          sudo chmod +x /usr/local/bin/lightsailctl
+
       - name: Push image to Lightsail container registry
         id: push-image
         run: |
