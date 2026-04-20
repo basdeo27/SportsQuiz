@@ -1,7 +1,7 @@
 package com.elliotmoose.Sports.Quiz.results.repository
 
-import com.elliotmoose.Sports.Quiz.model.League
-import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
+import com.elliotmoose.Sports.Quiz.quiz.model.League
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizDifficulty
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizDynamoProperties
 import com.elliotmoose.Sports.Quiz.results.model.QuizResult
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty

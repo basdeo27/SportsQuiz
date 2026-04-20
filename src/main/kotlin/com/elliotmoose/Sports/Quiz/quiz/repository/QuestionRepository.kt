@@ -1,10 +1,10 @@
 package com.elliotmoose.Sports.Quiz.quiz.repository
 
-import com.elliotmoose.Sports.Quiz.model.FaceTeamOption
-import com.elliotmoose.Sports.Quiz.model.League
-import com.elliotmoose.Sports.Quiz.model.Question
-import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
-import com.elliotmoose.Sports.Quiz.model.QuizType
+import com.elliotmoose.Sports.Quiz.quiz.model.FaceTeamOption
+import com.elliotmoose.Sports.Quiz.quiz.model.League
+import com.elliotmoose.Sports.Quiz.quiz.model.Question
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizDifficulty
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizType
 
 interface QuestionRepository {
     fun getQuestions(

@@ -11,4 +11,8 @@ class ResultsService(
     fun getResults(): List<QuizResult> {
         return resultRepository.getResults()
     }
+
+    fun saveResult(result: QuizResult) {
+        resultRepository.saveResult(result)
+    }
 }

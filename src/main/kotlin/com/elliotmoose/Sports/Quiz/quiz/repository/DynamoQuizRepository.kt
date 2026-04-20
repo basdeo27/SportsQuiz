@@ -1,17 +1,17 @@
 package com.elliotmoose.Sports.Quiz.quiz.repository
 
-import com.elliotmoose.Sports.Quiz.model.FaceTeamOption
-import com.elliotmoose.Sports.Quiz.model.HintUtils
+import com.elliotmoose.Sports.Quiz.quiz.model.FaceTeamOption
+import com.elliotmoose.Sports.Quiz.quiz.model.HintUtils
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizDynamoProperties
-import com.elliotmoose.Sports.Quiz.model.League
-import com.elliotmoose.Sports.Quiz.model.Question
-import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
-import com.elliotmoose.Sports.Quiz.model.QuizType
+import com.elliotmoose.Sports.Quiz.quiz.model.League
+import com.elliotmoose.Sports.Quiz.quiz.model.Question
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizDifficulty
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizType
 
 @Service
 @ConditionalOnProperty(prefix = "quiz.questions", name = ["storage"], havingValue = "dynamo")

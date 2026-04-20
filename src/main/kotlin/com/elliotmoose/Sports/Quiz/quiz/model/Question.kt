@@ -1,4 +1,4 @@
-package com.elliotmoose.Sports.Quiz.model
+package com.elliotmoose.Sports.Quiz.quiz.model
 
 data class Question(
     val id: String,

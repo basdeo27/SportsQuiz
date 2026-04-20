@@ -1,6 +1,6 @@
 package com.elliotmoose.Sports.Quiz.quiz
 
-import com.elliotmoose.Sports.Quiz.model.*
+import com.elliotmoose.Sports.Quiz.quiz.model.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

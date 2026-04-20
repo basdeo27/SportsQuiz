@@ -1,4 +1,9 @@
 quiz:
+  cors:
+    allowed-origins:
+      - https://d2323rgqey2wlv.cloudfront.net
+      - https://funsportsquiz.com
+      - http://localhost:5173
   dynamo:
     endpoint: http://localhost:8000
   settings:

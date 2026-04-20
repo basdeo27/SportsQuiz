@@ -24,23 +24,26 @@ class RequestLoggingFilter : OncePerRequestFilter() {
         try {
             filterChain.doFilter(request, response)
         } finally {
-            val elapsedMs = (System.nanoTime() - startNanos) / 1_000_000.0
+            val durationMs = (System.nanoTime() - startNanos) / 1_000_000.0
+            val status = response.status
+            val outcome = when {
+                status < 400 -> "SUCCESS"
+                status < 500 -> "CLIENT_ERROR"
+                else         -> "SERVER_ERROR"
+            }
             requestLogger.info(
-                "{} {} -> {} in {} ms",
+                "{{ \"method\": \"{}\", \"path\": \"{}\", \"status\": {}, \"durationMs\": {}, \"outcome\": \"{}\" }}",
                 method,
                 path,
-                response.status,
-                String.format("%.1f", elapsedMs)
+                status,
+                String.format("%.1f", durationMs),
+                outcome
             )
         }
     }
 
     private fun buildPath(request: HttpServletRequest): String {
         val query = request.queryString
-        return if (query.isNullOrBlank()) {
-            request.requestURI
-        } else {
-            "${request.requestURI}?$query"
-        }
+        return if (query.isNullOrBlank()) request.requestURI else "${request.requestURI}?$query"
     }
 }

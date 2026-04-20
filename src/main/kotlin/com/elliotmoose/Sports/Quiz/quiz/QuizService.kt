@@ -1,11 +1,11 @@
 package com.elliotmoose.Sports.Quiz.quiz
 
-import com.elliotmoose.Sports.Quiz.model.*
 import com.elliotmoose.Sports.Quiz.quiz.difficulty.DifficultyService
+import com.elliotmoose.Sports.Quiz.quiz.model.*
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizSettingsProperties
 import com.elliotmoose.Sports.Quiz.quiz.repository.QuestionRepository
+import com.elliotmoose.Sports.Quiz.results.ResultsService
 import com.elliotmoose.Sports.Quiz.results.model.QuizResult
-import com.elliotmoose.Sports.Quiz.results.repository.ResultRepository
 import org.springframework.stereotype.Service
 import java.security.SecureRandom
 import java.util.*
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
 @Service
 class QuizService(
     private val questionRepository: QuestionRepository,
-    private val resultRepository: ResultRepository,
+    private val resultsService: ResultsService,
     private val difficultyService: DifficultyService,
     private val requestValidationService: QuizRequestValidationService,
     private val settings: QuizSettingsProperties
@@ -141,7 +141,7 @@ class QuizService(
     private fun markCompletedIfDone(quiz: Quiz): Quiz {
         if (quiz.completedAtMillis != null) {
             if (savedResults.add(quiz.id)) {
-                resultRepository.saveResult(buildResult(quiz))
+                resultsService.saveResult(buildResult(quiz))
             }
             return quiz
         }
@@ -151,7 +151,7 @@ class QuizService(
         return if (allDone) {
             val completedQuiz = quiz.copy(completedAtMillis = System.currentTimeMillis())
             if (savedResults.add(completedQuiz.id)) {
-                resultRepository.saveResult(buildResult(completedQuiz))
+                resultsService.saveResult(buildResult(completedQuiz))
             }
             completedQuiz
         } else {

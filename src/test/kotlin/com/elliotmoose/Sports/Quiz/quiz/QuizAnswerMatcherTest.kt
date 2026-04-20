@@ -1,7 +1,5 @@
 package com.elliotmoose.Sports.Quiz.quiz
 
-import com.elliotmoose.Sports.Quiz.model.League
-import com.elliotmoose.Sports.Quiz.model.Question
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

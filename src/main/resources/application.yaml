@@ -4,11 +4,25 @@ spring:
   profiles:
     active: prod
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, info
+  endpoint:
+    health:
+      show-details: never
+
+ai:
+  mistral:
+    api-key: ${MISTRAL_API_KEY:}
+    model: mistral-small-latest
+
 quiz:
   cors:
     allowed-origins:
       - https://d2323rgqey2wlv.cloudfront.net
-      - http://localhost:5173
+      - https://funsportsquiz.com
   questions:
     storage: local
   results:
@@ -25,5 +39,5 @@ quiz:
     teams-table-name: sports-quiz-teams
     results-table-name: sports-quiz-results
     seed: false
-    access-key: ${AWS_ACCESS_KEY:}
-    secret-key: ${AWS_SECRET_CODE:}
+    access-key: ${AWS_ACCESS_KEY_ID:}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:}

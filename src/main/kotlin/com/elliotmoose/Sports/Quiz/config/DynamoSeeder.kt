@@ -1,9 +1,9 @@
 package com.elliotmoose.Sports.Quiz.config
 
-import com.elliotmoose.Sports.Quiz.model.League
-import com.elliotmoose.Sports.Quiz.model.HintUtils
-import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
-import com.elliotmoose.Sports.Quiz.model.TeamEntry
+import com.elliotmoose.Sports.Quiz.quiz.model.League
+import com.elliotmoose.Sports.Quiz.quiz.model.HintUtils
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizDifficulty
+import com.elliotmoose.Sports.Quiz.quiz.model.TeamEntry
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizDynamoProperties
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizQuestionStorageProperties
 import com.elliotmoose.Sports.Quiz.results.properties.ResultsStorageProperties

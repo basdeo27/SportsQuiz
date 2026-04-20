@@ -1,13 +1,13 @@
 package com.elliotmoose.Sports.Quiz.quiz.repository
 
-import com.elliotmoose.Sports.Quiz.model.League
-import com.elliotmoose.Sports.Quiz.model.Question
-import com.elliotmoose.Sports.Quiz.model.FaceEntry
-import com.elliotmoose.Sports.Quiz.model.FaceTeamOption
-import com.elliotmoose.Sports.Quiz.model.HintUtils
-import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
-import com.elliotmoose.Sports.Quiz.model.QuizType
-import com.elliotmoose.Sports.Quiz.model.TeamEntry
+import com.elliotmoose.Sports.Quiz.quiz.model.League
+import com.elliotmoose.Sports.Quiz.quiz.model.Question
+import com.elliotmoose.Sports.Quiz.quiz.model.FaceEntry
+import com.elliotmoose.Sports.Quiz.quiz.model.FaceTeamOption
+import com.elliotmoose.Sports.Quiz.quiz.model.HintUtils
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizDifficulty
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizType
+import com.elliotmoose.Sports.Quiz.quiz.model.TeamEntry
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty

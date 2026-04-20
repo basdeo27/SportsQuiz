@@ -1,8 +1,8 @@
 package com.elliotmoose.Sports.Quiz.quiz.difficulty
 
-import com.elliotmoose.Sports.Quiz.model.League
-import com.elliotmoose.Sports.Quiz.model.Question
-import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
+import com.elliotmoose.Sports.Quiz.quiz.model.League
+import com.elliotmoose.Sports.Quiz.quiz.model.Question
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizDifficulty
 import com.elliotmoose.Sports.Quiz.quiz.QuizAnswerMatcher
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

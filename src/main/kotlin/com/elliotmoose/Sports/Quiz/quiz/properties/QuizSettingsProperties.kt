@@ -1,6 +1,6 @@
 package com.elliotmoose.Sports.Quiz.quiz.properties
 
-import com.elliotmoose.Sports.Quiz.model.League
+import com.elliotmoose.Sports.Quiz.quiz.model.League
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties("quiz.settings")

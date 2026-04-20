@@ -207,7 +207,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/quiz/face-teams`);
+      const response = await fetch(`${API_BASE_URL}/quiz/teams`);
       if (!response.ok) {
         const payload = (await response.json()) as { message?: string };
         throw new Error(payload.message || "Failed to load face teams.");

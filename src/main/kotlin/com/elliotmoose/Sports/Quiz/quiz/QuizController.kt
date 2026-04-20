@@ -1,6 +1,6 @@
 package com.elliotmoose.Sports.Quiz.quiz
 
-import com.elliotmoose.Sports.Quiz.model.*
+import com.elliotmoose.Sports.Quiz.quiz.model.*
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 
@@ -24,8 +24,8 @@ class QuizController(private val quizService: QuizService) {
         return quizService.skipQuestion(req)
     }
 
-    @GetMapping("/face-teams")
-    fun getFaceTeams(@RequestParam(required = false) leagues: Set<League>?): List<FaceTeamOption> {
+    @GetMapping("/teams")
+    fun getTeams(@RequestParam(required = false) leagues: Set<League>?): List<FaceTeamOption> {
         return quizService.getFaceTeamOptions(leagues ?: emptySet())
     }
 

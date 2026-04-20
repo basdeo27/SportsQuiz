@@ -1,5 +1,6 @@
 package com.elliotmoose.Sports.Quiz.config
 
+import com.elliotmoose.Sports.Quiz.ai.properties.AiProperties
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizDynamoProperties
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizQuestionStorageProperties
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizSettingsProperties
@@ -14,7 +15,8 @@ import org.springframework.context.annotation.Configuration
         QuizQuestionStorageProperties::class,
         QuizDynamoProperties::class,
         ResultsStorageProperties::class,
-        QuizCorsProperties::class
+        QuizCorsProperties::class,
+        AiProperties::class
     ]
 )
 class AppConfig

@@ -1,6 +1,6 @@
 package com.elliotmoose.Sports.Quiz.quiz
 
-import com.elliotmoose.Sports.Quiz.model.*
+import com.elliotmoose.Sports.Quiz.quiz.model.*
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizSettingsProperties
 import org.springframework.stereotype.Service
 

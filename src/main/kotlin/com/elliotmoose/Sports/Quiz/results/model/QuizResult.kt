@@ -1,7 +1,7 @@
 package com.elliotmoose.Sports.Quiz.results.model
 
-import com.elliotmoose.Sports.Quiz.model.League
-import com.elliotmoose.Sports.Quiz.model.QuizDifficulty
+import com.elliotmoose.Sports.Quiz.quiz.model.League
+import com.elliotmoose.Sports.Quiz.quiz.model.QuizDifficulty
 
 data class QuizResult(
     val quizId: String,
