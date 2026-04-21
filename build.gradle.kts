@@ -29,6 +29,7 @@ dependencies {
 	implementation("software.amazon.awssdk:dynamodb:2.25.65")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
 	testImplementation("au.com.dius.pact.consumer:junit5:$pactVersion")
 	testImplementation("au.com.dius.pact.provider:junit5:$pactVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -40,14 +41,33 @@ kotlin {
 	}
 }
 
-// Consumer tests run first — they generate the pact files that the provider test reads.
-// Consumer tests run as a dedicated task first, generating the pact file in build/pacts/.
-// The main test task depends on this so the provider test always finds an up-to-date pact.
+/*// Pact consumer test — generates pact files in build/pacts/.
 val pactConsumerTest by tasks.registering(Test::class) {
 	useJUnitPlatform()
-	filter { includeTestsMatching("*PactConsumerTest") }
+	filter {
+		includeTestsMatching("*PactConsumerTest")
+		isFailOnNoMatchingTests = false
+	}
 }
 
-tasks.test {
-	dependsOn(pactConsumerTest)
+// Pact provider test — reads the pact files generated above and verifies the running app.
+val pactProviderTest by tasks.registering(Test::class) {
+	useJUnitPlatform()
+	filter {
+		includeTestsMatching("*PactProviderTest")
+		isFailOnNoMatchingTests = false
+	}
+	shouldRunAfter(pactConsumerTest)
 }
+
+// Main test task runs all non-pact tests.
+// Pact tests live in their own tasks so that Gradle's --tests filter
+// (which applies to every Test task in the graph) doesn't interfere
+// with normal test discovery when targeting a specific class.
+tasks.test {
+	dependsOn(pactConsumerTest, pactProviderTest)
+	filter {
+		excludeTestsMatching("*Pact*")
+		isFailOnNoMatchingTests = false
+	}
+}*/

@@ -2,6 +2,7 @@ package com.elliotmoose.Sports.Quiz.ai
 
 import com.elliotmoose.Sports.Quiz.ai.properties.AiProperties
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -41,15 +42,23 @@ class MistralAiSupplier(
             .POST(HttpRequest.BodyPublishers.ofString(requestBody))
             .build()
 
-        val response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString())
+        return try {
+            val response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString())
 
-        if (response.statusCode() != 200) {
-            log.error("Mistral API returned status ${response.statusCode()}: ${response.body()}")
-            return FALLBACK_SUMMARY
+            if (response.statusCode() != 200) {
+                log.error("Mistral API returned status ${response.statusCode()}: ${response.body()}")
+                return FALLBACK_SUMMARY
+            }
+
+            val parsed = objectMapper.readValue(response.body(), MistralResponse::class.java)
+            parsed.choices.firstOrNull()?.message?.content?.trim() ?: run {
+                log.error("Mistral response contained no choices: ${response.body()}")
+                FALLBACK_SUMMARY
+            }
+        } catch (e: Exception) {
+            log.error("Mistral API call failed: ${e.message}", e)
+            FALLBACK_SUMMARY
         }
-
-        val parsed = objectMapper.readValue(response.body(), MistralResponse::class.java)
-        return parsed.choices.firstOrNull()?.message?.content?.trim() ?: FALLBACK_SUMMARY
     }
 
     companion object {
@@ -61,7 +70,7 @@ class MistralAiSupplier(
 private data class MistralRequest(
     val model: String,
     val messages: List<MistralMessage>,
-    val maxTokens: Int
+    @JsonProperty("max_tokens") val maxTokens: Int
 )
 
 private data class MistralMessage(

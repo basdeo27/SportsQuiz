@@ -23,6 +23,7 @@ quiz:
     allowed-origins:
       - https://d2323rgqey2wlv.cloudfront.net
       - https://funsportsquiz.com
+      - http://localhost:5173
   questions:
     storage: local
   results:
