@@ -519,6 +519,57 @@ body {
   color: #f7c660;
 }
 
+.ai-summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px 0 20px;
+}
+
+.ai-summary__text {
+  font-size: 15px;
+  color: #f8f7f2;
+  text-align: center;
+  line-height: 1.6;
+  opacity: 0.9;
+  font-style: italic;
+  margin: 0;
+}
+
+.ai-summary__loading {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ai-summary__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f7c660;
+  animation: ai-pulse 1.2s ease-in-out infinite;
+}
+
+.ai-summary__dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ai-summary__dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes ai-pulse {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 720px) {
   .app__header {
     flex-direction: column;

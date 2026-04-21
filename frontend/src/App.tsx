@@ -124,6 +124,8 @@ export default function App() {
     Record<string, number>
   >({});
   const [reviewData, setReviewData] = useState<QuizReviewResponse | null>(null);
+  const [aiSummary, setAiSummary] = useState<string | null>(null);
+  const [aiSummaryLoading, setAiSummaryLoading] = useState(false);
   const [hintsByQuestion, setHintsByQuestion] = useState<Record<string, string>>(
     {}
   );
@@ -163,6 +165,8 @@ export default function App() {
     setSkippedCount(0);
     setAttemptsByQuestion({});
     setReviewData(null);
+    setAiSummary(null);
+    setAiSummaryLoading(false);
     setHintsByQuestion({});
     setHintedCount(0);
     setDifficulty("EASY");
@@ -439,12 +443,32 @@ export default function App() {
     setHintedCount((prev) => prev + 1);
   };
 
+  const fetchAiSummary = async (id: string) => {
+    setAiSummaryLoading(true);
+    setAiSummary(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/ai/quiz-summary`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quizId: id }),
+      });
+      if (!response.ok) return;
+      const payload = (await response.json()) as { summary: string };
+      setAiSummary(payload.summary);
+    } catch {
+      // silent — AI summary is non-critical
+    } finally {
+      setAiSummaryLoading(false);
+    }
+  };
+
   const fetchReviewData = async (showReview: boolean) => {
     if (!quizId) {
       return;
     }
     setLoading(true);
     setError(null);
+    fetchAiSummary(quizId);
     try {
       const response = await fetch(`${API_BASE_URL}/quiz/${quizId}`);
       if (!response.ok) {
@@ -864,6 +888,17 @@ export default function App() {
                 </div>
               </div>
             )}
+            <div className="ai-summary">
+              {aiSummaryLoading ? (
+                <div className="ai-summary__loading">
+                  <span className="ai-summary__dot" />
+                  <span className="ai-summary__dot" />
+                  <span className="ai-summary__dot" />
+                </div>
+              ) : aiSummary ? (
+                <p className="ai-summary__text">{aiSummary}</p>
+              ) : null}
+            </div>
             <div className="review__list">
               {reviewData?.questions.map((result, index) => (
                 <article key={result.id} className="review__item">
