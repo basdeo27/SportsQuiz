@@ -8,6 +8,7 @@ data class QuizDynamoProperties(
     val region: String = "us-east-1",
     val teamsTableName: String = "sports-quiz-teams",
     val resultsTableName: String = "sports-quiz-results",
+    val accountsTableName: String = "sports-quiz-accounts",
     val seed: Boolean = false,
     val accessKey: String? = null,
     val secretKey: String? = null

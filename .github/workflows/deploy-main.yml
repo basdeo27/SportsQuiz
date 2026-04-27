@@ -85,15 +85,21 @@ jobs:
         env:
           LIGHTSAIL_IMAGE: ${{ steps.push-image.outputs.lightsail_image }}
           SERVICE_NAME: ${{ secrets.LIGHTSAIL_SERVICE_NAME }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          AWS_DYNAMO_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_DYNAMO_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           CONTAINERS=$(jq -n \
             --arg image "$LIGHTSAIL_IMAGE" \
-            '{"app":{"image":$image,"ports":{"8080":"HTTP"}}}')
+            --arg mistralKey "$MISTRAL_API_KEY" \
+            --arg awsKey "$AWS_DYNAMO_ACCESS_KEY_ID" \
+            --arg awsSecret "$AWS_DYNAMO_SECRET_ACCESS_KEY" \
+            '{"app":{"image":$image,"ports":{"8080":"HTTP"},"environment":{"MISTRAL_API_KEY":$mistralKey,"AWS_ACCESS_KEY_ID":$awsKey,"AWS_SECRET_ACCESS_KEY":$awsSecret}}}')
           aws lightsail create-container-service-deployment \
             --region "$AWS_REGION" \
             --service-name "$SERVICE_NAME" \
             --containers "$CONTAINERS" \
-            --public-endpoint '{"containerName":"app","containerPort":8080}'
+            --public-endpoint '{"containerName":"app","containerPort":8080,"healthCheck":{"path":"/ping","intervalSeconds":10,"timeoutSeconds":5,"healthyThreshold":2,"unhealthyThreshold":3}}'
 
   deploy-frontend:
     needs: test

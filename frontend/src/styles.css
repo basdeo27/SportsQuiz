@@ -29,6 +29,18 @@ body {
   padding: 24px clamp(20px, 5vw, 64px);
 }
 
+.app__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-nickname {
+  font-weight: 600;
+  color: #f7c660;
+  font-size: 14px;
+}
+
 .brand {
   font-family: "Bebas Neue", sans-serif;
   letter-spacing: 0.08em;
@@ -568,6 +580,99 @@ body {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+.account-menu {
+  position: relative;
+}
+
+.account-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 280px;
+  background: rgba(12, 20, 32, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.account-panel__header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.account-panel__nickname {
+  font-weight: 700;
+  font-size: 15px;
+  color: #f7c660;
+}
+
+.account-panel__history {
+  padding: 14px 20px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.account-panel__section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.account-panel__quiz-item {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.account-panel__quiz-item:last-of-type {
+  border-bottom: none;
+}
+
+.account-panel__quiz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.account-panel__score {
+  font-weight: 600;
+  font-size: 14px;
+  color: #f8f7f2;
+}
+
+.account-panel__quiz-date {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.account-panel__empty {
+  font-size: 13px;
+  color: #64748b;
+  padding: 6px 0;
+}
+
+.account-panel__load-more {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.account-panel__footer {
+  padding: 12px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.account-panel__logout {
+  width: 100%;
 }
 
 @media (max-width: 720px) {

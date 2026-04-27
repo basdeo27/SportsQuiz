@@ -54,10 +54,10 @@ class QuizAnswerMatcher {
 
         val answerTokens = normalizedAnswer.split(" ").filter { it.isNotBlank() }
         val candidateTokens = normalizedCandidate.split(" ").filter { it.isNotBlank() }
-        if (candidateTokens.isNotEmpty()) {
-            val matchingTokens = candidateTokens.count { token -> answerTokens.contains(token) }
-            val tokenMatchRatio = matchingTokens.toDouble() / candidateTokens.size
-            if (tokenMatchRatio >= TOKEN_MATCH_THRESHOLD) {
+        if (candidateTokens.isNotEmpty() && answerTokens.isNotEmpty()) {
+            val forwardRatio = candidateTokens.count { token -> answerTokens.contains(token) }.toDouble() / candidateTokens.size
+            val reverseRatio = answerTokens.count { token -> candidateTokens.contains(token) }.toDouble() / answerTokens.size
+            if (forwardRatio >= TOKEN_MATCH_THRESHOLD && reverseRatio >= TOKEN_MATCH_THRESHOLD) {
                 return true
             }
         }
@@ -96,7 +96,7 @@ class QuizAnswerMatcher {
     }
 
     companion object {
-        private const val EASY_MATCH_THRESHOLD = 0.8
+        private const val EASY_MATCH_THRESHOLD = 0.85
         private const val TOKEN_MATCH_THRESHOLD = 0.75
     }
 }

@@ -1,5 +1,8 @@
 package com.elliotmoose.Sports.Quiz.error
 
+import com.elliotmoose.Sports.Quiz.account.AccountAlreadyExistsException
+import com.elliotmoose.Sports.Quiz.account.AccountNotFoundException
+import com.elliotmoose.Sports.Quiz.account.InvalidCredentialsException
 import com.elliotmoose.Sports.Quiz.quiz.InvalidQuizRequestException
 import com.elliotmoose.Sports.Quiz.quiz.QuestionNotFoundException
 import com.elliotmoose.Sports.Quiz.quiz.QuizNotFoundException
@@ -31,6 +34,21 @@ class ApiExceptionHandler {
             ?: ex.bindingResult.globalErrors.firstOrNull()?.defaultMessage
             ?: "Invalid request."
         return ResponseEntity(ApiError(firstError), HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(AccountNotFoundException::class)
+    fun handleAccountNotFound(ex: AccountNotFoundException): ResponseEntity<ApiError> {
+        return ResponseEntity(ApiError(ex.message ?: "Account not found."), HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(AccountAlreadyExistsException::class)
+    fun handleAccountAlreadyExists(ex: AccountAlreadyExistsException): ResponseEntity<ApiError> {
+        return ResponseEntity(ApiError(ex.message ?: "Username already taken."), HttpStatus.CONFLICT)
+    }
+
+    @ExceptionHandler(InvalidCredentialsException::class)
+    fun handleInvalidCredentials(ex: InvalidCredentialsException): ResponseEntity<ApiError> {
+        return ResponseEntity(ApiError(ex.message ?: "Invalid credentials."), HttpStatus.UNAUTHORIZED)
     }
 
     @ExceptionHandler(Exception::class)

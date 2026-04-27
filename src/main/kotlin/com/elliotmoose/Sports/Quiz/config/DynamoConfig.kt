@@ -3,7 +3,6 @@ package com.elliotmoose.Sports.Quiz.config
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizDynamoProperties
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizQuestionStorageProperties
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizSettingsProperties
-import com.elliotmoose.Sports.Quiz.results.properties.ResultsStorageProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,8 +19,7 @@ import java.net.URI
     value = [
         QuizDynamoProperties::class,
         QuizQuestionStorageProperties::class,
-        QuizSettingsProperties::class,
-        ResultsStorageProperties::class
+        QuizSettingsProperties::class
     ]
 )
 class DynamoConfig(private val properties: QuizDynamoProperties) {

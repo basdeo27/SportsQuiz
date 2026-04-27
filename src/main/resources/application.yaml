@@ -19,14 +19,13 @@ ai:
     model: mistral-small-latest
 
 quiz:
+  storage: ${QUIZ_STORAGE:local}
   cors:
     allowed-origins:
       - https://d2323rgqey2wlv.cloudfront.net
       - https://funsportsquiz.com
       - http://localhost:5173
   questions:
-    storage: local
-  results:
     storage: local
   settings:
     min-questions: 1
@@ -40,5 +39,5 @@ quiz:
     teams-table-name: sports-quiz-teams
     results-table-name: sports-quiz-results
     seed: false
-    access-key: ${AWS_ACCESS_KEY_ID:}
-    secret-key: ${AWS_SECRET_ACCESS_KEY:}
+    access-key: ${AWS_DYNAMO_ACCESS_KEY_ID:}
+    secret-key: ${AWS_DYNAMO_SECRET_ACCESS_KEY:}

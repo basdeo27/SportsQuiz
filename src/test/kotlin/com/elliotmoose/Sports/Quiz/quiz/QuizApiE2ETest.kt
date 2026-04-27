@@ -13,7 +13,7 @@ import org.springframework.http.*
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     properties = [
         "quiz.questions.storage=local",
-        "quiz.results.storage=local"
+        "quiz.storage=local"
     ]
 )
 class QuizApiE2ETest {

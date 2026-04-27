@@ -15,7 +15,7 @@ import org.springframework.http.*
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     properties = [
         "quiz.questions.storage=local",
-        "quiz.results.storage=local"
+        "quiz.storage=local"
     ]
 )
 class ResultsApiE2ETest {
@@ -33,7 +33,7 @@ class ResultsApiE2ETest {
     @Test
     fun `results endpoint returns 200 with a valid response shape`() {
         val response = restTemplate.getForEntity(
-            "http://localhost:$port/v0/quiz/results",
+            "http://localhost:$port/v0/quiz/results?userId=single-user",
             QuizResultsResponse::class.java
         )
 
@@ -168,7 +168,7 @@ class ResultsApiE2ETest {
 
     private fun getResults(): List<QuizResult> {
         return restTemplate
-            .getForEntity("http://localhost:$port/v0/quiz/results", QuizResultsResponse::class.java)
+            .getForEntity("http://localhost:$port/v0/quiz/results?userId=single-user", QuizResultsResponse::class.java)
             .body
             ?.results
             ?: emptyList()

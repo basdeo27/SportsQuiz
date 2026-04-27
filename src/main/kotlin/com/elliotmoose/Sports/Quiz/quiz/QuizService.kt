@@ -38,8 +38,10 @@ class QuizService(
         Collections.shuffle(shuffledQuestions, secureRandom)
         val quizQuestions = shuffledQuestions.take(quizRequest.numberOfQuestions)
         val quiz = Quiz(
+            type = quizRequest.type,
             difficulty = quizRequest.difficulty,
             questions = quizQuestions,
+            accountId = quizRequest.accountId
         )
         quizzes[quiz.id] = quiz
         attemptsByQuiz[quiz.id] = ConcurrentHashMap()
@@ -164,7 +166,8 @@ class QuizService(
         val leagues = quiz.questions.map { it.league }.toSet()
         return QuizResult(
             quizId = quiz.id,
-            userId = SINGLE_USER_ID,
+            userId = quiz.accountId ?: SINGLE_USER_ID,
+            quizType = quiz.type,
             difficulty = quiz.difficulty,
             leagues = leagues,
             totalQuestions = summary.totalQuestions,

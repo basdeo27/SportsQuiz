@@ -27,6 +27,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("software.amazon.awssdk:dynamodb:2.25.65")
+	implementation("org.springframework.security:spring-security-crypto")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
@@ -41,8 +42,8 @@ kotlin {
 	}
 }
 
-/*// Pact consumer test — generates pact files in build/pacts/.
-val pactConsumerTest by tasks.registering(Test::class) {
+// Pact consumer test — generates pact files in build/pacts/.
+/*val pactConsumerTest by tasks.registering(Test::class) {
 	useJUnitPlatform()
 	filter {
 		includeTestsMatching("*PactConsumerTest")
@@ -65,6 +66,7 @@ val pactProviderTest by tasks.registering(Test::class) {
 // (which applies to every Test task in the graph) doesn't interfere
 // with normal test discovery when targeting a specific class.
 tasks.test {
+	useJUnitPlatform()
 	dependsOn(pactConsumerTest, pactProviderTest)
 	filter {
 		excludeTestsMatching("*Pact*")

@@ -6,10 +6,10 @@ import com.elliotmoose.Sports.Quiz.quiz.model.QuizDifficulty
 import com.elliotmoose.Sports.Quiz.quiz.model.TeamEntry
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizDynamoProperties
 import com.elliotmoose.Sports.Quiz.quiz.properties.QuizQuestionStorageProperties
-import com.elliotmoose.Sports.Quiz.results.properties.ResultsStorageProperties
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,18 +23,21 @@ class DynamoSeeder(
     private val objectMapper: ObjectMapper,
     private val properties: QuizDynamoProperties,
     private val questionStorageProperties: QuizQuestionStorageProperties,
-    private val resultsStorageProperties: ResultsStorageProperties
+    @Value("\${quiz.storage:local}") private val storage: String
 ) {
     private val logger = LoggerFactory.getLogger(DynamoSeeder::class.java)
 
     @Bean
     fun dynamoSeederRunner(): ApplicationRunner {
         return ApplicationRunner {
-            if (resultsStorageProperties.storage == "dynamo") {
+            logger.info("Persistence: quiz.storage=$storage, quiz.questions.storage=${questionStorageProperties.storage}")
+
+            if (storage == "dynamo") {
                 try {
                     ensureResultsTable()
+                    ensureAccountsTable()
                 } catch (ex: Exception) {
-                    logger.warn("Skipping DynamoDB results table setup due to error: ${ex.message}")
+                    logger.warn("Skipping DynamoDB table setup due to error: ${ex.message}")
                 }
             }
 
@@ -119,6 +122,34 @@ class DynamoSeeder(
 
             dynamoDbClient.createTable(request)
             waitForTable(properties.resultsTableName)
+        }
+    }
+
+    private fun ensureAccountsTable() {
+        try {
+            dynamoDbClient.describeTable(
+                DescribeTableRequest.builder().tableName(properties.accountsTableName).build()
+            )
+        } catch (ex: ResourceNotFoundException) {
+            dynamoDbClient.createTable(
+                CreateTableRequest.builder()
+                    .tableName(properties.accountsTableName)
+                    .billingMode(BillingMode.PAY_PER_REQUEST)
+                    .attributeDefinitions(
+                        AttributeDefinition.builder()
+                            .attributeName("id")
+                            .attributeType(ScalarAttributeType.S)
+                            .build()
+                    )
+                    .keySchema(
+                        KeySchemaElement.builder()
+                            .attributeName("id")
+                            .keyType(KeyType.HASH)
+                            .build()
+                    )
+                    .build()
+            )
+            waitForTable(properties.accountsTableName)
         }
     }
 

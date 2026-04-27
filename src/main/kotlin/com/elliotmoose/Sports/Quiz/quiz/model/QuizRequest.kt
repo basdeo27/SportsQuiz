@@ -8,5 +8,6 @@ data class QuizRequest(
     val numberOfQuestions: Int,
     val difficulty: QuizDifficulty = QuizDifficulty.EASY,
     val type: QuizType = QuizType.LOGO,
-    val teamIds: Set<String> = emptySet()
+    val teamIds: Set<String> = emptySet(),
+    val accountId: String? = null
 )

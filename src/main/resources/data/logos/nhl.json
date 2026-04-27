@@ -19,12 +19,12 @@
     }
   },
   {
-    "id": "nhl-arizona-coyotes",
-    "name": "Arizona Coyotes",
+    "id": "nhl-utah-mammoth",
+    "name": "Utah Mammoth",
     "logoUrl": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/utah.png",
     "answers": [
-      "Coyotes",
-      "Yotes"
+      "Utah Mammoth",
+      "Mammoth"
     ],
     "hints": {
       "EASY": [

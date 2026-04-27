@@ -1,5 +1,7 @@
 # Sports Quiz App
 
+The quiz is live at [funsportsquiz.com](https://funsportsquiz.com).
+
 ## Backend (Spring Boot)
 
 From the repo root:

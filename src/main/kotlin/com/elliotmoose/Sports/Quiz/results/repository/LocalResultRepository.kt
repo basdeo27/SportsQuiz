@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 
 @Service
-@ConditionalOnProperty(prefix = "quiz.results", name = ["storage"], havingValue = "local", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "quiz", name = ["storage"], havingValue = "local", matchIfMissing = true)
 class LocalResultRepository : ResultRepository {
 
     private val results = ConcurrentHashMap<String, QuizResult>()
@@ -15,7 +15,11 @@ class LocalResultRepository : ResultRepository {
         results[result.quizId] = result
     }
 
-    override fun getResults(): List<QuizResult> {
-        return results.values.sortedByDescending { it.completedAtMillis }
+    override fun getResults(userId: String, limit: Int, before: Long?): List<QuizResult> {
+        return results.values
+            .filter { it.userId == userId }
+            .filter { before == null || it.completedAtMillis < before }
+            .sortedByDescending { it.completedAtMillis }
+            .take(limit)
     }
 }

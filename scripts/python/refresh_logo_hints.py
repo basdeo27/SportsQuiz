@@ -7,6 +7,7 @@ import json
 import os
 import sys
 import re
+import time
 from pathlib import Path
 from typing import Any
 
@@ -307,6 +308,28 @@ def chunked(items: list[dict[str, Any]], size: int) -> list[list[dict[str, Any]]
     return [items[index:index + size] for index in range(0, len(items), size)]
 
 
+RATE_LIMIT_SLEEP_SECONDS = 60
+
+
+def request_hints_with_retry(
+    client: HintGenerationClient, *, model: str, prompt: str, timeout_ms: int
+) -> dict[str, Any]:
+    while True:
+        try:
+            return client.request_hints(model=model, prompt=prompt, timeout_ms=timeout_ms)
+        except Exception as exc:
+            status = getattr(exc, "status_code", None) or getattr(exc, "status", None)
+            message = str(exc).lower()
+            is_rate_limit = status == 429 or "rate limit" in message or "429" in message
+            if not is_rate_limit:
+                raise
+            print(
+                f"Rate limited (429). Sleeping for {RATE_LIMIT_SLEEP_SECONDS} seconds before retrying...",
+                flush=True,
+            )
+            time.sleep(RATE_LIMIT_SLEEP_SECONDS)
+
+
 def normalize_hint_list(entry_id: str, hints: dict[str, Any]) -> dict[str, list[str]]:
     normalized: dict[str, list[str]] = {}
     for difficulty in DIFFICULTIES:
@@ -409,7 +432,7 @@ def main() -> int:
             f"{len(batches)} ({len(batch)} entries)..."
         )
         prompt = build_face_prompt(args.league, batch) if args.type == "face" else build_logo_prompt(args.league, batch)
-        payload = client.request_hints(model=model, prompt=prompt, timeout_ms=args.timeout_ms)
+        payload = request_hints_with_retry(client, model=model, prompt=prompt, timeout_ms=args.timeout_ms)
         by_id = validate_structure(payload, batch)
 
         # Retry any entries whose hints reveal the player/team name
@@ -420,7 +443,7 @@ def main() -> int:
             names = [e["name"] for e in to_retry]
             print(f"  {len(to_retry)} entries revealed names in hints, retrying (attempt {attempt}/{MAX_RETRIES}): {names}")
             retry_prompt = build_face_prompt(args.league, to_retry) if args.type == "face" else build_logo_prompt(args.league, to_retry)
-            retry_payload = client.request_hints(model=model, prompt=retry_prompt, timeout_ms=args.timeout_ms)
+            retry_payload = request_hints_with_retry(client, model=model, prompt=retry_prompt, timeout_ms=args.timeout_ms)
             retry_by_id = validate_structure(retry_payload, to_retry)
             by_id.update(retry_by_id)
             to_retry = find_name_violations(retry_by_id, to_retry, args.type)

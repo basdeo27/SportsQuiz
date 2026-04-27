@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import logo from "./assets/sports-quiz-logo.png";
 
 type League = "NBA" | "MLB" | "NFL" | "NHL" | "EPL";
@@ -84,12 +84,38 @@ const difficultyOptions = [
 
 type Screen =
   | "home"
+  | "login"
+  | "register"
   | "mode"
   | "faceScope"
   | "setup"
   | "quiz"
   | "complete"
   | "review";
+
+type AccountResponse = {
+  id: string;
+  username: string;
+  nickname: string;
+  createdAtMillis: number;
+};
+
+type QuizHistoryItem = {
+  quizId: string;
+  userId: string;
+  quizType: QuizType;
+  difficulty: QuizDifficulty;
+  leagues: League[];
+  score: number;
+  correctCount: number;
+  totalQuestions: number;
+  completedAtMillis: number;
+};
+
+type QuizHistoryResponse = {
+  results: QuizHistoryItem[];
+  hasMore: boolean;
+};
 
 const MIN_QUESTIONS = 1;
 const MAX_QUESTIONS = 25;
@@ -131,6 +157,15 @@ export default function App() {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<AccountResponse | null>(null);
+  const [authUsername, setAuthUsername] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [authNickname, setAuthNickname] = useState("");
+  const [accountPanelOpen, setAccountPanelOpen] = useState(false);
+  const [accountHistory, setAccountHistory] = useState<QuizHistoryItem[]>([]);
+  const [accountHistoryLoading, setAccountHistoryLoading] = useState(false);
+  const [accountHistoryHasMore, setAccountHistoryHasMore] = useState(false);
+  const accountPanelRef = useRef<HTMLDivElement | null>(null);
   const answerInputRef = useRef<HTMLInputElement | null>(null);
 
   const currentQuestion = useMemo(
@@ -152,6 +187,62 @@ export default function App() {
       answerInputRef.current.focus();
     }
   }, [screen, currentIndex]);
+
+  useEffect(() => {
+    if (!accountPanelOpen || !currentUser) return;
+    setAccountHistory([]);
+    setAccountHistoryHasMore(false);
+    let cancelled = false;
+    setAccountHistoryLoading(true);
+    fetch(`${API_BASE_URL}/quiz/results?userId=${currentUser.id}&limit=10`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: QuizHistoryResponse | null) => {
+        if (cancelled || !data) return;
+        setAccountHistory(data.results);
+        setAccountHistoryHasMore(data.hasMore);
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setAccountHistoryLoading(false); });
+    return () => { cancelled = true; };
+  }, [accountPanelOpen, currentUser]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (accountPanelRef.current && !accountPanelRef.current.contains(event.target as Node)) {
+        setAccountPanelOpen(false);
+      }
+    };
+    if (accountPanelOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [accountPanelOpen]);
+
+  const loadMoreHistory = useCallback(async () => {
+    if (!currentUser || accountHistoryLoading || accountHistory.length === 0) return;
+    const before = accountHistory[accountHistory.length - 1].completedAtMillis;
+    setAccountHistoryLoading(true);
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/quiz/results?userId=${currentUser.id}&limit=10&before=${before}`
+      );
+      if (!response.ok) return;
+      const data = (await response.json()) as QuizHistoryResponse;
+      setAccountHistory((prev) => [...prev, ...data.results]);
+      setAccountHistoryHasMore(data.hasMore);
+    } catch {
+      // silent
+    } finally {
+      setAccountHistoryLoading(false);
+    }
+  }, [currentUser, accountHistoryLoading, accountHistory]);
+
+  const formatDate = (millis: number) =>
+    new Date(millis).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
 
   const resetQuiz = () => {
     setQuizId("");
@@ -180,6 +271,69 @@ export default function App() {
 
   const goHome = () => {
     resetQuiz();
+    setScreen("home");
+  };
+
+  const clearAuthFields = () => {
+    setAuthUsername("");
+    setAuthPassword("");
+    setAuthNickname("");
+    setError(null);
+  };
+
+  const login = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/account/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: authUsername, password: authPassword })
+      });
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Login failed.");
+      }
+      const user = (await response.json()) as AccountResponse;
+      setCurrentUser(user);
+      clearAuthFields();
+      setScreen("home");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const register = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/account`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: authUsername, password: authPassword, nickname: authNickname })
+      });
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Registration failed.");
+      }
+      const user = (await response.json()) as AccountResponse;
+      setCurrentUser(user);
+      clearAuthFields();
+      setScreen("home");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    setCurrentUser(null);
+    setAccountPanelOpen(false);
+    setAccountHistory([]);
+    setAccountHistoryHasMore(false);
     setScreen("home");
   };
 
@@ -269,7 +423,8 @@ export default function App() {
           teamIds:
             quizType === "FACE" && faceQuizMode === "TEAM"
               ? Array.from(selectedFaceTeamIds)
-              : []
+              : [],
+          ...(currentUser ? { accountId: currentUser.id } : {})
         })
       });
 
@@ -506,11 +661,70 @@ export default function App() {
     <div className="app">
       <header className="app__header">
         <div className="brand">Sports Quiz</div>
-        {screen !== "home" && (
-          <button className="ghost-button" onClick={goHome}>
-            Exit Quiz
-          </button>
-        )}
+        <div className="app__header-actions">
+          {screen !== "home" && screen !== "login" && screen !== "register" && (
+            <button className="ghost-button" onClick={goHome}>
+              Exit Quiz
+            </button>
+          )}
+          {currentUser ? (
+            <div className="account-menu" ref={accountPanelRef}>
+              <button
+                className="ghost-button account-menu__trigger"
+                onClick={() => setAccountPanelOpen((prev) => !prev)}
+              >
+                {currentUser.nickname}
+              </button>
+              {accountPanelOpen && (
+                <div className="account-panel">
+                  <div className="account-panel__header">
+                    <span className="account-panel__nickname">{currentUser.nickname}</span>
+                  </div>
+                  <div className="account-panel__history">
+                    <p className="account-panel__section-label">Recent Quizzes</p>
+                    {accountHistoryLoading && accountHistory.length === 0 ? (
+                      <p className="account-panel__empty">Loading...</p>
+                    ) : accountHistory.length === 0 ? (
+                      <p className="account-panel__empty">No quizzes yet.</p>
+                    ) : (
+                      <>
+                        {accountHistory.map((item) => (
+                          <div key={item.quizId} className="account-panel__quiz-item">
+                            <div className="account-panel__quiz-top">
+                              <span className="tag">{item.quizType === "LOGO" ? "Logos" : "Faces"}</span>
+                              <span className="account-panel__score">{item.score} pts</span>
+                            </div>
+                            <div className="account-panel__quiz-date">{formatDate(item.completedAtMillis)}</div>
+                          </div>
+                        ))}
+                        {accountHistoryHasMore && (
+                          <button
+                            className="ghost-button account-panel__load-more"
+                            onClick={loadMoreHistory}
+                            disabled={accountHistoryLoading}
+                          >
+                            {accountHistoryLoading ? "Loading..." : "Load more"}
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                  <div className="account-panel__footer">
+                    <button className="ghost-button account-panel__logout" onClick={logout}>
+                      Log out
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            screen === "home" && (
+              <button className="ghost-button" onClick={() => { clearAuthFields(); setScreen("login"); }}>
+                Login
+              </button>
+            )
+          )}
+        </div>
       </header>
 
       <main className="app__main">
@@ -526,6 +740,99 @@ export default function App() {
             <button className="primary-button" onClick={() => setScreen("mode")}>
               New Quiz
             </button>
+          </section>
+        )}
+
+        {screen === "login" && (
+          <section className="card hero">
+            <p className="eyebrow">Welcome back</p>
+            <h1>Login</h1>
+            <form
+              className="quiz__form"
+              onSubmit={(e) => { e.preventDefault(); login(); }}
+            >
+              <input
+                type="text"
+                placeholder="Username"
+                value={authUsername}
+                onChange={(e) => setAuthUsername(e.target.value)}
+                disabled={loading}
+                autoFocus
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
+                disabled={loading}
+              />
+              {error && <div className="message error">{error}</div>}
+              <div className="quiz__actions">
+                <button className="primary-button" type="submit" disabled={loading}>
+                  {loading ? "Logging in..." : "Login"}
+                </button>
+                <button
+                  className="ghost-button"
+                  type="button"
+                  onClick={() => { clearAuthFields(); setScreen("register"); }}
+                >
+                  Create account
+                </button>
+                <button className="ghost-button" type="button" onClick={goHome}>
+                  Back
+                </button>
+              </div>
+            </form>
+          </section>
+        )}
+
+        {screen === "register" && (
+          <section className="card hero">
+            <p className="eyebrow">Join the quiz</p>
+            <h1>Create account</h1>
+            <form
+              className="quiz__form"
+              onSubmit={(e) => { e.preventDefault(); register(); }}
+            >
+              <input
+                type="text"
+                placeholder="Username"
+                value={authUsername}
+                onChange={(e) => setAuthUsername(e.target.value)}
+                disabled={loading}
+                autoFocus
+              />
+              <input
+                type="password"
+                placeholder="Password (min. 8 characters)"
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
+                disabled={loading}
+              />
+              <input
+                type="text"
+                placeholder="Nickname (your display name)"
+                value={authNickname}
+                onChange={(e) => setAuthNickname(e.target.value)}
+                disabled={loading}
+              />
+              {error && <div className="message error">{error}</div>}
+              <div className="quiz__actions">
+                <button className="primary-button" type="submit" disabled={loading}>
+                  {loading ? "Creating account..." : "Create account"}
+                </button>
+                <button
+                  className="ghost-button"
+                  type="button"
+                  onClick={() => { clearAuthFields(); setScreen("login"); }}
+                >
+                  Already have an account?
+                </button>
+                <button className="ghost-button" type="button" onClick={goHome}>
+                  Back
+                </button>
+              </div>
+            </form>
           </section>
         )}
 

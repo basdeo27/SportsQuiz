@@ -2,6 +2,7 @@ package com.elliotmoose.Sports.Quiz.quiz.repository
 
 import com.elliotmoose.Sports.Quiz.quiz.model.FaceTeamOption
 import com.elliotmoose.Sports.Quiz.quiz.model.HintUtils
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
@@ -19,6 +20,8 @@ class DynamoQuizRepository(
     private val dynamoDbClient: DynamoDbClient,
     private val properties: QuizDynamoProperties
 ) : QuestionRepository {
+
+    private val logger = LoggerFactory.getLogger(DynamoQuizRepository::class.java)
 
     override fun getQuestions(
         leagues: Set<League>,
@@ -39,6 +42,7 @@ class DynamoQuizRepository(
     }
 
     private fun queryByLeague(league: League): List<Question> {
+        logger.info("DynamoDB QUERY: fetching questions for league=${league.name} table=${properties.teamsTableName}")
         val request = QueryRequest.builder()
             .tableName(properties.teamsTableName)
             .keyConditionExpression("#league = :league")
@@ -49,6 +53,7 @@ class DynamoQuizRepository(
             .build()
 
         val response = dynamoDbClient.query(request)
+        logger.info("DynamoDB QUERY: retrieved ${response.count()} questions for league=${league.name}")
         return response.items().map { item ->
             val answers = item["answers"]?.ss()?.toSet() ?: emptySet()
             Question(
