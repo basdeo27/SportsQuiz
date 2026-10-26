@@ -7,5 +7,7 @@ data class Account(
     val username: String,
     val passwordHash: String,
     val nickname: String,
-    val createdAtMillis: Long = System.currentTimeMillis()
+    val createdAtMillis: Long = System.currentTimeMillis(),
+    val email: String? = null,
+    val emailVerified: Boolean = false
 )

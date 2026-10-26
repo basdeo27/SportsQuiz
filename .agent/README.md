@@ -1,5 +1,14 @@
 # Sports Quiz Agent Handoff
 
+Daily ranked attempts, verified email authentication and basic monitoring updates are documented in
+[daily-leaderboard.md](daily-leaderboard.md). Read that before working on daily
+scores; the older runtime notes below predate that feature.
+
+Local startup defaults to the `local` profile and DynamoDB Local on port 8000
+with placeholder credentials. Run `make db-up` and `./gradlew bootRun`.
+Production containers explicitly set `SPRING_PROFILES_ACTIVE=prod`; the
+historical profile and Docker environment variable notes below are outdated.
+
 This repository contains a sports logo quiz application with:
 
 - a Spring Boot backend in Kotlin

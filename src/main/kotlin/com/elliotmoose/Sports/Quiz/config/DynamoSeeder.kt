@@ -37,7 +37,8 @@ class DynamoSeeder(
                     ensureResultsTable()
                     ensureAccountsTable()
                 } catch (ex: Exception) {
-                    logger.warn("Skipping DynamoDB table setup due to error: ${ex.message}")
+                    logger.error("Required DynamoDB table setup failed", ex)
+                    throw ex
                 }
             }
 

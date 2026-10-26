@@ -1,0 +1,150 @@
+{
+  "verified_on": "2026-10-26",
+  "bucket": "sports-quiz-frontend",
+  "distribution_id": "E11UKL2VJ2WK4N",
+  "base_url": "https://d2323rgqey2wlv.cloudfront.net",
+  "assets": [
+    {
+      "file": "arsenal.jpeg",
+      "id": "epl-arsenal",
+      "name": "Arsenal",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/7ccd377a064aa69baeedd477861bf3c093be1caa482d1ea177d0b89c6d38df9a.jpeg",
+      "sha256": "7ccd377a064aa69baeedd477861bf3c093be1caa482d1ea177d0b89c6d38df9a"
+    },
+    {
+      "file": "brentford.jpeg",
+      "id": "epl-brentford",
+      "name": "Brentford",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/82a4e3af89620602734b84b4b49da3e47b9578b514062cc6f73b232ada7781d0.jpeg",
+      "sha256": "82a4e3af89620602734b84b4b49da3e47b9578b514062cc6f73b232ada7781d0"
+    },
+    {
+      "file": "brighton.jpeg",
+      "id": "epl-brighton-&-hove-albion",
+      "name": "Brighton & Hove Albion",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/1e8a6390623e27d76214cc862937b6f2edb5f302a2dacd4b9ce32edeb7296956.jpeg",
+      "sha256": "1e8a6390623e27d76214cc862937b6f2edb5f302a2dacd4b9ce32edeb7296956"
+    },
+    {
+      "file": "chelsea.jpeg",
+      "id": "epl-chelsea",
+      "name": "Chelsea",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/bef4f88e05cab13bec2b9004cc06ce46fbf540cdf630cf73b0c8dca594e51bf7.jpeg",
+      "sha256": "bef4f88e05cab13bec2b9004cc06ce46fbf540cdf630cf73b0c8dca594e51bf7"
+    },
+    {
+      "file": "city.jpeg",
+      "id": "epl-manchester-city",
+      "name": "Manchester City",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/bad5d4e672ba4b3416494bdff98a73bb93684d1d1456d0c7d9946ea816ea6613.jpeg",
+      "sha256": "bad5d4e672ba4b3416494bdff98a73bb93684d1d1456d0c7d9946ea816ea6613"
+    },
+    {
+      "file": "coventry.jpeg",
+      "id": "epl-coventry-city",
+      "name": "Coventry City",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/ea0486b1069752b83f45bb374dd851a8b7207b85abe2b23f1c652fb63a460e0f.jpeg",
+      "sha256": "ea0486b1069752b83f45bb374dd851a8b7207b85abe2b23f1c652fb63a460e0f"
+    },
+    {
+      "file": "everton.jpeg",
+      "id": "epl-everton",
+      "name": "Everton",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/dcdf526071d6fef5cc35b6298d063c4da346436ed06d20699e1bb4a85d4c4ee6.jpeg",
+      "sha256": "dcdf526071d6fef5cc35b6298d063c4da346436ed06d20699e1bb4a85d4c4ee6"
+    },
+    {
+      "file": "fulham.jpeg",
+      "id": "epl-fulham",
+      "name": "Fulham",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/4f586574b4aff3923875c6ccb4ce77af4c7ae2f78308a3552d87608506a7d1f6.jpeg",
+      "sha256": "4f586574b4aff3923875c6ccb4ce77af4c7ae2f78308a3552d87608506a7d1f6"
+    },
+    {
+      "file": "forest.jpeg",
+      "id": "epl-nottingham-forest",
+      "name": "Nottingham Forest",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/4b339d69e324ffb82407c15f674406ffedc44b59067c243b188d6da8439b0037.jpeg",
+      "sha256": "4b339d69e324ffb82407c15f674406ffedc44b59067c243b188d6da8439b0037"
+    },
+    {
+      "file": "hull.jpeg",
+      "id": "epl-hull-city",
+      "name": "Hull City",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/36018df4684eb2133d29a8c489df7366e599296feef369972d437a54cf6cfe11.jpeg",
+      "sha256": "36018df4684eb2133d29a8c489df7366e599296feef369972d437a54cf6cfe11"
+    },
+    {
+      "file": "ipswich.jpeg",
+      "id": "epl-ipswich-town",
+      "name": "Ipswich Town",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/6c548a43394a6ac22a2c36fa830ba6775485faa0edaacf92994fe4dbe5f95e85.jpeg",
+      "sha256": "6c548a43394a6ac22a2c36fa830ba6775485faa0edaacf92994fe4dbe5f95e85"
+    },
+    {
+      "file": "leeds.jpeg",
+      "id": "epl-leeds-united",
+      "name": "Leeds United",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/06b117da571000bf536c36568308aa492cac00e0edfbdfd02dbc02ea28d39d97.jpeg",
+      "sha256": "06b117da571000bf536c36568308aa492cac00e0edfbdfd02dbc02ea28d39d97"
+    },
+    {
+      "file": "liverpool.jpeg",
+      "id": "epl-liverpool",
+      "name": "Liverpool",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/0e3809ac0888d0063d6cf2eaabf47dc42287efbe44e170c62b219b3847bedc9b.jpeg",
+      "sha256": "0e3809ac0888d0063d6cf2eaabf47dc42287efbe44e170c62b219b3847bedc9b"
+    },
+    {
+      "file": "palace.jpeg",
+      "id": "epl-crystal-palace",
+      "name": "Crystal Palace",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/44b05d5b1a5090a50f1eef1b5b6f94c20bb9baf1b9fef15063f7324baa0af6ba.jpeg",
+      "sha256": "44b05d5b1a5090a50f1eef1b5b6f94c20bb9baf1b9fef15063f7324baa0af6ba"
+    },
+    {
+      "file": "tottenham.jpeg",
+      "id": "epl-tottenham-hotspur",
+      "name": "Tottenham Hotspur",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/8dd87048a16a1a8ef6366a786a345fd009b1ca6b4aae944658d8e4a7b49684d1.jpeg",
+      "sha256": "8dd87048a16a1a8ef6366a786a345fd009b1ca6b4aae944658d8e4a7b49684d1"
+    },
+    {
+      "file": "united.jpeg",
+      "id": "epl-manchester-united",
+      "name": "Manchester United",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/97d702a570bf4647d3223f1eade4749eca019409f2e62d71b1aac791ed75d2f4.jpeg",
+      "sha256": "97d702a570bf4647d3223f1eade4749eca019409f2e62d71b1aac791ed75d2f4"
+    },
+    {
+      "file": "villa.jpeg",
+      "id": "epl-aston-villa",
+      "name": "Aston Villa",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/95b1f6f19592147e57ad1aab2c7d0977f9ba2fe4371f56e7f57f5e1d3972da1a.jpeg",
+      "sha256": "95b1f6f19592147e57ad1aab2c7d0977f9ba2fe4371f56e7f57f5e1d3972da1a"
+    },
+    {
+      "file": "bournemouth.jpeg",
+      "id": "epl-afc-bournemouth",
+      "name": "AFC Bournemouth",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/e1e898f37437f402adeef352e6cd11b395db866b723b0173845f865bfafa680b.jpeg",
+      "sha256": "e1e898f37437f402adeef352e6cd11b395db866b723b0173845f865bfafa680b"
+    },
+    {
+      "file": "newcastle.jpeg",
+      "id": "epl-newcastle-united",
+      "name": "Newcastle United",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/6ca4c69f5daba2e38ed0da94905185c1ed39d1474c57f86a1112f11b83676e35.jpeg",
+      "sha256": "6ca4c69f5daba2e38ed0da94905185c1ed39d1474c57f86a1112f11b83676e35"
+    },
+    {
+      "file": "sunderland.jpeg",
+      "id": "epl-sunderland",
+      "name": "Sunderland",
+      "url": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/30cf4ac2d6c77b7ad7b4dabea10a5ae97d2b1c632cae037aa694ea0ffa32e564.jpeg",
+      "sha256": "30cf4ac2d6c77b7ad7b4dabea10a5ae97d2b1c632cae037aa694ea0ffa32e564"
+    }
+  ],
+  "retainedTeams": [],
+  "excluded": []
+}

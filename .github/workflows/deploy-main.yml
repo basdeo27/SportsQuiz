@@ -1,143 +1,156 @@
-name: Deploy Main
+name: Build and deploy
 
 on:
+  pull_request:
+    branches: [main]
   push:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+# Let a production release finish. PR checks can be superseded by a newer commit.
 concurrency:
-  group: deploy-main
-  cancel-in-progress: true
-
-env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  IMAGE_TAG: ${{ github.sha }}
+  group: ${{ github.event_name == 'pull_request' && format('sports-quiz-pr-{0}', github.event.pull_request.number) || 'sports-quiz-production' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  test:
+  build:
+    name: Test and build both apps
     runs-on: ubuntu-latest
-
+    timeout-minutes: 25
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Java 21
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: '21'
           cache: gradle
-
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
-
-      - name: Run tests
-        run: ./gradlew test
-
-  deploy-backend:
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: actions/setup-node@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build backend image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/amd64
-          load: true
-          tags: sports-quiz:${{ env.IMAGE_TAG }}
-
-      - name: Install lightsailctl
-        run: |
-          sudo curl -fsSL https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl -o /usr/local/bin/lightsailctl
-          sudo chmod +x /usr/local/bin/lightsailctl
-
-      - name: Push image to Lightsail container registry
-        id: push-image
-        run: |
-          PUSH_OUTPUT=$(aws lightsail push-container-image \
-            --region "$AWS_REGION" \
-            --service-name "${{ secrets.LIGHTSAIL_SERVICE_NAME }}" \
-            --label app \
-            --image "sports-quiz:$IMAGE_TAG")
-          echo "$PUSH_OUTPUT"
-          LIGHTSAIL_IMAGE=$(echo "$PUSH_OUTPUT" | grep 'Refer to this image' | sed 's/.*"\(:[^"]*\)".*/\1/')
-          echo "lightsail_image=$LIGHTSAIL_IMAGE" >> "$GITHUB_OUTPUT"
-
-      - name: Deploy to Lightsail container service
-        env:
-          LIGHTSAIL_IMAGE: ${{ steps.push-image.outputs.lightsail_image }}
-          SERVICE_NAME: ${{ secrets.LIGHTSAIL_SERVICE_NAME }}
-          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
-          AWS_DYNAMO_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_DYNAMO_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          CONTAINERS=$(jq -n \
-            --arg image "$LIGHTSAIL_IMAGE" \
-            --arg mistralKey "$MISTRAL_API_KEY" \
-            --arg awsKey "$AWS_DYNAMO_ACCESS_KEY_ID" \
-            --arg awsSecret "$AWS_DYNAMO_SECRET_ACCESS_KEY" \
-            '{"app":{"image":$image,"ports":{"8080":"HTTP"},"environment":{"MISTRAL_API_KEY":$mistralKey,"AWS_ACCESS_KEY_ID":$awsKey,"AWS_SECRET_ACCESS_KEY":$awsSecret}}}')
-          aws lightsail create-container-service-deployment \
-            --region "$AWS_REGION" \
-            --service-name "$SERVICE_NAME" \
-            --containers "$CONTAINERS" \
-            --public-endpoint '{"containerName":"app","containerPort":8080,"healthCheck":{"path":"/ping","intervalSeconds":10,"timeoutSeconds":5,"healthyThreshold":2,"unhealthyThreshold":3}}'
-
-  deploy-frontend:
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+          node-version: '22'
           cache: npm
           cache-dependency-path: frontend/package-lock.json
-
-      - name: Install frontend dependencies
-        working-directory: frontend
-        run: npm ci
-
+      - name: Test backend and build the release JAR
+        env:
+          QUIZ_STORAGE: local
+        run: bash ./gradlew --no-daemon test bootJar
+      - name: Test release and infrastructure scripts
+        run: python3 -m unittest discover -s scripts/tests -v
       - name: Build frontend
         working-directory: frontend
         env:
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
-        run: npm run build
-
-      - name: Sync frontend to S3
-        run: aws s3 sync frontend/dist s3://${{ secrets.S3_BUCKET }} --delete --region ${{ env.AWS_REGION }}
-
-      - name: Invalidate CloudFront
-        if: ${{ env.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+          VITE_API_BASE_URL: ''
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Package tested release
         env:
-          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-        run: aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" --paths '/*'
+          RELEASE_COMMIT: ${{ github.sha }}
+        run: python3 scripts/release.py prepare --directory release
+      - name: Save release for deployment
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ github.sha }}
+          path: release/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Save test reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ github.run_id }}
+          path: build/reports/tests/
+          retention-days: 7
+
+  deploy:
+    name: Publish to ECR and deploy production
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    environment:
+      name: production
+      url: ${{ vars.FRONTEND_URL || 'https://funsportsquiz.com' }}
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION || secrets.AWS_REGION || 'eu-west-2' }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      SERVICE_NAME: ${{ vars.LIGHTSAIL_SERVICE_NAME || secrets.LIGHTSAIL_SERVICE_NAME }}
+      S3_BUCKET: ${{ vars.S3_BUCKET || secrets.S3_BUCKET }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID || secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+      SITE_URL: ${{ vars.FRONTEND_URL || 'https://funsportsquiz.com' }}
+      RELEASE_COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check release configuration
+        env:
+          AWS_DEPLOY_ROLE_ARN: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+        run: |
+          : "${AWS_DEPLOY_ROLE_ARN:?Set the AWS_DEPLOY_ROLE_ARN GitHub variable}"
+          : "${ECR_REPOSITORY:?Set the ECR_REPOSITORY GitHub variable}"
+          : "${SERVICE_NAME:?Set LIGHTSAIL_SERVICE_NAME}"
+          : "${S3_BUCKET:?Set S3_BUCKET}"
+          : "${CLOUDFRONT_DISTRIBUTION_ID:?Set CLOUDFRONT_DISTRIBUTION_ID}"
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-${{ github.sha }}
+          path: release
+      - name: Assume AWS deployment role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: sports-quiz-${{ github.run_id }}
+      - name: Log Docker into ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Check immutable repository and existing commit image
+        id: image
+        env:
+          ECR_REGISTRY: ${{ steps.ecr.outputs.registry }}
+        run: python3 scripts/release.py image --directory release
+      - uses: docker/setup-buildx-action@v3
+        if: steps.image.outputs.exists != 'true'
+      - name: Build runtime image from the tested JAR and push it
+        if: steps.image.outputs.exists != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: release/backend
+          file: Dockerfile.release
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.image.outputs.uri }}
+          labels: org.opencontainers.image.revision=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Deploy backend, then the matching frontend
+        env:
+          IMAGE_URI: ${{ steps.image.outputs.uri }}
+          # Runtime credentials are separate from the short-lived CI role.
+          APP_AWS_ACCESS_KEY_ID: ${{ secrets.APP_AWS_ACCESS_KEY_ID || secrets.AWS_ACCESS_KEY_ID }}
+          APP_AWS_SECRET_ACCESS_KEY: ${{ secrets.APP_AWS_SECRET_ACCESS_KEY || secrets.AWS_SECRET_ACCESS_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          MONITORING_API_KEY: ${{ secrets.MONITORING_API_KEY }}
+          MAIL_FROM: ${{ vars.MAIL_FROM || 'noreply@funsportsquiz.com' }}
+          DAILY_LOGIN_REQUIRED: ${{ vars.DAILY_LOGIN_REQUIRED || 'false' }}
+        run: python3 scripts/release.py deploy --directory release
+      - name: Save release metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-${{ github.sha }}-${{ github.run_attempt }}
+          path: release/manifest.json
+          if-no-files-found: ignore

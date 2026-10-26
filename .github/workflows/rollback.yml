@@ -1,0 +1,54 @@
+name: Roll back production
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: Full commit SHA of a previously published release
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sports-quiz-production
+  cancel-in-progress: false
+
+jobs:
+  rollback:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: production
+      url: ${{ vars.FRONTEND_URL || 'https://funsportsquiz.com' }}
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION || secrets.AWS_REGION || 'eu-west-2' }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      SERVICE_NAME: ${{ vars.LIGHTSAIL_SERVICE_NAME || secrets.LIGHTSAIL_SERVICE_NAME }}
+      S3_BUCKET: ${{ vars.S3_BUCKET || secrets.S3_BUCKET }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID || secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+      SITE_URL: ${{ vars.FRONTEND_URL || 'https://funsportsquiz.com' }}
+      RELEASE_COMMIT: ${{ inputs.commit }}
+      APP_AWS_ACCESS_KEY_ID: ${{ secrets.APP_AWS_ACCESS_KEY_ID || secrets.AWS_ACCESS_KEY_ID }}
+      APP_AWS_SECRET_ACCESS_KEY: ${{ secrets.APP_AWS_SECRET_ACCESS_KEY || secrets.AWS_SECRET_ACCESS_KEY }}
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+      MONITORING_API_KEY: ${{ secrets.MONITORING_API_KEY }}
+      MAIL_FROM: ${{ vars.MAIL_FROM || 'noreply@funsportsquiz.com' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Assume AWS deployment role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: sports-quiz-rollback-${{ github.run_id }}
+      - name: Restore the saved image and frontend release
+        run: python3 scripts/release.py rollback --directory release

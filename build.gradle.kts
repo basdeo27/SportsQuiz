@@ -27,7 +27,9 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("software.amazon.awssdk:dynamodb:2.25.65")
+	implementation("software.amazon.awssdk:sesv2:2.25.65")
 	implementation("org.springframework.security:spring-security-crypto")
+	implementation("com.bucket4j:bucket4j-core:8.10.1")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
@@ -40,6 +42,10 @@ kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict")
 	}
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
 }
 
 // Pact consumer test — generates pact files in build/pacts/.

@@ -1,0 +1,155 @@
+[
+  {
+    "date": "2026-10-24",
+    "answer": "Markus Näslund",
+    "answers": [
+      "Markus Näslund",
+      "Markus Naslund",
+      "Näslund",
+      "Naslund",
+      "Nazzy"
+    ],
+    "hints": [
+      {
+        "type": "TEXT",
+        "value": "It wasn't are we going to score tonight? It was, how many are we going to score tonight?",
+        "attribution": "Linemate speaking about the West Coast Express"
+      },
+      {
+        "type": "STAT_LINE",
+        "statLine": {
+          "label": "2002–03 · NHL regular season",
+          "stats": [
+            {
+              "name": "G",
+              "value": "48"
+            },
+            {
+              "name": "A",
+              "value": "56"
+            },
+            {
+              "name": "P",
+              "value": "104"
+            }
+          ]
+        }
+      },
+      {
+        "type": "IMAGE",
+        "url": "assets/daily/2026-10-24/hint-3.png",
+        "source": "LOCAL"
+      },
+      {
+        "type": "IMAGE",
+        "url": "assets/daily/2026-10-24/hint-4.jpg",
+        "source": "LOCAL"
+      },
+      {
+        "type": "ACCOMPLISHMENTS",
+        "accomplishments": {
+          "label": "Career accomplishments",
+          "entries": [
+            {
+              "kind": "TROPHY",
+              "name": "Ted Lindsay Award",
+              "count": 1,
+              "detail": "2003 · awarded as the Lester B. Pearson Award"
+            },
+            {
+              "kind": "ALL_STAR",
+              "name": "NHL All-Star",
+              "count": 5,
+              "detail": "All-Star Game selections"
+            },
+            {
+              "kind": "APPEARANCE",
+              "name": "Olympic selections",
+              "count": 2,
+              "detail": "Played in 2002; selected for 2006, withdrew injured"
+            },
+            {
+              "kind": "MEDALS",
+              "name": "World Championship medals",
+              "count": 3,
+              "medals": [
+                {
+                  "medal": "SILVER",
+                  "count": 1
+                },
+                {
+                  "medal": "BRONZE",
+                  "count": 2
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "date": "2026-10-25",
+    "answer": "Tom Brady",
+    "answers": [
+      "Tom Brady",
+      "Brady",
+      "Thomas Brady"
+    ],
+    "hints": [
+      {
+        "type": "TEXT",
+        "value": "The next one",
+        "attribution": "60 Minutes interview on his favourite title · 2005"
+      },
+      {
+        "type": "IMAGE",
+        "url": "assets/daily/2026-10-25/hint-2.jpg",
+        "source": "LOCAL"
+      },
+      {
+        "type": "AUDIO",
+        "url": "assets/daily/2026-10-25/hint-3.mp3",
+        "source": "LOCAL"
+      },
+      {
+        "type": "STAT_LINE",
+        "statLine": {
+          "label": "2007 · NFL regular season",
+          "stats": [
+            {
+              "name": "TD",
+              "value": "50"
+            },
+            {
+              "name": "Yards",
+              "value": "4,806"
+            },
+            {
+              "name": "INT",
+              "value": "8"
+            }
+          ]
+        }
+      },
+      {
+        "type": "ACCOMPLISHMENTS",
+        "accomplishments": {
+          "label": "Career accomplishments",
+          "entries": [
+            {
+              "kind": "TROPHY",
+              "name": "Super Bowl championships",
+              "count": 7
+            },
+            {
+              "kind": "TROPHY",
+              "name": "NFL MVP awards",
+              "count": 3
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

@@ -5,7 +5,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/v0": "http://localhost:8080"
+      "/v0": "http://localhost:8080",
+      "/assets": "http://localhost:8080"
     }
   }
 });

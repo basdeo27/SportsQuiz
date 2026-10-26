@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { apiFetch } from "./api";
+import { ResultShare } from "./ResultShare";
 import logo from "./assets/sports-quiz-logo.png";
+import { DailyScores, type DailyScore } from "./DailyScores";
+import { DailyAccomplishments, type PlayerAccomplishments } from "./DailyAccomplishments";
 
 type League = "NBA" | "MLB" | "NFL" | "NHL" | "EPL";
 type QuizType = "LOGO" | "FACE";
@@ -82,22 +86,68 @@ const difficultyOptions = [
   }
 ] as const;
 
+type DailyHintType = "IMAGE" | "AUDIO" | "VIDEO" | "TEXT" | "STAT_LINE" | "ACCOMPLISHMENTS";
+type DailyHintSource = "REMOTE" | "LOCAL";
+
+type DailyStat = { name: string; value: string };
+type DailyStatLine = { label: string; stats: DailyStat[] };
+
+type DailyHint =
+  | { type: "IMAGE"; url: string; source: DailyHintSource }
+  | { type: "AUDIO"; url: string; source: DailyHintSource }
+  | { type: "VIDEO"; url: string; source: DailyHintSource }
+  | { type: "TEXT"; value: string; attribution?: string | null }
+  | { type: "STAT_LINE"; statLine: DailyStatLine }
+  | { type: "ACCOMPLISHMENTS"; accomplishments: PlayerAccomplishments };
+
+function resolveHintUrl(hint: { url: string; source: DailyHintSource }): string {
+  if (hint.source === "LOCAL") {
+    return `${API_ROOT.replace(/\/$/, "")}/${hint.url.replace(/^\//, "")}`;
+  }
+  return hint.url;
+}
+
+type DailyStartResponse = {
+  sessionId: string;
+  date: string;
+  hints: DailyHint[];
+  hintsRevealed: number;
+  totalHints: number;
+  estimatedScore: number;
+  timePenaltyPerSecond: number;
+  hintPenaltyMultiplier: number;
+  ranked: boolean;
+  completed: boolean;
+  gaveUp: boolean;
+  finalScore: number | null;
+  submittedScore: DailyScore | null;
+  elapsedSeconds: number;
+};
+
 type Screen =
   | "home"
   | "login"
   | "register"
+  | "verify-email"
+  | "account"
   | "mode"
   | "faceScope"
   | "setup"
   | "quiz"
   | "complete"
-  | "review";
+  | "review"
+  | "daily"
+  | "daily-leaderboard"
+  | "daily-done";
 
 type AccountResponse = {
   id: string;
   username: string;
+  email: string | null;
+  emailVerified: boolean;
   nickname: string;
   createdAtMillis: number;
+  token?: string;
 };
 
 type QuizHistoryItem = {
@@ -158,8 +208,16 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentUser, setCurrentUser] = useState<AccountResponse | null>(null);
-  const [authUsername, setAuthUsername] = useState("");
+  const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
+  const [authRestoring, setAuthRestoring] = useState(true);
+  const [authLegacyUsername, setAuthLegacyUsername] = useState("");
+  const [authLinkLegacy, setAuthLinkLegacy] = useState(false);
+  const [authPendingEmail, setAuthPendingEmail] = useState("");
+  const [authVerificationToken, setAuthVerificationToken] = useState<string | null>(null);
+  const [authVerifyPassword, setAuthVerifyPassword] = useState("");
+  const [authNotice, setAuthNotice] = useState<string | null>(null);
+  const [dailyRanked, setDailyRanked] = useState(true);
   const [authNickname, setAuthNickname] = useState("");
   const [accountPanelOpen, setAccountPanelOpen] = useState(false);
   const [accountHistory, setAccountHistory] = useState<QuizHistoryItem[]>([]);
@@ -168,18 +226,123 @@ export default function App() {
   const accountPanelRef = useRef<HTMLDivElement | null>(null);
   const answerInputRef = useRef<HTMLInputElement | null>(null);
 
+  // --- Dev-only state ---
+  const [devDailyDates, setDevDailyDates] = useState<string[]>([]);
+  const [devSelectedDate, setDevSelectedDate] = useState("");
+
+  // --- Daily challenge state ---
+  const [dailySessionId, setDailySessionId] = useState<string | null>(null);
+  const [dailyDate, setDailyDate] = useState("");
+  const [dailyHints, setDailyHints] = useState<DailyHint[]>([]);
+  const [dailyHintsRevealed, setDailyHintsRevealed] = useState(0);
+  const [dailyCurrentHintIndex, setDailyCurrentHintIndex] = useState(0);
+  const [dailyTotalHints, setDailyTotalHints] = useState(5);
+  const [dailyServerScore, setDailyServerScore] = useState(1000);
+  const [dailyServerScoreTime, setDailyServerScoreTime] = useState(0);
+  const [dailyTimePenaltyPerSecond, setDailyTimePenaltyPerSecond] = useState(1);
+  const [dailyLiveScore, setDailyLiveScore] = useState(1000);
+  const [dailyAnswer, setDailyAnswer] = useState("");
+  const [dailyFeedback, setDailyFeedback] = useState<string | null>(null);
+  const [dailyFeedbackStatus, setDailyFeedbackStatus] = useState<"success" | "error" | null>(null);
+  const [dailyFinalScore, setDailyFinalScore] = useState<number | null>(null);
+  const [dailyElapsedSeconds, setDailyElapsedSeconds] = useState(0);
+  const [quizResultDate, setQuizResultDate] = useState("");
+  const [dailyGaveUp, setDailyGaveUp] = useState(false);
+  const [dailySubmittedScore, setDailySubmittedScore] = useState<DailyScore | null>(null);
+  const [dailySubmissionLoading, setDailySubmissionLoading] = useState(false);
+  const [dailySubmissionError, setDailySubmissionError] = useState<string | null>(null);
+  const [returnToDaily, setReturnToDaily] = useState(false);
+  const [leaderboardDate, setLeaderboardDate] = useState(() =>
+    new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date())
+  );
+  const dailyAuthHeaders = (): Record<string, string> => ({});
+
+  const submitDailyScore = async () => {
+    if (!dailySessionId || !currentUser || dailySubmissionLoading) return;
+    setDailySubmissionLoading(true);
+    setDailySubmissionError(null);
+    try {
+      const response = await apiFetch(`${API_BASE_URL}/daily/scores`, {
+        method: "POST", headers: { "Content-Type": "application/json", ...dailyAuthHeaders() },
+        body: JSON.stringify({ sessionId: dailySessionId })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Could not submit score.");
+      setDailySubmittedScore(data as DailyScore);
+    } catch (err) {
+      setDailySubmissionError(err instanceof Error ? err.message : "Could not submit score.");
+    } finally {
+      setDailySubmissionLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    const query = new URLSearchParams(window.location.search);
+    const verificationToken = query.get("verifyEmail");
+    if (verificationToken) {
+      query.delete("verifyEmail");
+      window.history.replaceState(null, "", `${window.location.pathname}${query.size ? `?${query}` : ""}${window.location.hash}`);
+      setAuthVerificationToken(verificationToken);
+      setScreen("verify-email");
+      setAuthRestoring(false);
+      return;
+    }
+    const restore = async () => {
+      try {
+        const response = await apiFetch(`${API_BASE_URL}/account/me`);
+        if (!response.ok) {
+          if (response.status !== 401) throw new Error("Could not restore your session. Please try logging in.");
+          return;
+        }
+        const user = await response.json() as AccountResponse;
+        if (cancelled) return;
+        setCurrentUser(user);
+        const attemptId = sessionStorage.getItem("sportsQuizRankedAttempt");
+        if (attemptId) {
+          const resumed = await apiFetch(`${API_BASE_URL}/daily/sessions/${encodeURIComponent(attemptId)}`);
+          if (resumed.ok && !cancelled) applyDailyStart(await resumed.json() as DailyStartResponse);
+          else sessionStorage.removeItem("sportsQuizRankedAttempt");
+        }
+      } catch (err) {
+        if (!cancelled) setError(err instanceof Error ? err.message : "Could not restore session.");
+      } finally { if (!cancelled) setAuthRestoring(false); }
+    };
+    void restore();
+    return () => { cancelled = true; };
+  }, []);
+
   const currentQuestion = useMemo(
     () => questions[currentIndex],
     [questions, currentIndex]
   );
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/quiz/leagues`)
+    if (screen !== "daily") return;
+    const interval = window.setInterval(() => {
+      const elapsed = Math.floor((Date.now() - dailyServerScoreTime) / 1000);
+      setDailyLiveScore(Math.max(0, dailyServerScore - elapsed * dailyTimePenaltyPerSecond));
+    }, 500);
+    return () => window.clearInterval(interval);
+  }, [screen, dailyServerScore, dailyServerScoreTime, dailyTimePenaltyPerSecond]);
+
+  useEffect(() => {
+    apiFetch(`${API_BASE_URL}/quiz/leagues`)
       .then((r) => r.json())
       .then((data: Record<QuizType, League[]>) => {
         setAvailableLeaguesByType(data);
         setSelectedLeagues(new Set(data.LOGO));
       });
+  }, []);
+
+  useEffect(() => {
+    apiFetch(`${API_BASE_URL}/daily/dates`)
+      .then((r) => r.ok ? r.json() : [])
+      .then((dates: string[]) => {
+        setDevDailyDates(dates);
+        if (dates.length > 0) setDevSelectedDate(dates[dates.length - 1]);
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -194,7 +357,7 @@ export default function App() {
     setAccountHistoryHasMore(false);
     let cancelled = false;
     setAccountHistoryLoading(true);
-    fetch(`${API_BASE_URL}/quiz/results?userId=${currentUser.id}&limit=10`)
+    apiFetch(`${API_BASE_URL}/quiz/results?userId=${currentUser.id}&limit=10`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data: QuizHistoryResponse | null) => {
         if (cancelled || !data) return;
@@ -223,7 +386,7 @@ export default function App() {
     const before = accountHistory[accountHistory.length - 1].completedAtMillis;
     setAccountHistoryLoading(true);
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `${API_BASE_URL}/quiz/results?userId=${currentUser.id}&limit=10&before=${before}`
       );
       if (!response.ok) return;
@@ -270,71 +433,105 @@ export default function App() {
   };
 
   const goHome = () => {
+    setReturnToDaily(false);
+    sessionStorage.removeItem("sportsQuizRankedAttempt");
     resetQuiz();
     setScreen("home");
   };
 
   const clearAuthFields = () => {
-    setAuthUsername("");
+    setAuthEmail("");
     setAuthPassword("");
     setAuthNickname("");
+    setAuthLegacyUsername("");
+    setAuthLinkLegacy(false);
+    setAuthNotice(null);
     setError(null);
+  };
+
+  const finishSignIn = async (user: AccountResponse) => {
+    setCurrentUser(user);
+    clearAuthFields();
+    if (returnToDaily) await startDaily();
+    else setScreen("home");
   };
 
   const login = async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true); setError(null); setAuthNotice(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/account/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: authUsername, password: authPassword })
+      const response = await apiFetch(`${API_BASE_URL}/account/${authLinkLegacy ? "link-email" : "login"}`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: authEmail, password: authPassword, ...(authLinkLegacy ? { username: authLegacyUsername } : {}) })
       });
+      const payload = await response.json();
       if (!response.ok) {
-        const payload = (await response.json()) as { message?: string };
+        if (response.status === 403) { setAuthPendingEmail(authEmail); setAuthPassword(""); setScreen("verify-email"); }
         throw new Error(payload.message || "Login failed.");
       }
-      const user = (await response.json()) as AccountResponse;
-      setCurrentUser(user);
-      clearAuthFields();
-      setScreen("home");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unexpected error.");
-    } finally {
-      setLoading(false);
-    }
+      const user = payload as AccountResponse;
+      if (!user.emailVerified && !user.token) {
+        setAuthPendingEmail(authEmail); setAuthPassword(""); setScreen("verify-email"); return;
+      }
+      await finishSignIn(user);
+    } catch (err) { setError(err instanceof Error ? err.message : "Login failed."); }
+    finally { setLoading(false); }
   };
 
   const register = async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true); setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/account`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: authUsername, password: authPassword, nickname: authNickname })
+      const response = await apiFetch(`${API_BASE_URL}/account`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: authEmail, password: authPassword, nickname: authNickname })
       });
-      if (!response.ok) {
-        const payload = (await response.json()) as { message?: string };
-        throw new Error(payload.message || "Registration failed.");
-      }
-      const user = (await response.json()) as AccountResponse;
-      setCurrentUser(user);
-      clearAuthFields();
-      setScreen("home");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unexpected error.");
-    } finally {
-      setLoading(false);
-    }
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.message || "Registration failed.");
+      const user = payload as AccountResponse;
+      if (!user.emailVerified) { setAuthPendingEmail(authEmail); setAuthPassword(""); setScreen("verify-email"); return; }
+      await finishSignIn(user);
+    } catch (err) { setError(err instanceof Error ? err.message : "Registration failed."); }
+    finally { setLoading(false); }
   };
 
-  const logout = () => {
-    setCurrentUser(null);
-    setAccountPanelOpen(false);
-    setAccountHistory([]);
-    setAccountHistoryHasMore(false);
-    setScreen("home");
+  const confirmVerification = async () => {
+    if (!authVerificationToken) return;
+    setLoading(true); setError(null);
+    try {
+      const response = await apiFetch(`${API_BASE_URL}/account/verify-email`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: authVerificationToken, password: authVerifyPassword })
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.message || "Could not verify email.");
+      setAuthVerificationToken(null); setAuthVerifyPassword("");
+      await finishSignIn(payload as AccountResponse);
+      setAuthNotice("Email verified. You're ready to play.");
+    } catch (err) { setError(err instanceof Error ? err.message : "Could not verify email."); }
+    finally { setLoading(false); }
+  };
+
+  const resendVerification = async () => {
+    setLoading(true); setError(null);
+    try {
+      const response = await apiFetch(`${API_BASE_URL}/account/verification`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: authPendingEmail })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Could not resend verification email.");
+      setAuthNotice(data.message);
+    } catch (err) { setError(err instanceof Error ? err.message : "Could not resend verification email."); }
+    finally { setLoading(false); }
+  };
+
+  const logout = async () => {
+    setLoading(true); setError(null);
+    try {
+      const response = await apiFetch(`${API_BASE_URL}/account/logout`, { method: "POST" });
+      if (!response.ok) throw new Error("Could not log out. Please try again.");
+      sessionStorage.removeItem("sportsQuizRankedAttempt");
+      setCurrentUser(null); setAccountPanelOpen(false); setAccountHistory([]); setAccountHistoryHasMore(false); setScreen("home");
+    } catch (err) { setError(err instanceof Error ? err.message : "Could not log out."); }
+    finally { setLoading(false); }
   };
 
   const toggleLeague = (league: League) => {
@@ -365,7 +562,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/quiz/teams`);
+      const response = await apiFetch(`${API_BASE_URL}/quiz/teams`);
       if (!response.ok) {
         const payload = (await response.json()) as { message?: string };
         throw new Error(payload.message || "Failed to load face teams.");
@@ -412,7 +609,7 @@ export default function App() {
     setFeedback(null);
     setFeedbackStatus(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/quiz`, {
+      const response = await apiFetch(`${API_BASE_URL}/quiz`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -466,7 +663,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/quiz/answer`, {
+      const response = await apiFetch(`${API_BASE_URL}/quiz/answer`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -523,6 +720,7 @@ export default function App() {
           setFeedbackStatus(null);
           const nextIndex = currentIndex + 1;
           if (nextIndex >= questions.length) {
+            setQuizResultDate(new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()));
             setScreen("complete");
             fetchReviewData(false);
           } else {
@@ -544,7 +742,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/quiz/skip`, {
+      const response = await apiFetch(`${API_BASE_URL}/quiz/skip`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -568,6 +766,7 @@ export default function App() {
         setFeedbackStatus(null);
         const nextIndex = currentIndex + 1;
         if (nextIndex >= questions.length) {
+          setQuizResultDate(new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()));
           setScreen("complete");
           fetchReviewData(false);
         } else {
@@ -602,7 +801,7 @@ export default function App() {
     setAiSummaryLoading(true);
     setAiSummary(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/ai/quiz-summary`, {
+      const response = await apiFetch(`${API_BASE_URL}/ai/quiz-summary`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quizId: id }),
@@ -625,7 +824,7 @@ export default function App() {
     setError(null);
     fetchAiSummary(quizId);
     try {
-      const response = await fetch(`${API_BASE_URL}/quiz/${quizId}`);
+      const response = await apiFetch(`${API_BASE_URL}/quiz/${quizId}`);
       if (!response.ok) {
         const payload = (await response.json()) as { message?: string };
         throw new Error(payload.message || "Failed to load quiz review.");
@@ -635,6 +834,164 @@ export default function App() {
       if (showReview) {
         setScreen("review");
       }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetDaily = () => {
+    setDailySubmittedScore(null);
+    setDailySubmissionError(null);
+    setReturnToDaily(false);
+    setDailySessionId(null);
+    setDailyDate("");
+    setDailyHints([]);
+    setDailyHintsRevealed(0);
+    setDailyCurrentHintIndex(0);
+    setDailyTotalHints(5);
+    setDailyServerScore(1000);
+    setDailyServerScoreTime(0);
+    setDailyLiveScore(1000);
+    setDailyAnswer("");
+    setDailyFeedback(null);
+    setDailyFeedbackStatus(null);
+    setDailyFinalScore(null);
+    setDailyGaveUp(false);
+    setDailyElapsedSeconds(0);
+  };
+
+  const applyDailyStart = (payload: DailyStartResponse) => {
+    setDailySubmittedScore(payload.submittedScore); setDailySubmissionError(null); setReturnToDaily(false);
+    setDailySessionId(payload.sessionId); setDailyDate(payload.date); setDailyHints(payload.hints);
+    setDailyHintsRevealed(payload.hintsRevealed); setDailyCurrentHintIndex(Math.max(0, payload.hintsRevealed - 1));
+    setDailyTotalHints(payload.totalHints); setDailyServerScore(payload.estimatedScore); setDailyServerScoreTime(Date.now());
+    setDailyTimePenaltyPerSecond(payload.timePenaltyPerSecond); setDailyLiveScore(payload.estimatedScore);
+    setDailyAnswer(""); setDailyFeedback(null); setDailyFeedbackStatus(null); setDailyFinalScore(payload.finalScore);
+    setDailyGaveUp(payload.gaveUp); setDailyRanked(payload.ranked);
+    setDailyElapsedSeconds(payload.elapsedSeconds);
+    if (payload.ranked) sessionStorage.setItem("sportsQuizRankedAttempt", payload.sessionId);
+    else sessionStorage.removeItem("sportsQuizRankedAttempt");
+    setScreen(payload.completed ? "daily-done" : "daily");
+  };
+
+  const startDaily = async (date?: string, practice = false) => {
+    if (authRestoring) return;
+    setLoading(true); setError(null);
+    try {
+      const response = await apiFetch(`${API_BASE_URL}/daily`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ date, practice })
+      });
+      const payload = await response.json();
+      if (!practice && response.status === 401) {
+        clearAuthFields(); setReturnToDaily(true); setScreen("login"); return;
+      }
+      if (!response.ok) throw new Error(payload.message || "No daily challenge available today.");
+      applyDailyStart(payload as DailyStartResponse);
+    } catch (err) { setError(err instanceof Error ? err.message : "Could not start challenge."); }
+    finally { setLoading(false); }
+  };
+
+  const requestDailyHint = async () => {
+    if (!dailySessionId || loading) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiFetch(`${API_BASE_URL}/daily/hint`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...dailyAuthHeaders() },
+        body: JSON.stringify({ sessionId: dailySessionId })
+      });
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Could not get next hint.");
+      }
+      const payload = (await response.json()) as {
+        hints: DailyHint[];
+        hintsRevealed: number;
+        totalHints: number;
+        estimatedScore: number;
+      };
+      const now = Date.now();
+      setDailyHints(payload.hints);
+      setDailyHintsRevealed(payload.hintsRevealed);
+      setDailyCurrentHintIndex(payload.hintsRevealed - 1);
+      setDailyTotalHints(payload.totalHints);
+      setDailyServerScore(payload.estimatedScore);
+      setDailyServerScoreTime(now);
+      setDailyLiveScore(payload.estimatedScore);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const submitDailyAnswer = async () => {
+    if (!dailySessionId || loading) return;
+    const trimmed = dailyAnswer.trim();
+    if (!trimmed) {
+      setError("Enter a name before submitting.");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiFetch(`${API_BASE_URL}/daily/answer`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...dailyAuthHeaders() },
+        body: JSON.stringify({ sessionId: dailySessionId, answer: trimmed })
+      });
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Could not submit answer.");
+      }
+      const payload = (await response.json()) as {
+        correct: boolean;
+        score: number | null;
+        elapsedSeconds: number;
+        submittedScore: DailyScore | null;
+      };
+      if (payload.correct) {
+        setDailySubmittedScore(payload.submittedScore);
+        setDailyFinalScore(payload.score ?? 0);
+        setDailyElapsedSeconds(payload.elapsedSeconds);
+        setDailyGaveUp(false);
+        setScreen("daily-done");
+      } else {
+        setDailyFeedbackStatus("error");
+        setDailyFeedback("Not quite — try again!");
+        setDailyAnswer("");
+        window.setTimeout(() => {
+          setDailyFeedback(null);
+          setDailyFeedbackStatus(null);
+        }, 1200);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unexpected error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const giveUpDaily = async () => {
+    if (!dailySessionId || loading) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiFetch(`${API_BASE_URL}/daily/give-up`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...dailyAuthHeaders() },
+        body: JSON.stringify({ sessionId: dailySessionId })
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.message || "Could not end challenge.");
+      setDailySubmittedScore(payload.submittedScore ?? null);
+      setDailyGaveUp(true);
+      setDailyElapsedSeconds(payload.elapsedSeconds);
+      setDailyFinalScore(0);
+      setScreen("daily-done");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unexpected error.");
     } finally {
@@ -658,11 +1015,17 @@ export default function App() {
   }, [faceTeamOptions, teamSearch]);
 
   return (
-    <div className="app">
+    <div className={`app app--${screen}`}>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="app__header">
-        <div className="brand">Sports Quiz</div>
+        <button className="brand" onClick={goHome} aria-label="Sports Quiz home">Sports Quiz<span>.</span></button>
+        {screen !== "quiz" && screen !== "daily" && <nav className="app__nav" aria-label="Main navigation">
+          <button aria-current={screen === "home" ? "page" : undefined} onClick={goHome}>Play</button>
+          <button aria-current={screen === "daily-leaderboard" ? "page" : undefined}
+            onClick={() => { setError(null); setScreen("daily-leaderboard"); }}>Leaderboard</button>
+        </nav>}
         <div className="app__header-actions">
-          {screen !== "home" && screen !== "login" && screen !== "register" && (
+          {(screen === "quiz" || screen === "daily") && (
             <button className="ghost-button" onClick={goHome}>
               Exit Quiz
             </button>
@@ -671,12 +1034,15 @@ export default function App() {
             <div className="account-menu" ref={accountPanelRef}>
               <button
                 className="ghost-button account-menu__trigger"
+                aria-expanded={accountPanelOpen}
+                aria-controls="account-menu-panel"
                 onClick={() => setAccountPanelOpen((prev) => !prev)}
               >
+                <span className="account-avatar" aria-hidden="true">{currentUser.nickname.slice(0, 1).toUpperCase()}</span>
                 {currentUser.nickname}
               </button>
               {accountPanelOpen && (
-                <div className="account-panel">
+                <div className="account-panel" id="account-menu-panel">
                   <div className="account-panel__header">
                     <span className="account-panel__nickname">{currentUser.nickname}</span>
                   </div>
@@ -710,7 +1076,13 @@ export default function App() {
                     )}
                   </div>
                   <div className="account-panel__footer">
-                    <button className="ghost-button account-panel__logout" onClick={logout}>
+                    <button
+                      className="ghost-button account-panel__footer-btn"
+                      onClick={() => { setAccountPanelOpen(false); setScreen("account"); }}
+                    >
+                      My Account
+                    </button>
+                    <button className="ghost-button account-panel__footer-btn account-panel__logout" onClick={logout}>
                       Log out
                     </button>
                   </div>
@@ -727,45 +1099,109 @@ export default function App() {
         </div>
       </header>
 
-      <main className="app__main">
+      <main className="app__main" id="main-content" tabIndex={-1}>
         {screen === "home" && (
-          <section className="card hero">
-            <div className="hero__logo">
-              <img src={logo} alt="Sports Quiz logo" />
+          <section className="home" aria-labelledby="home-title">
+            <div className="home__intro">
+              <div>
+                <p className="eyebrow"><span className="status-dot" /> A little competition. Every day.</p>
+                <h1 id="home-title">Know the game.<br /><span>Prove it.</span></h1>
+                <p className="supporting">Big leagues. Familiar faces. How much do you really know?</p>
+              </div>
+              <img className="home__emblem" src={logo} alt="Sports Quiz" />
             </div>
-            <p className="eyebrow">Welcome to the sports quiz app</p>
-            <p className="supporting">
-              Choose your leagues, set your length, and race through the logos.
-            </p>
-            <button className="primary-button" onClick={() => setScreen("mode")}>
-              New Quiz
-            </button>
+            <div className="home__games">
+              <article className="daily-feature">
+                <div className="daily-feature__top"><span className="eyebrow">The daily challenge</span><span className="edition-tag">A fresh test every day</span></div>
+                <div className="daily-feature__body">
+                  <div>
+                    <h2>Athlete<br />of the day<span>.</span></h2>
+                    <p>One athlete. A few clues.<br />Make them count.</p>
+                    <button className="primary-button" onClick={() => startDaily()} disabled={loading || authRestoring}>
+                      {loading ? "Getting your challenge..." : "Play today's challenge"}<span aria-hidden="true">↗</span>
+                    </button>
+                    <p className="supporting">Sign in before playing to join the leaderboard.</p>
+                  </div>
+                  <div className="daily-feature__art" aria-hidden="true"><div className="court-ring" /><span>?</span><div className="court-line" /></div>
+                </div>
+                <div className="daily-feature__footer"><span>Fewer clues. Faster answers. Higher scores.</span><span aria-hidden="true">01 / DAILY</span></div>
+              </article>
+              <div className="home__secondary">
+                <button className="game-tile" onClick={() => setScreen("mode")}>
+                  <span className="game-tile__top"><span className="eyebrow">Your game, your rules</span><span className="tile-arrow" aria-hidden="true">↗</span></span>
+                  <span className="game-tile__title">Build a quiz</span>
+                  <span className="game-tile__description">Logos or faces. Pick your leagues and find your level.</span>
+                  <span className="game-tile__bottom">Custom quiz<span aria-hidden="true">→</span></span>
+                </button>
+                <button className="game-tile game-tile--leaderboard" onClick={() => { setError(null); setScreen("daily-leaderboard"); }}>
+                  <span className="game-tile__top"><span className="eyebrow">See how you stack up</span><span className="tile-arrow" aria-hidden="true">↗</span></span>
+                  <span className="game-tile__title">The leaderboard</span>
+                  <span className="game-tile__description">Today's contenders. One score per player. Every point counts.</span>
+                  <span className="game-tile__bottom">Explore the standings<span aria-hidden="true">→</span></span>
+                </button>
+              </div>
+            </div>
+            <div className="home__footnote"><span>For the fans who know.</span><span>NBA / NFL / MLB / NHL</span></div>
+            {authNotice && <p className="message success">{authNotice}</p>}
+            {error && <p className="message error" role="alert">{error}</p>}
+            {devDailyDates.length > 0 && (
+              <div className="dev-daily">
+                <span className="dev-daily__label">Practice</span>
+                <select
+                  className="dev-daily__select"
+                  value={devSelectedDate}
+                  onChange={(e) => setDevSelectedDate(e.target.value)}
+                >
+                  {devDailyDates.map((d) => (
+                    <option key={d} value={d}>{d}</option>
+                  ))}
+                </select>
+                <button
+                  className="ghost-button dev-daily__play"
+                  onClick={() => startDaily(devSelectedDate, true)}
+                  disabled={loading || !devSelectedDate}
+                >
+                  Practice
+                </button>
+              </div>
+            )}
           </section>
         )}
 
         {screen === "login" && (
           <section className="card hero">
             <p className="eyebrow">Welcome back</p>
-            <h1>Login</h1>
+            <h1>{authLinkLegacy ? "Link your email" : "Log in"}</h1>
+            {returnToDaily && <p className="supporting">Log in before starting your ranked attempt. Returning players resume their existing challenge.</p>}
+            {authLinkLegacy && <p className="supporting">Link an older username account to an email address to keep your existing scores.</p>}
             <form
               className="quiz__form"
               onSubmit={(e) => { e.preventDefault(); login(); }}
             >
+              {authLinkLegacy && <input aria-label="Existing username" placeholder="Existing username" value={authLegacyUsername}
+                onChange={(event) => setAuthLegacyUsername(event.target.value)} required disabled={loading} />}
               <input
                 type="text"
-                placeholder="Username"
-                value={authUsername}
-                onChange={(e) => setAuthUsername(e.target.value)}
+                aria-label="Email address"
+                autoComplete="username"
+                placeholder={import.meta.env.DEV ? "Email (or user in development)" : "Email address"}
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
                 disabled={loading}
                 autoFocus
               />
               <input
                 type="password"
+                aria-label="Password"
+                autoComplete="current-password"
                 placeholder="Password"
                 value={authPassword}
                 onChange={(e) => setAuthPassword(e.target.value)}
                 disabled={loading}
               />
+              <button className="ghost-button" type="button" onClick={() => { setAuthLinkLegacy(!authLinkLegacy); setError(null); }}>
+                {authLinkLegacy ? "Back to email login" : "Link an existing username account"}
+              </button>
               {error && <div className="message error">{error}</div>}
               <div className="quiz__actions">
                 <button className="primary-button" type="submit" disabled={loading}>
@@ -795,15 +1231,20 @@ export default function App() {
               onSubmit={(e) => { e.preventDefault(); register(); }}
             >
               <input
-                type="text"
-                placeholder="Username"
-                value={authUsername}
-                onChange={(e) => setAuthUsername(e.target.value)}
+                type="email"
+                required
+                aria-label="Email address"
+                autoComplete="username"
+                placeholder="Email address"
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
                 disabled={loading}
                 autoFocus
               />
               <input
                 type="password"
+                aria-label="Password (at least 8 characters)"
+                autoComplete="new-password"
                 placeholder="Password (min. 8 characters)"
                 value={authPassword}
                 onChange={(e) => setAuthPassword(e.target.value)}
@@ -811,6 +1252,8 @@ export default function App() {
               />
               <input
                 type="text"
+                aria-label="Nickname (your display name)"
+                autoComplete="nickname"
                 placeholder="Nickname (your display name)"
                 value={authNickname}
                 onChange={(e) => setAuthNickname(e.target.value)}
@@ -833,6 +1276,26 @@ export default function App() {
                 </button>
               </div>
             </form>
+          </section>
+        )}
+
+        {screen === "verify-email" && (
+          <section className="card hero">
+            <p className="eyebrow">One last step</p><h1>Check your email</h1>
+            <p className="supporting">{authVerificationToken ? "Confirm the password you chose for this account to finish verifying your email." : "Use the verification link in your inbox to activate your account. Check your spam folder too."}</p>
+            {authVerificationToken && <form className="quiz__form" onSubmit={(event) => { event.preventDefault(); void confirmVerification(); }}>
+              <input type="password" aria-label="Account password" autoComplete="current-password" placeholder="Your account password"
+                value={authVerifyPassword} onChange={(event) => setAuthVerifyPassword(event.target.value)} required disabled={loading} />
+              <button className="primary-button" disabled={loading} type="submit">{loading ? "Verifying..." : "Verify email and log in"}</button>
+            </form>}
+            <form className="quiz__form" onSubmit={(event) => { event.preventDefault(); void resendVerification(); }}>
+              <input type="email" aria-label="Email address" placeholder="Email address" required value={authPendingEmail}
+                onChange={(event) => setAuthPendingEmail(event.target.value)} disabled={loading} />
+              <button className="primary-button" disabled={loading || !authPendingEmail} type="submit">{loading ? "Sending..." : "Resend verification email"}</button>
+              <button className="ghost-button" type="button" onClick={() => { clearAuthFields(); setScreen("login"); }}>Back to login</button>
+            </form>
+            {authNotice && <p className="message success">{authNotice}</p>}
+            {error && <p className="message error" role="alert">{error}</p>}
           </section>
         )}
 
@@ -1088,6 +1551,7 @@ export default function App() {
             >
               <input
                 type="text"
+                aria-label={quizType === "LOGO" ? "Team name" : "Player name"}
                 placeholder={
                   quizType === "LOGO"
                     ? "Type the team name..."
@@ -1134,6 +1598,196 @@ export default function App() {
           </section>
         )}
 
+        {screen === "daily" && (
+          <section className="card daily">
+            <div className="daily__header">
+              <div><p className="eyebrow">{dailyRanked ? "Ranked challenge" : "Unranked challenge"} / {dailyDate}</p><h1>Who's the athlete?</h1></div>
+              <div className="daily__score"><span className="daily__score-label"><span className="status-dot" />Live score</span>
+                <strong>{dailyLiveScore.toLocaleString()}<small>pts</small></strong></div>
+            </div>
+            <div className="daily__progress" aria-label={`${dailyHintsRevealed} of ${dailyTotalHints} clues revealed`}>
+              {Array.from({ length: dailyTotalHints }, (_, index) => <span key={index} className={index < dailyHintsRevealed ? "is-revealed" : ""} />)}
+            </div>
+            <div className="daily__hint-viewer">
+              <div className="daily__hint-nav">
+                <button
+                  className="ghost-button daily__hint-nav-btn"
+                  type="button"
+                  onClick={() => setDailyCurrentHintIndex((i) => i - 1)}
+                  disabled={dailyCurrentHintIndex === 0}
+                >
+                  ‹ Prev
+                </button>
+                <span className="daily__hint-counter">
+                  Hint {dailyCurrentHintIndex + 1} of {dailyTotalHints}
+                </span>
+                {dailyCurrentHintIndex < dailyHintsRevealed - 1 ? (
+                  <button
+                    className="ghost-button daily__hint-nav-btn"
+                    type="button"
+                    onClick={() => setDailyCurrentHintIndex((i) => i + 1)}
+                  >
+                    Next ›
+                  </button>
+                ) : dailyHintsRevealed < dailyTotalHints ? (
+                  <button
+                    className="ghost-button daily__hint-nav-btn"
+                    type="button"
+                    onClick={requestDailyHint}
+                    disabled={loading}
+                  >
+                    {loading ? "..." : "Next Hint ›"}
+                  </button>
+                ) : (
+                  <span className="daily__hint-nav-btn daily__hint-nav-btn--placeholder" />
+                )}
+              </div>
+              <div className="daily__hint">
+                {(() => {
+                  const hint = dailyHints[dailyCurrentHintIndex];
+                  if (!hint) return null;
+                  if (hint.type === "IMAGE") {
+                    const src = resolveHintUrl(hint);
+                    return (
+                      <img
+                        className="daily__hint-media"
+                        src={src}
+                        alt={`Hint ${dailyCurrentHintIndex + 1}`}
+                      />
+                    );
+                  }
+                  if (hint.type === "AUDIO") {
+                    const src = resolveHintUrl(hint);
+                    return (
+                      <audio
+                        className="daily__hint-media daily__hint-media--audio"
+                        controls
+                        src={src}
+                        key={src}
+                      />
+                    );
+                  }
+                  if (hint.type === "VIDEO") {
+                    const src = resolveHintUrl(hint);
+                    return (
+                      <video
+                        className="daily__hint-media"
+                        controls
+                        src={src}
+                        key={src}
+                      />
+                    );
+                  }
+                  if (hint.type === "TEXT") {
+                    return (
+                      <figure className="daily__hint-quote">
+                        <blockquote className="daily__hint-text">
+                          <p className="daily__hint-text__body">{hint.value}</p>
+                        </blockquote>
+                        {hint.attribution && <figcaption className="daily__hint-attribution">— {hint.attribution}</figcaption>}
+                      </figure>
+                    );
+                  }
+                  if (hint.type === "STAT_LINE" && hint.statLine) {
+                    return (
+                      <div className="daily__hint-statline">
+                        <p className="daily__hint-statline__label">{hint.statLine.label}</p>
+                        <ul className={`daily__hint-statline__grid${hint.statLine.stats.length === 3 ? " daily__hint-statline__grid--three" : ""}`}>
+                          {hint.statLine.stats.map((s) => (
+                            <li key={s.name} className="daily__hint-statline__stat">
+                              <span className="daily__hint-statline__stat-value">{s.value}</span>
+                              <span className="daily__hint-statline__stat-name">{s.name}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  }
+                  if (hint.type === "ACCOMPLISHMENTS") {
+                    return <DailyAccomplishments accomplishments={hint.accomplishments} />;
+                  }
+                  return null;
+                })()}
+              </div>
+            </div>
+            <form
+              className="quiz__form"
+              onSubmit={(e) => { e.preventDefault(); submitDailyAnswer(); }}
+            >
+              <input
+                type="text"
+                aria-label="Athlete name"
+                placeholder="Name the athlete..."
+                value={dailyAnswer}
+                onChange={(e) => setDailyAnswer(e.target.value)}
+                disabled={loading}
+                autoFocus
+              />
+              <div className="quiz__actions">
+                <button className="primary-button" type="submit" disabled={loading}>
+                  {loading ? "Checking..." : "Submit"}
+                </button>
+                <button
+                  className="ghost-button"
+                  type="button"
+                  onClick={giveUpDaily}
+                  disabled={loading}
+                >
+                  Give Up
+                </button>
+              </div>
+            </form>
+            {dailyFeedback && (
+              <div className={`message ${dailyFeedbackStatus ?? "error"}`}>
+                {dailyFeedback}
+              </div>
+            )}
+            {error && <div className="message error">{error}</div>}
+          </section>
+        )}
+
+        {screen === "daily-done" && (
+          <section className="card hero">
+            <p className="eyebrow">Daily Challenge — {dailyDate}</p>
+            <h1>{dailyGaveUp ? "Better luck tomorrow!" : "Correct!"}</h1>
+            <ResultShare key={dailySessionId} result={{ mode: "daily", date: dailyDate,
+              score: dailySubmittedScore?.score ?? dailyFinalScore ?? 0,
+              hintsUsed: dailySubmittedScore?.hintsRevealed ?? dailyHintsRevealed, totalHints: dailyTotalHints,
+              elapsedSeconds: dailySubmittedScore?.elapsedSeconds ?? dailyElapsedSeconds,
+              ranked: dailyRanked, gaveUp: dailyGaveUp }} />
+            <div className="daily-submit">
+              {!dailyRanked ? <p className="supporting">Your result is unranked. Only challenges started while signed in count toward the leaderboard.</p>
+                : dailySubmittedScore ? <p className="message success">Saved to your daily history and leaderboard. This is your score for the day.</p>
+                : <><p className="supporting">Your attempt is complete. Retry saving if the connection was interrupted.</p>
+                  <button className="primary-button" disabled={dailySubmissionLoading} onClick={submitDailyScore}>Retry saving score</button></>}
+              {dailySubmissionError && <p className="message error" role="alert">{dailySubmissionError}</p>}
+            </div>
+            <div className="stack">
+              <button className="primary-button" disabled={dailySubmissionLoading} onClick={() => { setLeaderboardDate(dailyDate); setScreen("daily-leaderboard"); }}>
+                View daily leaderboard
+              </button>
+              <button className="ghost-button" onClick={() => { resetDaily(); goHome(); }}>
+                Back Home
+              </button>
+            </div>
+          </section>
+        )}
+
+        {screen === "daily-leaderboard" && (
+          <section className="card leaderboard-page">
+            <div className="page-heading"><div><p className="eyebrow">The daily standings</p>
+            <h1>Every point counts<span className="accent">.</span></h1>
+            <p className="supporting">One challenge. One score per player. See who set the pace.</p></div></div>
+            <div className="leaderboard-toolbar">
+              <label htmlFor="leaderboard-date">Challenge date</label>
+              <input id="leaderboard-date" type="date" value={leaderboardDate}
+                onChange={(event) => { if (event.target.value) setLeaderboardDate(event.target.value); }} />
+              <button className="ghost-button" onClick={goHome}>Back Home</button>
+            </div>
+            <DailyScores apiBase={API_BASE_URL} date={leaderboardDate} signedIn={!!currentUser} />
+          </section>
+        )}
+
         {screen === "complete" && (
           <section className="card hero">
             <p className="eyebrow">All done</p>
@@ -1143,12 +1797,11 @@ export default function App() {
               {skippedCount} skipped. {hintedCount} hint
               {hintedCount === 1 ? "" : "s"} used.
             </p>
-            <div className="score-summary">
-              <span className="score-summary__label">Score</span>
-              <span className="score-summary__value">
-                {reviewData ? reviewData.score : "Calculating..."}
-              </span>
-            </div>
+            {reviewData ? <ResultShare key={quizId} result={{ mode: quizType === "LOGO" ? "logos" : "faces",
+              date: quizResultDate, score: reviewData.score,
+              hintsUsed: reviewData.questions.filter(question => question.hinted).length,
+              elapsedSeconds: reviewData.elapsedSeconds, correctCount: reviewData.correctCount,
+              totalQuestions: reviewData.totalQuestions }} /> : <p role="status">Preparing your result…</p>}
             <p className="supporting">
               Want another run? Change the leagues or go again.
             </p>
@@ -1250,6 +1903,69 @@ export default function App() {
                   </div>
                 </article>
               ))}
+            </div>
+          </section>
+        )}
+        {screen === "account" && currentUser && (
+          <section className="card account-page">
+            <div className="account-page__header">
+              <h2>My Account</h2>
+              <button className="ghost-button" onClick={goHome}>
+                Back Home
+              </button>
+            </div>
+
+            <div className="account-page__profile">
+              <div className="account-page__field">
+                <span className="account-page__label">Nickname</span>
+                <span className="account-page__value">{currentUser.nickname}</span>
+              </div>
+              <div className="account-page__field">
+                <span className="account-page__label">Email</span>
+                <span className="account-page__value">{currentUser.email ?? currentUser.username}</span>
+              </div>
+              <div className="account-page__field">
+                <span className="account-page__label">Member since</span>
+                <span className="account-page__value">{formatDate(currentUser.createdAtMillis)}</span>
+              </div>
+            </div>
+
+            <div className="account-page__history">
+              <h3 className="account-page__section-title">Daily Challenge History</h3>
+              <DailyScores apiBase={API_BASE_URL} signedIn history />
+            </div>
+
+            <div className="account-page__history">
+              <h3 className="account-page__section-title">Quiz History</h3>
+              {accountHistoryLoading && accountHistory.length === 0 ? (
+                <p className="account-page__empty">Loading...</p>
+              ) : accountHistory.length === 0 ? (
+                <p className="account-page__empty">No quizzes yet. Start a quiz to see your history here.</p>
+              ) : (
+                <>
+                  <div className="account-page__history-list">
+                    {accountHistory.map((item) => (
+                      <div key={item.quizId} className="account-page__history-item">
+                        <div className="account-page__history-tags">
+                          <span className="tag">{item.quizType === "LOGO" ? "Logos" : "Faces"}</span>
+                          <span className="tag">{item.difficulty.charAt(0) + item.difficulty.slice(1).toLowerCase()}</span>
+                        </div>
+                        <div className="account-page__history-score">{item.score} pts</div>
+                        <div className="account-page__history-date">{formatDate(item.completedAtMillis)}</div>
+                      </div>
+                    ))}
+                  </div>
+                  {accountHistoryHasMore && (
+                    <button
+                      className="ghost-button account-page__load-more"
+                      onClick={loadMoreHistory}
+                      disabled={accountHistoryLoading}
+                    >
+                      {accountHistoryLoading ? "Loading..." : "Load more"}
+                    </button>
+                  )}
+                </>
+              )}
             </div>
           </section>
         )}

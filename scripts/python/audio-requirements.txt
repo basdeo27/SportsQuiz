@@ -1,0 +1,2 @@
+# Separate from AI research dependencies; rerun make audio-setup to update extractors.
+yt-dlp[default]

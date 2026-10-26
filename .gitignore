@@ -41,3 +41,11 @@ out/
 
 ### Node ###
 **/node_modules/
+
+### Release build output ###
+/release/
+/scripts/tests/__pycache__/
+
+### Local audio preparation ###
+/.cache/audio-clips/
+/.venv-audio/

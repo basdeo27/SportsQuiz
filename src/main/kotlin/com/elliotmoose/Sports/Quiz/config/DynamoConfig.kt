@@ -19,7 +19,8 @@ import java.net.URI
     value = [
         QuizDynamoProperties::class,
         QuizQuestionStorageProperties::class,
-        QuizSettingsProperties::class
+        QuizSettingsProperties::class,
+        RateLimitProperties::class
     ]
 )
 class DynamoConfig(private val properties: QuizDynamoProperties) {

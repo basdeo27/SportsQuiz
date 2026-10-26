@@ -1,4 +1,18 @@
 quiz:
+  monitoring:
+    allow-development-key: true
+    api-key: dev-monitoring
+  mail:
+    mode: local
+  daily:
+    attempts:
+      allow-date-override: true
+  auth:
+    require-email-verification: false
+    allow-development-login: true
+    frontend-url: http://localhost:5173
+    secure-cookie: false
+    same-site: Lax
   cors:
     allowed-origins:
       - https://d2323rgqey2wlv.cloudfront.net
@@ -6,6 +20,8 @@ quiz:
       - http://localhost:5173
   dynamo:
     endpoint: http://localhost:8000
+    access-key: local
+    secret-key: local
   settings:
     min-questions: 1
     max-questions: 25

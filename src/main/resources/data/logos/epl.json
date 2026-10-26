@@ -2,181 +2,203 @@
   {
     "id": "epl-afc-bournemouth",
     "name": "AFC Bournemouth",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
     "answers": [
       "AFC Bournemouth"
     ],
-    "hint": "City: AFC \u2022 Mascot starts with B"
+    "hint": "South-coast club nicknamed the Cherries.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/e1e898f37437f402adeef352e6cd11b395db866b723b0173845f865bfafa680b.jpeg"
   },
   {
     "id": "epl-arsenal",
     "name": "Arsenal",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
     "answers": [
       "Arsenal"
     ],
-    "hint": "City: Arsenal \u2022 Mascot starts with A"
+    "hint": "North London club nicknamed the Gunners.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/7ccd377a064aa69baeedd477861bf3c093be1caa482d1ea177d0b89c6d38df9a.jpeg"
   },
   {
     "id": "epl-aston-villa",
     "name": "Aston Villa",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
     "answers": [
-      "Aston Villa"
+      "Aston Villa",
+      "Villa"
     ],
-    "hint": "City: Aston \u2022 Mascot starts with V"
+    "hint": "Birmingham club nicknamed the Villans.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/95b1f6f19592147e57ad1aab2c7d0977f9ba2fe4371f56e7f57f5e1d3972da1a.jpeg"
   },
   {
     "id": "epl-brentford",
     "name": "Brentford",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
     "answers": [
-      "Brentford"
+      "Brentford",
+      "Brentford FC"
     ],
-    "hint": "City: Brentford \u2022 Mascot starts with B"
+    "hint": "West London club nicknamed the Bees.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/82a4e3af89620602734b84b4b49da3e47b9578b514062cc6f73b232ada7781d0.jpeg"
   },
   {
     "id": "epl-brighton-&-hove-albion",
     "name": "Brighton & Hove Albion",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
     "answers": [
-      "Brighton & Hove Albion"
+      "Brighton & Hove Albion",
+      "Brighton and Hove Albion",
+      "Brighton"
     ],
-    "hint": "City: Brighton & Hove \u2022 Mascot starts with A"
-  },
-  {
-    "id": "epl-burnley",
-    "name": "Burnley",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/379.png",
-    "answers": [
-      "Burnley"
-    ],
-    "hint": "City: Burnley \u2022 Mascot starts with B"
+    "hint": "South-coast club nicknamed the Seagulls.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/1e8a6390623e27d76214cc862937b6f2edb5f302a2dacd4b9ce32edeb7296956.jpeg"
   },
   {
     "id": "epl-chelsea",
     "name": "Chelsea",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
     "answers": [
-      "Chelsea"
+      "Chelsea",
+      "Chelsea FC"
     ],
-    "hint": "City: Chelsea \u2022 Mascot starts with C"
+    "hint": "West London club based at Stamford Bridge.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/bef4f88e05cab13bec2b9004cc06ce46fbf540cdf630cf73b0c8dca594e51bf7.jpeg"
+  },
+  {
+    "id": "epl-coventry-city",
+    "name": "Coventry City",
+    "answers": [
+      "Coventry City",
+      "Coventry"
+    ],
+    "hint": "West Midlands club nicknamed the Sky Blues.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/ea0486b1069752b83f45bb374dd851a8b7207b85abe2b23f1c652fb63a460e0f.jpeg"
   },
   {
     "id": "epl-crystal-palace",
     "name": "Crystal Palace",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
     "answers": [
-      "Crystal Palace"
+      "Crystal Palace",
+      "Palace"
     ],
-    "hint": "City: Crystal \u2022 Mascot starts with P"
+    "hint": "South London club nicknamed the Eagles.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/44b05d5b1a5090a50f1eef1b5b6f94c20bb9baf1b9fef15063f7324baa0af6ba.jpeg"
   },
   {
     "id": "epl-everton",
     "name": "Everton",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
     "answers": [
-      "Everton"
+      "Everton",
+      "Everton FC"
     ],
-    "hint": "City: Everton \u2022 Mascot starts with E"
+    "hint": "Liverpool club nicknamed the Toffees.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/dcdf526071d6fef5cc35b6298d063c4da346436ed06d20699e1bb4a85d4c4ee6.jpeg"
   },
   {
     "id": "epl-fulham",
     "name": "Fulham",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
     "answers": [
-      "Fulham"
+      "Fulham",
+      "Fulham FC"
     ],
-    "hint": "City: Fulham \u2022 Mascot starts with F"
+    "hint": "West London club nicknamed the Cottagers.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/4f586574b4aff3923875c6ccb4ce77af4c7ae2f78308a3552d87608506a7d1f6.jpeg"
+  },
+  {
+    "id": "epl-hull-city",
+    "name": "Hull City",
+    "answers": [
+      "Hull City",
+      "Hull"
+    ],
+    "hint": "East Yorkshire club nicknamed the Tigers.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/36018df4684eb2133d29a8c489df7366e599296feef369972d437a54cf6cfe11.jpeg"
+  },
+  {
+    "id": "epl-ipswich-town",
+    "name": "Ipswich Town",
+    "answers": [
+      "Ipswich Town",
+      "Ipswich"
+    ],
+    "hint": "Suffolk club nicknamed the Tractor Boys.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/6c548a43394a6ac22a2c36fa830ba6775485faa0edaacf92994fe4dbe5f95e85.jpeg"
   },
   {
     "id": "epl-leeds-united",
     "name": "Leeds United",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
     "answers": [
-      "Leeds United"
+      "Leeds United",
+      "Leeds"
     ],
-    "hint": "City: Leeds \u2022 Mascot starts with U"
+    "hint": "West Yorkshire club based at Elland Road.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/06b117da571000bf536c36568308aa492cac00e0edfbdfd02dbc02ea28d39d97.jpeg"
   },
   {
     "id": "epl-liverpool",
     "name": "Liverpool",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
     "answers": [
-      "Liverpool"
+      "Liverpool",
+      "Liverpool FC"
     ],
-    "hint": "City: Liverpool \u2022 Mascot starts with L"
+    "hint": "Merseyside club based at Anfield.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/0e3809ac0888d0063d6cf2eaabf47dc42287efbe44e170c62b219b3847bedc9b.jpeg"
   },
   {
     "id": "epl-manchester-city",
     "name": "Manchester City",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
     "answers": [
-      "Manchester City"
+      "Manchester City",
+      "Man City",
+      "ManCity"
     ],
-    "hint": "City: Manchester \u2022 Mascot starts with C"
+    "hint": "Manchester club nicknamed the Citizens.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/bad5d4e672ba4b3416494bdff98a73bb93684d1d1456d0c7d9946ea816ea6613.jpeg"
   },
   {
     "id": "epl-manchester-united",
     "name": "Manchester United",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
     "answers": [
-      "Manchester United"
+      "Manchester United",
+      "Man United",
+      "Man Utd",
+      "Manchester Utd"
     ],
-    "hint": "City: Manchester \u2022 Mascot starts with U"
+    "hint": "Manchester club nicknamed the Red Devils.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/97d702a570bf4647d3223f1eade4749eca019409f2e62d71b1aac791ed75d2f4.jpeg"
   },
   {
     "id": "epl-newcastle-united",
     "name": "Newcastle United",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
     "answers": [
       "Newcastle United"
     ],
-    "hint": "City: Newcastle \u2022 Mascot starts with U"
+    "hint": "Tyneside club nicknamed the Magpies.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/6ca4c69f5daba2e38ed0da94905185c1ed39d1474c57f86a1112f11b83676e35.jpeg"
   },
   {
     "id": "epl-nottingham-forest",
     "name": "Nottingham Forest",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
     "answers": [
-      "Nottingham Forest"
+      "Nottingham Forest",
+      "Notts Forest",
+      "Forest"
     ],
-    "hint": "City: Nottingham \u2022 Mascot starts with F"
+    "hint": "Nottingham club nicknamed the Tricky Trees.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/4b339d69e324ffb82407c15f674406ffedc44b59067c243b188d6da8439b0037.jpeg"
   },
   {
     "id": "epl-sunderland",
     "name": "Sunderland",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
     "answers": [
       "Sunderland"
     ],
-    "hint": "City: Sunderland \u2022 Mascot starts with S"
+    "hint": "Wearside club nicknamed the Black Cats.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/30cf4ac2d6c77b7ad7b4dabea10a5ae97d2b1c632cae037aa694ea0ffa32e564.jpeg"
   },
   {
     "id": "epl-tottenham-hotspur",
     "name": "Tottenham Hotspur",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
     "answers": [
-      "Tottenham Hotspur"
+      "Tottenham Hotspur",
+      "Tottenham",
+      "Spurs"
     ],
-    "hint": "City: Tottenham \u2022 Mascot starts with H"
-  },
-  {
-    "id": "epl-west-ham-united",
-    "name": "West Ham United",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/371.png",
-    "answers": [
-      "West Ham United"
-    ],
-    "hint": "City: West Ham \u2022 Mascot starts with U"
-  },
-  {
-    "id": "epl-wolverhampton-wanderers",
-    "name": "Wolverhampton Wanderers",
-    "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/380.png",
-    "answers": [
-      "Wolverhampton Wanderers"
-    ],
-    "hint": "City: Wolverhampton \u2022 Mascot starts with W"
+    "hint": "North London club nicknamed Spurs.",
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/8dd87048a16a1a8ef6366a786a345fd009b1ca6b4aae944658d8e4a7b49684d1.jpeg"
   }
 ]

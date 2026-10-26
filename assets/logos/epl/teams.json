@@ -1,0 +1,212 @@
+{
+  "description": "EPL quiz roster using the user-specified promotion/relegation update: Coventry, Hull and Ipswich replace West Ham, Wolves and Burnley.",
+  "excluded": [],
+  "teams": [
+    {
+      "file": "arsenal.jpeg",
+      "id": "epl-arsenal",
+      "name": "Arsenal",
+      "answers": [
+        "Arsenal"
+      ],
+      "hint": "North London club nicknamed the Gunners."
+    },
+    {
+      "file": "brentford.jpeg",
+      "id": "epl-brentford",
+      "name": "Brentford",
+      "answers": [
+        "Brentford",
+        "Brentford FC"
+      ],
+      "hint": "West London club nicknamed the Bees."
+    },
+    {
+      "file": "brighton.jpeg",
+      "id": "epl-brighton-&-hove-albion",
+      "name": "Brighton & Hove Albion",
+      "answers": [
+        "Brighton & Hove Albion",
+        "Brighton and Hove Albion",
+        "Brighton"
+      ],
+      "hint": "South-coast club nicknamed the Seagulls."
+    },
+    {
+      "file": "chelsea.jpeg",
+      "id": "epl-chelsea",
+      "name": "Chelsea",
+      "answers": [
+        "Chelsea",
+        "Chelsea FC"
+      ],
+      "hint": "West London club based at Stamford Bridge."
+    },
+    {
+      "file": "city.jpeg",
+      "id": "epl-manchester-city",
+      "name": "Manchester City",
+      "answers": [
+        "Manchester City",
+        "Man City",
+        "ManCity"
+      ],
+      "hint": "Manchester club nicknamed the Citizens."
+    },
+    {
+      "file": "coventry.jpeg",
+      "id": "epl-coventry-city",
+      "name": "Coventry City",
+      "answers": [
+        "Coventry City",
+        "Coventry"
+      ],
+      "hint": "West Midlands club nicknamed the Sky Blues."
+    },
+    {
+      "file": "everton.jpeg",
+      "id": "epl-everton",
+      "name": "Everton",
+      "answers": [
+        "Everton",
+        "Everton FC"
+      ],
+      "hint": "Liverpool club nicknamed the Toffees."
+    },
+    {
+      "file": "fulham.jpeg",
+      "id": "epl-fulham",
+      "name": "Fulham",
+      "answers": [
+        "Fulham",
+        "Fulham FC"
+      ],
+      "hint": "West London club nicknamed the Cottagers."
+    },
+    {
+      "file": "forest.jpeg",
+      "id": "epl-nottingham-forest",
+      "name": "Nottingham Forest",
+      "answers": [
+        "Nottingham Forest",
+        "Notts Forest",
+        "Forest"
+      ],
+      "hint": "Nottingham club nicknamed the Tricky Trees."
+    },
+    {
+      "file": "hull.jpeg",
+      "id": "epl-hull-city",
+      "name": "Hull City",
+      "answers": [
+        "Hull City",
+        "Hull"
+      ],
+      "hint": "East Yorkshire club nicknamed the Tigers."
+    },
+    {
+      "file": "ipswich.jpeg",
+      "id": "epl-ipswich-town",
+      "name": "Ipswich Town",
+      "answers": [
+        "Ipswich Town",
+        "Ipswich"
+      ],
+      "hint": "Suffolk club nicknamed the Tractor Boys."
+    },
+    {
+      "file": "leeds.jpeg",
+      "id": "epl-leeds-united",
+      "name": "Leeds United",
+      "answers": [
+        "Leeds United",
+        "Leeds"
+      ],
+      "hint": "West Yorkshire club based at Elland Road."
+    },
+    {
+      "file": "liverpool.jpeg",
+      "id": "epl-liverpool",
+      "name": "Liverpool",
+      "answers": [
+        "Liverpool",
+        "Liverpool FC"
+      ],
+      "hint": "Merseyside club based at Anfield."
+    },
+    {
+      "file": "palace.jpeg",
+      "id": "epl-crystal-palace",
+      "name": "Crystal Palace",
+      "answers": [
+        "Crystal Palace",
+        "Palace"
+      ],
+      "hint": "South London club nicknamed the Eagles."
+    },
+    {
+      "file": "tottenham.jpeg",
+      "id": "epl-tottenham-hotspur",
+      "name": "Tottenham Hotspur",
+      "answers": [
+        "Tottenham Hotspur",
+        "Tottenham",
+        "Spurs"
+      ],
+      "hint": "North London club nicknamed Spurs."
+    },
+    {
+      "file": "united.jpeg",
+      "id": "epl-manchester-united",
+      "name": "Manchester United",
+      "answers": [
+        "Manchester United",
+        "Man United",
+        "Man Utd",
+        "Manchester Utd"
+      ],
+      "hint": "Manchester club nicknamed the Red Devils."
+    },
+    {
+      "file": "villa.jpeg",
+      "id": "epl-aston-villa",
+      "name": "Aston Villa",
+      "answers": [
+        "Aston Villa",
+        "Villa"
+      ],
+      "hint": "Birmingham club nicknamed the Villans."
+    },
+    {
+      "id": "epl-afc-bournemouth",
+      "name": "AFC Bournemouth",
+      "answers": [
+        "AFC Bournemouth"
+      ],
+      "hint": "South-coast club nicknamed the Cherries.",
+      "file": "bournemouth.jpeg"
+    },
+    {
+      "id": "epl-newcastle-united",
+      "name": "Newcastle United",
+      "answers": [
+        "Newcastle United"
+      ],
+      "hint": "Tyneside club nicknamed the Magpies.",
+      "file": "newcastle.jpeg"
+    },
+    {
+      "id": "epl-sunderland",
+      "name": "Sunderland",
+      "answers": [
+        "Sunderland"
+      ],
+      "hint": "Wearside club nicknamed the Black Cats.",
+      "file": "sunderland.jpeg"
+    }
+  ],
+  "retainedTeams": [],
+  "reviewNotes": {
+    "fulham.jpeg": "Use the supplied blank shield for Fulham, explicitly confirmed by the user."
+  }
+}

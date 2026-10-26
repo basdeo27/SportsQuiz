@@ -1,0 +1,26 @@
+{
+  "player": "jeter",
+  "created_at": "2026-10-26T23:20:20.663036+00:00",
+  "source": {
+    "url": "https://www.youtube.com/watch?v=zYFNXHQaCBA",
+    "webpage_url": "https://www.youtube.com/watch?v=zYFNXHQaCBA",
+    "title": "Derek Jeter gets walk-off hit in final home game",
+    "uploader": "MLB",
+    "video_id": "zYFNXHQaCBA",
+    "file": "source.webm",
+    "sha256": "d779e999d6b76ef3b420c5a5a1211f48bd67244b120eccdd686441eb7250ea80"
+  },
+  "source_note": "",
+  "processing": {
+    "start_seconds": 52.0,
+    "end_seconds": 61.0,
+    "normalize": true,
+    "fade_seconds": 0.08,
+    "mp3_bitrate": "192k",
+    "sample_rate": 44100,
+    "channels": 2,
+    "processing_version": 1
+  },
+  "output": "src/main/resources/static/assets/daily/audio/a3c8f9e47117f2e7c1a01ecd.mp3",
+  "output_sha256": "edd2c9b8fadab10f48beeddb4b7069100d166adeaeaea9ecb32ee49d4afa1fb1"
+}

@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import java.time.Clock
+import java.security.SecureRandom
 
 @Configuration
 @EnableConfigurationProperties(
@@ -21,6 +23,12 @@ import org.springframework.security.crypto.password.PasswordEncoder
     ]
 )
 class AppConfig {
+    @Bean
+    fun clock(): Clock = Clock.systemUTC()
+
+    @Bean
+    fun secureRandom(): SecureRandom = SecureRandom()
+
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 }

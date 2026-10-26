@@ -5,6 +5,11 @@ import com.elliotmoose.Sports.Quiz.results.model.QuizResult
 import com.elliotmoose.Sports.Quiz.results.model.QuizResultsResponse
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.BeforeEach
+import com.elliotmoose.Sports.Quiz.account.AccountAuthentication
+import com.elliotmoose.Sports.Quiz.account.model.Account
+import com.elliotmoose.Sports.Quiz.account.repository.AccountRepository
+import java.util.UUID
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -30,10 +35,21 @@ class ResultsApiE2ETest {
         contentType = MediaType.APPLICATION_JSON
     }
 
+    @Autowired private lateinit var accounts: AccountRepository
+    @Autowired private lateinit var authentication: AccountAuthentication
+    private lateinit var userId: String
+
+    @BeforeEach
+    fun signIn() {
+        val account = accounts.save(Account(username = UUID.randomUUID().toString(), passwordHash = "test-hash", nickname = "Member", emailVerified = true))
+        userId = account.id
+        jsonHeaders.setBearerAuth(authentication.issue(account.id))
+    }
+
     @Test
     fun `results endpoint returns 200 with a valid response shape`() {
-        val response = restTemplate.getForEntity(
-            "http://localhost:$port/v0/quiz/results?userId=single-user",
+        val response = restTemplate.exchange(
+            "http://localhost:$port/v0/quiz/results?userId=$userId", HttpMethod.GET, HttpEntity<Void>(jsonHeaders),
             QuizResultsResponse::class.java
         )
 
@@ -168,7 +184,7 @@ class ResultsApiE2ETest {
 
     private fun getResults(): List<QuizResult> {
         return restTemplate
-            .getForEntity("http://localhost:$port/v0/quiz/results?userId=single-user", QuizResultsResponse::class.java)
+            .exchange("http://localhost:$port/v0/quiz/results?userId=$userId", HttpMethod.GET, HttpEntity<Void>(jsonHeaders), QuizResultsResponse::class.java)
             .body
             ?.results
             ?: emptyList()

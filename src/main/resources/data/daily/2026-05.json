@@ -1,0 +1,119 @@
+[
+  {
+    "date": "2026-05-01",
+    "answer": "Jose Bautista",
+    "answers": ["Bautista", "Jose Bautista", "Joey Bats", "Joey"],
+    "hints": [
+      {
+        "type": "IMAGE",
+        "url": "https://legacymedia.sportsplatform.io/img/images/photos/003/599/259/hi-res-d7e5390760bf8509b8aa5bca784e17a6_crop_north.jpg?1463409650&w=630&h=420",
+        "source": "REMOTE"
+      },
+      {
+        "type": "STAT_LINE",
+        "statLine": {
+          "label": "2010 · AL",
+          "stats": [
+            { "name": "HR", "value": "54" },
+            { "name": "RBI", "value": "124" },
+            { "name": "AVG", "value": ".260" },
+            { "name": "OPS", "value": ".995" },
+            { "name": "BB", "value": "100" },
+            { "name": "SO", "value": "116" }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "value": "\"HE DID IT! A three-run home run — and listen to this crowd!\" — Rogers Centre, October 14, 2015, 7th inning. The bat flip that followed became the most-talked-about moment in baseball that year."
+      },
+      {
+        "type": "IMAGE",
+        "url": "https://legacymedia.sportsplatform.io/img/images/photos/003/599/412/hi-res-ebf6d45e140bec9bf8211ea71f4c7cc6_crop_north.jpg?1463457085&w=630&h=420",
+        "source": "REMOTE"
+      },
+      {
+        "type": "TEXT",
+        "value": "\"I never thought I would be a 50 home run guy. I changed my swing and everything clicked. That year was special.\""
+      }
+    ]
+  },
+  {
+    "date": "2026-05-02",
+    "answer": "Shohei Ohtani",
+    "answers": ["Ohtani", "Shohei Ohtani", "Shotime", "Shohei"],
+    "hints": [
+      {
+        "type": "IMAGE",
+        "url": "https://legacymedia.sportsplatform.io/img/images/photos/003/778/937/hi-res-a6f3497f8ff9b26ab3b5e0c79cf35fde_crop_north.jpg",
+        "source": "REMOTE"
+      },
+      {
+        "type": "STAT_LINE",
+        "statLine": {
+          "label": "2021 · AL",
+          "stats": [
+            { "name": "HR", "value": "46" },
+            { "name": "RBI", "value": "100" },
+            { "name": "AVG", "value": ".257" },
+            { "name": "SB", "value": "26" },
+            { "name": "OPS", "value": ".965" },
+            { "name": "BB", "value": "96" }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "value": "His personal interpreter of 9 years was arrested in 2024 and charged with bank fraud — stealing nearly $17 million from the player's account to cover illegal gambling debts. The player was cleared of all involvement."
+      },
+      {
+        "type": "IMAGE",
+        "url": "https://legacymedia.sportsplatform.io/img/images/photos/003/779/001/hi-res-b2c4d8e9f1a3c6d7e8f9a0b1c2d3e4f5_crop_north.jpg",
+        "source": "REMOTE"
+      },
+      {
+        "type": "TEXT",
+        "value": "\"He strikes him out — and now watch this — the same man who just threw that pitch is WALKING TO THE PLATE. There is nobody like him in the history of this game.\" — 2021 All-Star Game broadcast."
+      }
+    ]
+  },
+  {
+    "date": "2026-05-03",
+    "answer": "Madison Bumgarner",
+    "answers": ["Bumgarner", "Madison Bumgarner"],
+    "hints": [
+      {
+        "type": "TEXT",
+        "value": "A rodeo competitor using a pseudonym won $26,560 at a team-roping event in Wickenburg, Arizona in December 2019. A photo posted to the venue's Facebook page blew his cover. He had been competing under a fake name for years — his real employer had no idea."
+      },
+      {
+        "type": "STAT_LINE",
+        "statLine": {
+          "label": "2014 · NL",
+          "stats": [
+            { "name": "W", "value": "18" },
+            { "name": "ERA", "value": "2.98" },
+            { "name": "K", "value": "219" },
+            { "name": "WHIP", "value": "1.09" },
+            { "name": "IP", "value": "217.1" },
+            { "name": "CG", "value": "4" }
+          ]
+        }
+      },
+      {
+        "type": "AUDIO",
+        "url": "assets/daily/2026-05-03/hint-3.mp3",
+        "source": "LOCAL"
+      },
+      {
+        "type": "IMAGE",
+        "url": "https://legacymedia.sportsplatform.io/img/images/photos/003/130/719/2bae8ae7ecf4bc91f4e9d2476f635996_crop_north.jpg?1414640614&w=630&h=420",
+        "source": "REMOTE"
+      },
+      {
+        "type": "TEXT",
+        "value": "\"He's Bob Gibson in black and orange. He's the Sandy Koufax of Northern California. There's absolutely no one like him.\" — Bob Nightengale, USA Today, October 28, 2014. This pitcher's 0.25 ERA across five World Series appearances is the lowest all-time among pitchers with at least 20 innings."
+      }
+    ]
+  }
+]

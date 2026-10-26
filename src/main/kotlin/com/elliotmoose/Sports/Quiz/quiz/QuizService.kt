@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 import java.security.SecureRandom
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import com.elliotmoose.Sports.Quiz.common.auth.AuthenticationRequiredException
 
 @Service
 class QuizService(
@@ -24,6 +25,11 @@ class QuizService(
     private val attemptsByQuiz = ConcurrentHashMap<String, ConcurrentHashMap<String, Int>>()
     private val savedResults = ConcurrentHashMap.newKeySet<String>()
     private val secureRandom = SecureRandom()
+
+    fun requireOwner(quizId: String, accountId: String?) {
+        val quiz = quizzes[quizId] ?: throw QuizNotFoundException(quizId)
+        if (quiz.accountId != null && quiz.accountId != accountId) throw AuthenticationRequiredException()
+    }
 
     fun createQuiz(quizRequest: QuizRequest): Quiz {
         val availableQuestions = questionRepository.getQuestions(
@@ -143,7 +149,8 @@ class QuizService(
     private fun markCompletedIfDone(quiz: Quiz): Quiz {
         if (quiz.completedAtMillis != null) {
             if (savedResults.add(quiz.id)) {
-                resultsService.saveResult(buildResult(quiz))
+                try { resultsService.saveResult(buildResult(quiz)) }
+                catch (ex: Exception) { savedResults.remove(quiz.id); throw ex }
             }
             return quiz
         }
@@ -153,7 +160,8 @@ class QuizService(
         return if (allDone) {
             val completedQuiz = quiz.copy(completedAtMillis = System.currentTimeMillis())
             if (savedResults.add(completedQuiz.id)) {
-                resultsService.saveResult(buildResult(completedQuiz))
+                try { resultsService.saveResult(buildResult(completedQuiz)) }
+                catch (ex: Exception) { savedResults.remove(completedQuiz.id); throw ex }
             }
             completedQuiz
         } else {

@@ -1,0 +1,153 @@
+{
+  "athleteId": "mlb_003",
+  "status": "DRAFT_AUDIO_REVIEW_REQUIRED",
+  "scheduledDate": null,
+  "challenge": {
+    "answer": "Derek Jeter",
+    "answers": [
+      "Derek Jeter",
+      "Derek Sanderson Jeter",
+      "Jeter"
+    ],
+    "hints": [
+      {
+        "type": "AUDIO",
+        "source": "LOCAL",
+        "url": "assets/daily/2026-10-26/hint-1.mp3"
+      },
+      {
+        "type": "TEXT",
+        "value": "I’d boo myself, too.",
+        "attribution": "On hearing boos during a slump · 2004"
+      },
+      {
+        "type": "IMAGE",
+        "source": "LOCAL",
+        "url": "assets/daily/options/option-003/hint-1.svg"
+      },
+      {
+        "type": "STAT_LINE",
+        "statLine": {
+          "label": "1999 · MLB regular season",
+          "stats": [
+            {
+              "name": "AVG",
+              "value": ".349"
+            },
+            {
+              "name": "H",
+              "value": "219"
+            },
+            {
+              "name": "HR",
+              "value": "24"
+            },
+            {
+              "name": "RBI",
+              "value": "102"
+            },
+            {
+              "name": "SB",
+              "value": "19"
+            }
+          ]
+        }
+      },
+      {
+        "type": "ACCOMPLISHMENTS",
+        "accomplishments": {
+          "label": "Career accomplishments",
+          "entries": [
+            {
+              "kind": "TROPHY",
+              "name": "World Series championships",
+              "count": 5
+            },
+            {
+              "kind": "ALL_STAR",
+              "name": "MLB All-Star",
+              "count": 14,
+              "detail": "All-Star selections"
+            },
+            {
+              "kind": "TROPHY",
+              "name": "Gold Glove Awards",
+              "count": 5
+            },
+            {
+              "kind": "TROPHY",
+              "name": "Silver Slugger Awards",
+              "count": 5
+            },
+            {
+              "kind": "TROPHY",
+              "name": "World Series MVP",
+              "count": 1,
+              "detail": "2000"
+            },
+            {
+              "kind": "TROPHY",
+              "name": "All-Star Game MVP",
+              "count": 1,
+              "detail": "2000"
+            },
+            {
+              "kind": "TROPHY",
+              "name": "AL Rookie of the Year",
+              "count": 1,
+              "detail": "1996"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "authoring": {
+    "researchFile": "research/mlb-athlete-hint-ideas-first-20.md",
+    "pending": [
+      "Listen to the entire final audio and remove any spoken player names, accepted aliases or identifying nicknames. Audio content has NOT been certified.",
+      "When scheduling this option, add date to challenge before copying it into data/daily/YYYY-MM.json."
+    ],
+    "media": {
+      "calendar": "Original SVG calendar created for this option; no athlete, names or identifying nickname.",
+      "audio": {
+        "sourceUrl": "https://www.youtube.com/watch?v=zYFNXHQaCBA",
+        "event": "2014-09-25 vs Baltimore: final home-game walk-off",
+        "startSeconds": 52,
+        "endSeconds": 61,
+        "durationSeconds": 9,
+        "sha256": "edd2c9b8fadab10f48beeddb4b7069100d166adeaeaea9ecb32ee49d4afa1fb1",
+        "provenance": "research/audio-clips/jeter/a3c8f9e47117f2e7c1a01ecd.json",
+        "contentReview": "Not listened/transcribed; requires spoiler review"
+      }
+    },
+    "sources": {
+      "quote": "https://en.wikiquote.org/wiki/Derek_Jeter",
+      "season": "https://www.baseball-reference.com/players/j/jeterde01.shtml",
+      "honours": "https://en.wikipedia.org/wiki/Derek_Jeter"
+    },
+    "selectionConfirmed": true,
+    "selectedHints": [
+      {
+        "position": 1,
+        "idea": "2014 final Yankee Stadium walk-off audio"
+      },
+      {
+        "position": 2,
+        "idea": "I’d boo myself, too."
+      },
+      {
+        "position": 3,
+        "idea": "November calendar image"
+      },
+      {
+        "position": 4,
+        "idea": "1999 season stats"
+      },
+      {
+        "position": 5,
+        "idea": "Career trophy cabinet"
+      }
+    ]
+  }
+}

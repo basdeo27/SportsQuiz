@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="720" viewBox="0 0 840 720" role="img" aria-label="A November calendar page">
+<rect width="840" height="720" fill="#eef2f6"/>
+<rect x="100" y="70" width="640" height="580" rx="28" fill="white" stroke="#cbd5e1" stroke-width="3"/>
+<path d="M128 70h584q28 0 28 28v120H100V98q0-28 28-28" fill="#17243d"/>
+<g stroke="#94a3b8" stroke-width="16" stroke-linecap="round"><path d="M240 45v60"/><path d="M600 45v60"/></g>
+<text x="420" y="170" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="52" font-weight="700" letter-spacing="5">NOVEMBER</text>
+<text x="174" y="290" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">1</text>
+<text x="256" y="290" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">2</text>
+<text x="338" y="290" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">3</text>
+<text x="420" y="290" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">4</text>
+<text x="502" y="290" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">5</text>
+<text x="584" y="290" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">6</text>
+<text x="666" y="290" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">7</text>
+<text x="174" y="362" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">8</text>
+<text x="256" y="362" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">9</text>
+<text x="338" y="362" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">10</text>
+<text x="420" y="362" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">11</text>
+<text x="502" y="362" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">12</text>
+<text x="584" y="362" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">13</text>
+<text x="666" y="362" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">14</text>
+<text x="174" y="434" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">15</text>
+<text x="256" y="434" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">16</text>
+<text x="338" y="434" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">17</text>
+<text x="420" y="434" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">18</text>
+<text x="502" y="434" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">19</text>
+<text x="584" y="434" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">20</text>
+<text x="666" y="434" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">21</text>
+<text x="174" y="506" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">22</text>
+<text x="256" y="506" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">23</text>
+<text x="338" y="506" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">24</text>
+<text x="420" y="506" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">25</text>
+<text x="502" y="506" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">26</text>
+<text x="584" y="506" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">27</text>
+<text x="666" y="506" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">28</text>
+<text x="174" y="578" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">29</text>
+<text x="256" y="578" text-anchor="middle" fill="#334155" font-family="Arial, sans-serif" font-size="27">30</text>
+</svg>

@@ -2,7 +2,7 @@ spring:
   application:
     name: Sports-Quiz
   profiles:
-    active: prod
+    default: local
 
 management:
   endpoints:
@@ -13,13 +13,41 @@ management:
     health:
       show-details: never
 
+rate-limit:
+  ai:
+    enabled: true
+    capacity: 5           # burst allowance
+    refill-per-minute: 5  # sustained rate (tokens/min per IP)
+  auth:
+    enabled: true
+    capacity: 10
+    refill-per-minute: 10
+  quiz-write:
+    enabled: true
+    capacity: 30
+    refill-per-minute: 30
+  read:
+    enabled: true
+    capacity: 60
+    refill-per-minute: 60
+
 ai:
   mistral:
     api-key: ${MISTRAL_API_KEY:}
     model: mistral-small-latest
 
 quiz:
-  storage: ${QUIZ_STORAGE:local}
+  monitoring:
+    api-key: ${MONITORING_API_KEY:}
+  daily:
+    attempts:
+      login-required: ${DAILY_LOGIN_REQUIRED:false}
+    leaderboard:
+      table-name: sports-quiz-daily-scores
+      page-size: ${DAILY_LEADERBOARD_PAGE_SIZE:50}
+      max-page-size: 100
+      zone: Europe/London
+  storage: ${QUIZ_STORAGE:dynamo}
   cors:
     allowed-origins:
       - https://d2323rgqey2wlv.cloudfront.net
@@ -30,8 +58,7 @@ quiz:
   settings:
     min-questions: 1
     max-questions: 25
-    disabled-logo-leagues:
-      - EPL
+    disabled-logo-leagues: []
     disabled-face-leagues: []
   dynamo:
     endpoint: "https://dynamodb.eu-west-2.amazonaws.com"

@@ -407,6 +407,48 @@ def merge_hints(
     return [{**entry, "hints": generated_hints[entry["id"]]} for entry in entries]
 
 
+def index_entries(
+    entries: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, str]]:
+    """Replace each entry's id with a short sequential index.
+
+    Returns the remapped entries and a mapping from index string back to the
+    original id. Using small indices prevents LLMs from truncating long numeric
+    ids when echoing them back in the response.
+    """
+    index_to_id: dict[str, str] = {}
+    remapped = []
+    for i, entry in enumerate(entries):
+        idx = str(i)
+        index_to_id[idx] = entry["id"]
+        remapped.append({**entry, "id": idx})
+    return remapped, index_to_id
+
+
+def restore_ids(
+    by_index: dict[str, dict[str, list[str]]],
+    index_to_id: dict[str, str],
+) -> dict[str, dict[str, list[str]]]:
+    return {index_to_id[idx]: hints for idx, hints in by_index.items()}
+
+
+def request_batch(
+    client: HintGenerationClient,
+    *,
+    model: str,
+    quiz_type: str,
+    league: str,
+    entries: list[dict[str, Any]],
+    timeout_ms: int,
+) -> dict[str, dict[str, list[str]]]:
+    """Send one batch to the model and return hints keyed by original entry id."""
+    indexed, index_to_id = index_entries(entries)
+    prompt = build_face_prompt(league, indexed) if quiz_type == "face" else build_logo_prompt(league, indexed)
+    payload = request_hints_with_retry(client, model=model, prompt=prompt, timeout_ms=timeout_ms)
+    by_index = validate_structure(payload, indexed)
+    return restore_ids(by_index, index_to_id)
+
+
 def main() -> int:
     args = parse_args()
     input_path = Path(args.input)
@@ -431,9 +473,10 @@ def main() -> int:
             f"Requesting hints for batch {batch_index} of "
             f"{len(batches)} ({len(batch)} entries)..."
         )
-        prompt = build_face_prompt(args.league, batch) if args.type == "face" else build_logo_prompt(args.league, batch)
-        payload = request_hints_with_retry(client, model=model, prompt=prompt, timeout_ms=args.timeout_ms)
-        by_id = validate_structure(payload, batch)
+        by_id = request_batch(
+            client, model=model, quiz_type=args.type, league=args.league,
+            entries=batch, timeout_ms=args.timeout_ms,
+        )
 
         # Retry any entries whose hints reveal the player/team name
         to_retry = find_name_violations(by_id, batch, args.type)
@@ -442,9 +485,10 @@ def main() -> int:
                 break
             names = [e["name"] for e in to_retry]
             print(f"  {len(to_retry)} entries revealed names in hints, retrying (attempt {attempt}/{MAX_RETRIES}): {names}")
-            retry_prompt = build_face_prompt(args.league, to_retry) if args.type == "face" else build_logo_prompt(args.league, to_retry)
-            retry_payload = request_hints_with_retry(client, model=model, prompt=retry_prompt, timeout_ms=args.timeout_ms)
-            retry_by_id = validate_structure(retry_payload, to_retry)
+            retry_by_id = request_batch(
+                client, model=model, quiz_type=args.type, league=args.league,
+                entries=to_retry, timeout_ms=args.timeout_ms,
+            )
             by_id.update(retry_by_id)
             to_retry = find_name_violations(retry_by_id, to_retry, args.type)
 

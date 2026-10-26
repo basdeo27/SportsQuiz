@@ -1,0 +1,34 @@
+quiz:
+  monitoring:
+    allow-development-key: false
+  cors:
+    allowed-origins:
+      - https://funsportsquiz.com
+      - https://d2323rgqey2wlv.cloudfront.net
+  auth:
+    require-email-verification: true
+    allow-development-login: false
+    secure-cookie: true
+    same-site: ${AUTH_COOKIE_SAME_SITE:Lax}
+    frontend-url: ${FRONTEND_URL:https://funsportsquiz.com}
+  mail:
+    mode: ses
+    from: ${MAIL_FROM:noreply@funsportsquiz.com}
+    region: ${AWS_REGION:eu-west-2}
+  daily:
+    media:
+      base-url: ${DAILY_MEDIA_BASE_URL:/media/daily}
+    attempts:
+      allow-date-override: false
+      allow-practice-date-override: ${DAILY_ALLOW_PRACTICE_DATE_OVERRIDE:true}
+
+# Metrics stay off the public API until a private collector is configured.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+logging:
+  pattern:
+    level: "%5p [requestId:%X{requestId:-}]"

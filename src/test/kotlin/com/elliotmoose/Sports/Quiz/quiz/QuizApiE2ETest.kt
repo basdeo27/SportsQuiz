@@ -29,6 +29,40 @@ class QuizApiE2ETest {
     }
 
     @Test
+    fun `EPL is selectable and creates a quiz using the uploaded logo pool`() {
+        val leagues = restTemplate.getForEntity("http://localhost:$port/v0/quiz/leagues", Map::class.java)
+        assertThat(leagues.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat((leagues.body?.get("LOGO") as? List<*>)?.contains("EPL")).isTrue()
+
+        val request = QuizRequest(
+            leagues = setOf(League.EPL),
+            numberOfQuestions = 20,
+            difficulty = QuizDifficulty.EASY,
+            type = QuizType.LOGO
+        )
+        val response = restTemplate.exchange(
+            "http://localhost:$port/v0/quiz", HttpMethod.POST,
+            HttpEntity(request, jsonHeaders), QuizResponse::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        val questions = requireNotNull(response.body).questions
+        assertThat(questions).hasSize(20)
+        assertThat(questions.map { it.fullName }).contains(
+            "Fulham", "Coventry City", "Hull City", "Ipswich Town",
+            "AFC Bournemouth", "Newcastle United", "Sunderland"
+        )
+        assertThat(questions.map { it.fullName }).doesNotContain("West Ham United", "Wolverhampton Wanderers", "Burnley")
+        assertThat(questions).allSatisfy { question ->
+            assertThat(question.league).isEqualTo(League.EPL)
+        }
+        assertThat(questions).allSatisfy { question ->
+            assertThat(question.logoUrl).matches(
+                "https://d2323rgqey2wlv\\.cloudfront\\.net/media/logos/epl/[a-f0-9]{64}\\.(png|jpeg)"
+            )
+        }
+    }
+
+    @Test
     fun `create quiz returns expected api response`() {
         val response = createLogoQuiz(numberOfQuestions = 3)
 

@@ -1,0 +1,4 @@
+[
+  {"date":"2099-01-01","answer":"Michael Jordan","answers":["Jordan"],"hints":[{"type":"TEXT","value":"Six championships."},{"type":"TEXT","value":"Chicago Bulls."}]},
+  {"date":"2099-01-02","answer":"Serena Williams","answers":["Serena"],"hints":[{"type":"TEXT","value":"Tennis champion."}]}
+]

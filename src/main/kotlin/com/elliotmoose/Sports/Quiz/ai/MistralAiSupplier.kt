@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import jakarta.annotation.PostConstruct
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -19,6 +20,15 @@ class MistralAiSupplier(
 
     private val log = LoggerFactory.getLogger(MistralAiSupplier::class.java)
     private val httpClient = HttpClient.newHttpClient()
+
+    @PostConstruct
+    fun logConfiguration() {
+        if (properties.mistral.apiKey.isBlank()) {
+            log.warn("Mistral API key is NOT configured — AI summaries will return the fallback message")
+        } else {
+            log.info("Mistral API key is configured (model={})", properties.mistral.model)
+        }
+    }
 
     override fun complete(prompt: String): String {
         val apiKey = properties.mistral.apiKey
