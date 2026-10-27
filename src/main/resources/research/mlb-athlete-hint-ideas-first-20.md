@@ -252,7 +252,7 @@ When asked to convert these selections, review facts, answer spoilers, media ava
 
 ### 1. Quotes about him — five options
 
-- **[Hint: _]** “a cross between Babe Ruth and Count Dracula” — J.R. Moehringer’s 2015 description, quoted by SABR.
+- **[Hint: 2]** “a cross between Babe Ruth and Count Dracula” — J.R. Moehringer’s 2015 description, quoted by SABR.
 - **[Hint: _]** “We think he’s a special player.” — Mariners president Chuck Armstrong, draft assessment; SABR.
 - **[Hint: _]** “willing and effective mentor” — Hal Steinbrenner, 2016. [Final-game announcement](https://www.mlb.com/news/alex-rodriguez-to-retire-c194038578)
 - **[Hint: _]** “bids Yanks ad13u” — headline excerpt. [Final-game report](https://www.mlb.com/news/alex-rodriguez-at-peace-as-career-nears-end-c195190378)
@@ -268,7 +268,7 @@ When asked to convert these selections, review facts, answer spoilers, media ava
 
 ### 3. Famous moments to find audio for — five options
 
-1. **[Hint: _]** **26 April 2005 vs Angels:** three homers and 10 RBI.
+1. **[Hint: 1]** **26 April 2005 vs Angels:** three homers and 10 RBI.
 2. **[Hint: _]** **4 August 2007 vs Kansas City:** youngest player at the time to reach 500 homers.
 3. **[Hint: _]** **9 October 2009, ALDS Game 2 vs Minnesota:** ninth-inning game-tying homer off Joe Nathan.
 4. **[Hint: _]** **4 November 2009, World Series Game 6 vs Philadelphia:** championship celebration; his only World Series title.
@@ -276,7 +276,7 @@ When asked to convert these selections, review facts, answer spoilers, media ava
 
 ### 4. Season stat line
 
-**[Hint: _]** **1998, Seattle: .310 AVG · 42 HR · 124 RBI · 46 SB.** A 40–40 season. [Season statistics](https://www.baseball-reference.com/players/r/rodrial01.shtml)
+**[Hint: 4]** **1998, Seattle: .310 AVG · 42 HR · 124 RBI · 46 SB.** A 40–40 season. [Season statistics](https://www.baseball-reference.com/players/r/rodrial01.shtml)
 
 ### 5. Single-game stat line
 
@@ -286,7 +286,7 @@ When asked to convert these selections, review facts, answer spoilers, media ava
 
 1. **[Hint: _]** **Dan Marino alone:** the inspiration behind wearing 13 in New York.
 2. **[Hint: _]** **A Miami skyline beside a high-school football:** upbringing and his quarterback background.
-3. **[Hint: _]** **A $252 million contract graphic:** Texas deal, with all names removed.
+3. **[Hint: 3]** **A $252 million contract graphic:** Texas deal, with all names removed.
 4. **[Hint: _]** **A third-base bag beside a shortstop glove:** position change for New York.
 5. **[Hint: _]** **Alfonso Soriano alone:** key player sent to Texas in the trade.
 
@@ -296,7 +296,7 @@ When asked to convert these selections, review facts, answer spoilers, media ava
 
 ### 8. Trophy cabinet
 
-**[Hint: _]** **3× AL MVP · 14× All-Star · 10× Silver Slugger · 2× Gold Glove · 2009 World Series champion · 1996 AL batting champion.**
+**[Hint: 5]** **3× AL MVP · 14× All-Star · 10× Silver Slugger · 2× Gold Glove · 2009 World Series champion · 1996 AL batting champion.**
 
 ### 9. Career timeline
 

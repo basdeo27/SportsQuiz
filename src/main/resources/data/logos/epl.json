@@ -5,8 +5,18 @@
     "answers": [
       "AFC Bournemouth"
     ],
-    "hint": "South-coast club nicknamed the Cherries.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/e1e898f37437f402adeef352e6cd11b395db866b723b0173845f865bfafa680b.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/e1e898f37437f402adeef352e6cd11b395db866b723b0173845f865bfafa680b.jpeg",
+    "hints": {
+      "EASY": [
+        "This south-coast club first reached the top flight in 2015."
+      ],
+      "MEDIUM": [
+        "The club was originally known as Boscombe."
+      ],
+      "HARD": [
+        "One of its players scored nine goals in an 11–0 FA Cup win over Margate."
+      ]
+    }
   },
   {
     "id": "epl-arsenal",
@@ -14,8 +24,18 @@
     "answers": [
       "Arsenal"
     ],
-    "hint": "North London club nicknamed the Gunners.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/7ccd377a064aa69baeedd477861bf3c093be1caa482d1ea177d0b89c6d38df9a.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/7ccd377a064aa69baeedd477861bf3c093be1caa482d1ea177d0b89c6d38df9a.jpeg",
+    "hints": {
+      "EASY": [
+        "This club moved from south-east to north London in 1913."
+      ],
+      "MEDIUM": [
+        "Its founders worked in an armaments factory."
+      ],
+      "HARD": [
+        "It began life under the name Dial Square."
+      ]
+    }
   },
   {
     "id": "epl-aston-villa",
@@ -24,8 +44,18 @@
       "Aston Villa",
       "Villa"
     ],
-    "hint": "Birmingham club nicknamed the Villans.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/95b1f6f19592147e57ad1aab2c7d0977f9ba2fe4371f56e7f57f5e1d3972da1a.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/95b1f6f19592147e57ad1aab2c7d0977f9ba2fe4371f56e7f57f5e1d3972da1a.jpeg",
+    "hints": {
+      "EASY": [
+        "This Midlands club won the European Cup in 1982."
+      ],
+      "MEDIUM": [
+        "It was one of the Football League’s 12 founding members in 1888."
+      ],
+      "HARD": [
+        "Its cricketing founders met beneath a gas lamp to discuss forming a football team."
+      ]
+    }
   },
   {
     "id": "epl-brentford",
@@ -34,8 +64,18 @@
       "Brentford",
       "Brentford FC"
     ],
-    "hint": "West London club nicknamed the Bees.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/82a4e3af89620602734b84b4b49da3e47b9578b514062cc6f73b232ada7781d0.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/82a4e3af89620602734b84b4b49da3e47b9578b514062cc6f73b232ada7781d0.jpeg",
+    "hints": {
+      "EASY": [
+        "This London club reached the Premier League through the 2021 play-offs."
+      ],
+      "MEDIUM": [
+        "It won all 21 of its home league matches in 1929–30."
+      ],
+      "HARD": [
+        "Its founders chose association football over rugby by eight votes to five."
+      ]
+    }
   },
   {
     "id": "epl-brighton-&-hove-albion",
@@ -45,8 +85,18 @@
       "Brighton and Hove Albion",
       "Brighton"
     ],
-    "hint": "South-coast club nicknamed the Seagulls.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/1e8a6390623e27d76214cc862937b6f2edb5f302a2dacd4b9ce32edeb7296956.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/1e8a6390623e27d76214cc862937b6f2edb5f302a2dacd4b9ce32edeb7296956.jpeg",
+    "hints": {
+      "EASY": [
+        "This south-coast club played at an athletics stadium before moving in 2011."
+      ],
+      "MEDIUM": [
+        "It first played at the Goldstone Ground in 1902."
+      ],
+      "HARD": [
+        "It was founded at the Seven Stars pub in 1901."
+      ]
+    }
   },
   {
     "id": "epl-chelsea",
@@ -55,8 +105,18 @@
       "Chelsea",
       "Chelsea FC"
     ],
-    "hint": "West London club based at Stamford Bridge.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/bef4f88e05cab13bec2b9004cc06ce46fbf540cdf630cf73b0c8dca594e51bf7.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/bef4f88e05cab13bec2b9004cc06ce46fbf540cdf630cf73b0c8dca594e51bf7.jpeg",
+    "hints": {
+      "EASY": [
+        "This London club won its first league title in 1955."
+      ],
+      "MEDIUM": [
+        "It was formed after the owner of an athletics ground needed a football team to play there."
+      ],
+      "HARD": [
+        "Its founding meeting took place at the Rising Sun pub in March 1905."
+      ]
+    }
   },
   {
     "id": "epl-coventry-city",
@@ -65,8 +125,18 @@
       "Coventry City",
       "Coventry"
     ],
-    "hint": "West Midlands club nicknamed the Sky Blues.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/ea0486b1069752b83f45bb374dd851a8b7207b85abe2b23f1c652fb63a460e0f.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/ea0486b1069752b83f45bb374dd851a8b7207b85abe2b23f1c652fb63a460e0f.jpeg",
+    "hints": {
+      "EASY": [
+        "This Midlands club won the 1987 FA Cup final 3–2."
+      ],
+      "MEDIUM": [
+        "It spent 34 consecutive seasons in the top flight between 1967 and 2001."
+      ],
+      "HARD": [
+        "It began in 1883 as a team for workers at a cycle factory."
+      ]
+    }
   },
   {
     "id": "epl-crystal-palace",
@@ -75,8 +145,18 @@
       "Crystal Palace",
       "Palace"
     ],
-    "hint": "South London club nicknamed the Eagles.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/44b05d5b1a5090a50f1eef1b5b6f94c20bb9baf1b9fef15063f7324baa0af6ba.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/44b05d5b1a5090a50f1eef1b5b6f94c20bb9baf1b9fef15063f7324baa0af6ba.jpeg",
+    "hints": {
+      "EASY": [
+        "This south London club took the 1990 FA Cup final to a replay."
+      ],
+      "MEDIUM": [
+        "It takes its name from a Victorian exhibition building destroyed by fire in 1936."
+      ],
+      "HARD": [
+        "Cricketer W. G. Grace helped establish its professional side in 1905."
+      ]
+    }
   },
   {
     "id": "epl-everton",
@@ -85,8 +165,18 @@
       "Everton",
       "Everton FC"
     ],
-    "hint": "Liverpool club nicknamed the Toffees.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/dcdf526071d6fef5cc35b6298d063c4da346436ed06d20699e1bb4a85d4c4ee6.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/dcdf526071d6fef5cc35b6298d063c4da346436ed06d20699e1bb4a85d4c4ee6.jpeg",
+    "hints": {
+      "EASY": [
+        "This Merseyside club was a founding member of the Football League in 1888."
+      ],
+      "MEDIUM": [
+        "It won the European Cup Winners’ Cup in 1985."
+      ],
+      "HARD": [
+        "Its original name came from St Domingo’s Methodist church."
+      ]
+    }
   },
   {
     "id": "epl-fulham",
@@ -95,8 +185,18 @@
       "Fulham",
       "Fulham FC"
     ],
-    "hint": "West London club nicknamed the Cottagers.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/4f586574b4aff3923875c6ccb4ce77af4c7ae2f78308a3552d87608506a7d1f6.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/4f586574b4aff3923875c6ccb4ce77af4c7ae2f78308a3552d87608506a7d1f6.jpeg",
+    "hints": {
+      "EASY": [
+        "This west London club reached the Europa League final in 2010."
+      ],
+      "MEDIUM": [
+        "It moved to a ground on the north bank of the Thames in 1896."
+      ],
+      "HARD": [
+        "A church teacher and a churchwarden founded it in 1879."
+      ]
+    }
   },
   {
     "id": "epl-hull-city",
@@ -105,8 +205,18 @@
       "Hull City",
       "Hull"
     ],
-    "hint": "East Yorkshire club nicknamed the Tigers.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/36018df4684eb2133d29a8c489df7366e599296feef369972d437a54cf6cfe11.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/36018df4684eb2133d29a8c489df7366e599296feef369972d437a54cf6cfe11.jpeg",
+    "hints": {
+      "EASY": [
+        "This Yorkshire club first reached the top flight in 2008."
+      ],
+      "MEDIUM": [
+        "It went two goals ahead early in the 2014 FA Cup final, but lost."
+      ],
+      "HARD": [
+        "Its first match at Boothferry Park was a goalless draw with Lincoln in 1946."
+      ]
+    }
   },
   {
     "id": "epl-ipswich-town",
@@ -115,8 +225,18 @@
       "Ipswich Town",
       "Ipswich"
     ],
-    "hint": "Suffolk club nicknamed the Tractor Boys.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/6c548a43394a6ac22a2c36fa830ba6775485faa0edaacf92994fe4dbe5f95e85.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/6c548a43394a6ac22a2c36fa830ba6775485faa0edaacf92994fe4dbe5f95e85.jpeg",
+    "hints": {
+      "EASY": [
+        "This Suffolk club became league champions in its first top-flight season in 1962."
+      ],
+      "MEDIUM": [
+        "It beat AZ over two legs to win the 1981 UEFA Cup."
+      ],
+      "HARD": [
+        "Founded in 1878, it remained an amateur club until 1936."
+      ]
+    }
   },
   {
     "id": "epl-leeds-united",
@@ -125,8 +245,18 @@
       "Leeds United",
       "Leeds"
     ],
-    "hint": "West Yorkshire club based at Elland Road.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/06b117da571000bf536c36568308aa492cac00e0edfbdfd02dbc02ea28d39d97.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/06b117da571000bf536c36568308aa492cac00e0edfbdfd02dbc02ea28d39d97.jpeg",
+    "hints": {
+      "EASY": [
+        "This Yorkshire club won the last First Division title before the Premier League began."
+      ],
+      "MEDIUM": [
+        "Its first top-flight league title came in 1969."
+      ],
+      "HARD": [
+        "It was founded in 1919 after a predecessor was expelled over financial irregularities."
+      ]
+    }
   },
   {
     "id": "epl-liverpool",
@@ -135,8 +265,18 @@
       "Liverpool",
       "Liverpool FC"
     ],
-    "hint": "Merseyside club based at Anfield.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/0e3809ac0888d0063d6cf2eaabf47dc42287efbe44e170c62b219b3847bedc9b.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/0e3809ac0888d0063d6cf2eaabf47dc42287efbe44e170c62b219b3847bedc9b.jpeg",
+    "hints": {
+      "EASY": [
+        "This club recovered from 3–0 down at half-time to win the 2005 Champions League final."
+      ],
+      "MEDIUM": [
+        "Its all-red kit was introduced in 1964 to make the team look more intimidating."
+      ],
+      "HARD": [
+        "It was founded in 1892 after another club moved out following a stadium rent dispute."
+      ]
+    }
   },
   {
     "id": "epl-manchester-city",
@@ -146,8 +286,18 @@
       "Man City",
       "ManCity"
     ],
-    "hint": "Manchester club nicknamed the Citizens.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/bad5d4e672ba4b3416494bdff98a73bb93684d1d1456d0c7d9946ea816ea6613.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/bad5d4e672ba4b3416494bdff98a73bb93684d1d1456d0c7d9946ea816ea6613.jpeg",
+    "hints": {
+      "EASY": [
+        "This club won the men’s domestic treble in 2019."
+      ],
+      "MEDIUM": [
+        "It was relegated in 1938, one year after winning the league title."
+      ],
+      "HARD": [
+        "It was previously known as Ardwick."
+      ]
+    }
   },
   {
     "id": "epl-manchester-united",
@@ -158,8 +308,18 @@
       "Man Utd",
       "Manchester Utd"
     ],
-    "hint": "Manchester club nicknamed the Red Devils.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/97d702a570bf4647d3223f1eade4749eca019409f2e62d71b1aac791ed75d2f4.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/97d702a570bf4647d3223f1eade4749eca019409f2e62d71b1aac791ed75d2f4.jpeg",
+    "hints": {
+      "EASY": [
+        "This club became England’s first European Cup winner in 1968."
+      ],
+      "MEDIUM": [
+        "Railway workers founded it in 1878."
+      ],
+      "HARD": [
+        "Its original name was Newton Heath LYR."
+      ]
+    }
   },
   {
     "id": "epl-newcastle-united",
@@ -167,8 +327,18 @@
     "answers": [
       "Newcastle United"
     ],
-    "hint": "Tyneside club nicknamed the Magpies.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/6ca4c69f5daba2e38ed0da94905185c1ed39d1474c57f86a1112f11b83676e35.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/6ca4c69f5daba2e38ed0da94905185c1ed39d1474c57f86a1112f11b83676e35.jpeg",
+    "hints": {
+      "EASY": [
+        "This north-east club won the FA Cup three times during the 1950s."
+      ],
+      "MEDIUM": [
+        "It won the Inter-Cities Fairs Cup in 1969."
+      ],
+      "HARD": [
+        "It adopted its current name in 1892 after previously being called East End."
+      ]
+    }
   },
   {
     "id": "epl-nottingham-forest",
@@ -178,8 +348,18 @@
       "Notts Forest",
       "Forest"
     ],
-    "hint": "Nottingham club nicknamed the Tricky Trees.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/4b339d69e324ffb82407c15f674406ffedc44b59067c243b188d6da8439b0037.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/4b339d69e324ffb82407c15f674406ffedc44b59067c243b188d6da8439b0037.jpeg",
+    "hints": {
+      "EASY": [
+        "This club won back-to-back European Cups in 1979 and 1980."
+      ],
+      "MEDIUM": [
+        "It won the 1978 league title in its first season after promotion."
+      ],
+      "HARD": [
+        "It was founded in 1865 by a group of shinney players, a hockey-like sport."
+      ]
+    }
   },
   {
     "id": "epl-sunderland",
@@ -187,8 +367,18 @@
     "answers": [
       "Sunderland"
     ],
-    "hint": "Wearside club nicknamed the Black Cats.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/30cf4ac2d6c77b7ad7b4dabea10a5ae97d2b1c632cae037aa694ea0ffa32e564.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/30cf4ac2d6c77b7ad7b4dabea10a5ae97d2b1c632cae037aa694ea0ffa32e564.jpeg",
+    "hints": {
+      "EASY": [
+        "This north-east club won the 1973 FA Cup while playing in the Second Division."
+      ],
+      "MEDIUM": [
+        "It had won six league titles by 1936."
+      ],
+      "HARD": [
+        "A schoolteacher founded it in 1879, initially as a team for teachers."
+      ]
+    }
   },
   {
     "id": "epl-tottenham-hotspur",
@@ -198,7 +388,17 @@
       "Tottenham",
       "Spurs"
     ],
-    "hint": "North London club nicknamed Spurs.",
-    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/8dd87048a16a1a8ef6366a786a345fd009b1ca6b4aae944658d8e4a7b49684d1.jpeg"
+    "logoUrl": "https://d2323rgqey2wlv.cloudfront.net/media/logos/epl/8dd87048a16a1a8ef6366a786a345fd009b1ca6b4aae944658d8e4a7b49684d1.jpeg",
+    "hints": {
+      "EASY": [
+        "This London club won the league and FA Cup double in 1961."
+      ],
+      "MEDIUM": [
+        "It became the first British club to win a major European trophy in 1963."
+      ],
+      "HARD": [
+        "It won the FA Cup in 1901 while outside the Football League."
+      ]
+    }
   }
 ]

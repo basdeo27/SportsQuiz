@@ -54,6 +54,28 @@ Existing AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY secrets are accepted as runtime
 
 ## AWS OIDC and permissions
 
+To create the routine deployment role from an AWS-authenticated terminal:
+
+```bash
+python3 scripts/create_github_deploy_role.py \
+  --bucket YOUR_FRONTEND_BUCKET \
+  --ecr-repository YOUR_ECR_REPOSITORY \
+  --service-name YOUR_LIGHTSAIL_SERVICE \
+  --distribution-id YOUR_CLOUDFRONT_DISTRIBUTION
+```
+
+The helper defaults to `eu-west-2`, repository `basdeo27/SportsQuiz`, and role name
+`SportsQuizGitHubProductionDeploy`. It validates the existing AWS resources,
+creates/reuses GitHub's OIDC provider, creates the role, attaches resource-scoped
+release permissions, verifies the policies, and prints the actual role ARN.
+Set that ARN as `AWS_DEPLOY_ROLE_ARN` in the GitHub `production` environment.
+If the role name already exists, the helper stops without replacing its trust or
+permissions. Use `--oidc-subject` for an exact custom/immutable production subject.
+The caller needs IAM provisioning rights plus read access to the deployment resources.
+This role covers routine releases/rollbacks, not the separate infrastructure setup
+workflow; provide `AWS_INFRA_ROLE_ARN` for that workflow. Restrict the GitHub
+production environment's deployment branches to `main`.
+
 Create/trust GitHub's OIDC identity provider (`https://token.actions.githubusercontent.com`, audience `sts.amazonaws.com`). Scope the role to this repository's **production environment**, not every GitHub repository. For repositories using the traditional subject format, the trust condition is:
 
 ```json

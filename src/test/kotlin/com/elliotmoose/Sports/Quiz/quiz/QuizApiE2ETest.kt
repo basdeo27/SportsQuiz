@@ -54,6 +54,11 @@ class QuizApiE2ETest {
         assertThat(questions.map { it.fullName }).doesNotContain("West Ham United", "Wolverhampton Wanderers", "Burnley")
         assertThat(questions).allSatisfy { question ->
             assertThat(question.league).isEqualTo(League.EPL)
+            assertThat(question.hints.keys).containsExactlyInAnyOrder(*QuizDifficulty.entries.toTypedArray())
+            assertThat(question.hints.values.flatten()).allSatisfy { hint ->
+                assertThat(hint).isNotBlank().doesNotContainIgnoringCase(question.fullName)
+                assertThat(hint).doesNotContain("This team plays as", "nickname starts with")
+            }
         }
         assertThat(questions).allSatisfy { question ->
             assertThat(question.logoUrl).matches(

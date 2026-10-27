@@ -27,6 +27,7 @@ origin_id = 'SportsQuizApi'
 origin = {'Id': origin_id, 'DomainName': backend.hostname, 'OriginPath': '',
           'CustomHeaders': {'Quantity': 0},
           'CustomOriginConfig': {'HTTPPort': 80, 'HTTPSPort': 443, 'OriginProtocolPolicy': 'https-only',
+                                 'OriginReadTimeout': 30, 'OriginKeepaliveTimeout': 5,
                                  'OriginSslProtocols': {'Quantity': 1, 'Items': ['TLSv1.2']}}}
 origins = [item for item in config['Origins']['Items'] if item['Id'] != origin_id] + [origin]
 config['Origins'] = {'Quantity': len(origins), 'Items': origins}

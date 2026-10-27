@@ -21,6 +21,13 @@ backend to load the updated dataset.
 
 ## Upload and activate
 
+Hints are authored in the manifest's `hints` map with `EASY`, `MEDIUM` and
+`HARD` lists, and copied to the quiz dataset on publishing. Keep both files in
+sync for hint-only edits; no image upload is needed. The legacy `hint` field
+does not override generated difficulty hints. EPL now uses historical clues
+without club names, accepted aliases or nickname giveaways. See the
+[hint sources](../src/main/resources/research/epl-logo-hint-sources.md).
+
 Use your AWS CLI login/profile; never add AWS keys to frontend code, JSON URLs
 or Vite environment variables. If the session expired, run `aws login` first.
 
