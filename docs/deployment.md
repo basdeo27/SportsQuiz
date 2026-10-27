@@ -1,8 +1,14 @@
 # Automatic releases from main
 
-The `Build and deploy` GitHub Actions workflow runs on pull requests targeting main and on pushes to main (including PR merges). Direct pushes to main also deploy; protect main with required PR checks if releases must only follow a merge.
+The `Build and deploy` GitHub Actions workflow runs on pull requests targeting main and on pushes to main (including PR merges). Pushes that only change files under `scripts/`, `.github/workflows/` and/or `docs/` skip the automatic build and deployment. A push containing any other changed file still triggers it. Pull-request checks remain enabled for those changes, and **Run workflow** can still release main manually. Direct pushes to main otherwise also deploy; protect main with required PR checks if releases must only follow a merge.
 
 ## Release sequence
+
+Release API smoke checks call `BACKEND_URL` directly (falling back to the Lightsail
+service URL when unset); they append `/v0/quiz/leagues` to that HTTPS root. Both
+deploy and rollback workflows accept the `VITE_API_BASE_URL` secret as a fallback.
+Frontend release checks still use `FRONTEND_URL`. This does not change browser
+API routing: the current frontend build uses relative `/v0` requests.
 
 1. Run backend tests and build the Spring Boot JAR, run deployment-helper tests, and build the frontend. No production credentials are exposed to PR checks.
 2. Package the tested JAR and frontend as one commit-identified Actions artifact.

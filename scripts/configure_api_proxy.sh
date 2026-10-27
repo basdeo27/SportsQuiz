@@ -30,19 +30,35 @@ origin = {'Id': origin_id, 'DomainName': backend.hostname, 'OriginPath': '',
                                  'OriginReadTimeout': 30, 'OriginKeepaliveTimeout': 5,
                                  'OriginSslProtocols': {'Quantity': 1, 'Items': ['TLSv1.2']}}}
 origins = [item for item in config['Origins']['Items'] if item['Id'] != origin_id] + [origin]
+# Updates submit every origin, including legacy S3 origins whose read timeout
+# may be absent from GetDistributionConfig. Supply defaults without changing
+# explicit timeout settings or origin access configuration.
+for item in origins:
+    for kind in ('S3OriginConfig', 'CustomOriginConfig', 'VpcOriginConfig'):
+        if kind in item:
+            if item[kind].get('OriginReadTimeout') is None:
+                item[kind]['OriginReadTimeout'] = 30
+            if kind != 'S3OriginConfig':
+                if item[kind].get('OriginKeepaliveTimeout') is None:
+                    item[kind]['OriginKeepaliveTimeout'] = 5
+            print(f"CloudFront origin {item['Id']} ({kind}): OriginReadTimeout={item[kind]['OriginReadTimeout']}", flush=True)
 config['Origins'] = {'Quantity': len(origins), 'Items': origins}
 behavior = {'PathPattern': '/v0/*', 'TargetOriginId': origin_id, 'ViewerProtocolPolicy': 'redirect-to-https',
             'TrustedSigners': {'Enabled': False, 'Quantity': 0},
             'TrustedKeyGroups': {'Enabled': False, 'Quantity': 0},
             'AllowedMethods': {'Quantity': 7, 'Items': ['GET', 'HEAD', 'OPTIONS', 'PUT', 'POST', 'PATCH', 'DELETE'],
                                'CachedMethods': {'Quantity': 3, 'Items': ['GET', 'HEAD', 'OPTIONS']}},
-            'Compress': True, 'CachePolicyId': os.environ['TASK_CACHE_POLICY'],
+            'Compress': True, 'SmoothStreaming': False, 'CachePolicyId': os.environ['TASK_CACHE_POLICY'],
             'OriginRequestPolicyId': os.environ['TASK_ORIGIN_POLICY'],
             'LambdaFunctionAssociations': {'Quantity': 0}, 'FunctionAssociations': {'Quantity': 0},
             'FieldLevelEncryptionId': ''}
 patterns = ['/v0/*', '/assets/daily/*']
 behaviors = [dict(behavior, PathPattern=pattern) for pattern in patterns] + [item for item in config.get('CacheBehaviors', {}).get('Items', []) if item['PathPattern'] not in patterns]
 config['CacheBehaviors'] = {'Quantity': len(behaviors), 'Items': behaviors}
+# CloudFront requires this flag on updates even for non-streaming behaviors.
+# Preserve any existing streaming configuration on unrelated routes.
+for item in [config['DefaultCacheBehavior'], *behaviors]:
+    item.setdefault('SmoothStreaming', False)
 (root / 'updated.json').write_text(json.dumps(config))
 PY
 TASK_DISTRIBUTION_ETAG=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["ETag"])' "$TASK_PROXY_TMP/current.json")

@@ -30,6 +30,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Show infrastructure script revision and AWS CLI version
+        run: |
+          git rev-parse HEAD
+          aws --version
       - name: Assume infrastructure role
         uses: aws-actions/configure-aws-credentials@v4
         with:

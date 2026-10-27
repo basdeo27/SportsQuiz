@@ -38,6 +38,7 @@ class ReleaseTests(unittest.TestCase):
             'AWS_REGION': 'eu-west-2', 'RELEASE_COMMIT': COMMIT, 'ECR_REPOSITORY': 'quiz',
             'S3_BUCKET': 'site-bucket', 'CLOUDFRONT_DISTRIBUTION_ID': 'distribution',
             'SITE_URL': 'https://app.example.test', 'SERVICE_NAME': 'quiz-service',
+            'BACKEND_URL': 'https://backend.example.test',
             'APP_AWS_ACCESS_KEY_ID': 'application-key', 'APP_AWS_SECRET_ACCESS_KEY': 'application-secret',
         }, clear=True)
         self.environment.start()
@@ -46,6 +47,16 @@ class ReleaseTests(unittest.TestCase):
     def manifest(self, commit=COMMIT):
         return {'schema': 1, 'commit': commit, 'frontendSha256': 'f' * 64,
                 'image': IMAGE.replace(COMMIT, commit), 'imageDigest': DIGEST}
+
+    def test_backend_smoke_check_root_uses_configured_backend(self):
+        with patch.object(release, 'current_service') as service:
+            self.assertEqual(release.backend_root(), 'https://backend.example.test')
+            service.assert_not_called()
+
+    def test_backend_smoke_check_root_falls_back_to_lightsail(self):
+        os.environ.pop('BACKEND_URL')
+        with patch.object(release, 'current_service', return_value={'url': 'https://lightsail.example.test/'}):
+            self.assertEqual(release.backend_root(), 'https://lightsail.example.test')
 
     def service(self):
         return {'privateRegistryAccess': {'ecrImagePullerRole': {'isActive': True}}, 'currentDeployment': {
@@ -163,8 +174,12 @@ class ReleaseTests(unittest.TestCase):
             (directory / 'frontend').mkdir()
             (directory / 'frontend/index.html').write_text('html')
             with patch.object(release, 'aws', return_value={'Invalidation': {'Id': 'invalidation'}}) as api:
-                with patch.object(release, 'http_json', side_effect=[{'commit': COMMIT}, {'LOGO': ['NBA']}]):
+                with patch.object(release, 'http_json', side_effect=[{'commit': COMMIT}, {'LOGO': ['NBA']}]) as smoke:
                     release.publish_frontend(directory, self.manifest())
+                    self.assertEqual([call.args[0] for call in smoke.call_args_list], [
+                        'https://app.example.test/release.json',
+                        'https://backend.example.test/v0/quiz/leagues',
+                    ])
             calls = [call.args for call in api.call_args_list]
             self.assertEqual(calls[0][:2], ('s3', 'sync'))
             self.assertIn('index.html', calls[0])

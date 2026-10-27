@@ -5,6 +5,10 @@ on:
     branches: [main]
   push:
     branches: [main]
+    paths-ignore:
+      - 'scripts/**'
+      - '.github/workflows/**'
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:
@@ -89,6 +93,7 @@ jobs:
       S3_BUCKET: ${{ vars.S3_BUCKET || secrets.S3_BUCKET }}
       CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID || secrets.CLOUDFRONT_DISTRIBUTION_ID }}
       SITE_URL: ${{ vars.FRONTEND_URL || 'https://funsportsquiz.com' }}
+      BACKEND_URL: ${{ vars.BACKEND_URL || secrets.VITE_API_BASE_URL }}
       RELEASE_COMMIT: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v4

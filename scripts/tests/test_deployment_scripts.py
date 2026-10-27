@@ -13,7 +13,7 @@ class ApiProxyTests(unittest.TestCase):
     def run_proxy(self, backend="https://backend.example.test", existing=None):
         with tempfile.TemporaryDirectory() as directory:
             folder = Path(directory)
-            current = existing or {"Enabled": True, "Comment": "Keep this", "Origins": {"Quantity": 1, "Items": [{"Id": "static", "DomainName": "bucket.example"}]},
+            current = existing or {"Enabled": True, "Comment": "Keep this", "Origins": {"Quantity": 1, "Items": [{"Id": "static", "DomainName": "bucket.example", "S3OriginConfig": {"OriginAccessIdentity": ""}, "OriginAccessControlId": "keep-oac"}]},
                                    "DefaultCacheBehavior": {"TargetOriginId": "static"},
                                    "CacheBehaviors": {"Quantity": 1, "Items": [{"PathPattern": "/images/*", "TargetOriginId": "static"}]}}
             (folder / "current.json").write_text(json.dumps({"ETag": "version", "DistributionConfig": current}))
@@ -50,6 +50,9 @@ else: raise SystemExit("Unexpected AWS call")
         self.assertEqual(config["DefaultCacheBehavior"]["TargetOriginId"], "static")
         self.assertEqual(config["Comment"], "Keep this")
         self.assertEqual(config["Origins"]["Quantity"], 2)
+        static = next(item for item in config["Origins"]["Items"] if item["Id"] == "static")
+        self.assertEqual(static["S3OriginConfig"], {"OriginAccessIdentity": "", "OriginReadTimeout": 30})
+        self.assertEqual(static["OriginAccessControlId"], "keep-oac")
         origin = next(item for item in config["Origins"]["Items"] if item["Id"] == "SportsQuizApi")
         self.assertEqual(origin["CustomOriginConfig"]["OriginReadTimeout"], 30)
         self.assertEqual(origin["CustomOriginConfig"]["OriginKeepaliveTimeout"], 5)
@@ -61,12 +64,39 @@ else: raise SystemExit("Unexpected AWS call")
         self.assertIn("POST", api["AllowedMethods"]["Items"])
         self.assertEqual(config["CacheBehaviors"]["Items"][1]["PathPattern"], "/assets/daily/*")
         self.assertEqual(config["CacheBehaviors"]["Items"][2]["PathPattern"], "/images/*")
+        self.assertIs(config["DefaultCacheBehavior"]["SmoothStreaming"], False)
+        for behavior in config["CacheBehaviors"]["Items"]:
+            self.assertIs(behavior["SmoothStreaming"], False)
+
+    def test_preserves_existing_smooth_streaming_settings(self):
+        _, first = self.run_proxy()
+        first["DefaultCacheBehavior"]["SmoothStreaming"] = True
+        first["CacheBehaviors"]["Items"][2]["SmoothStreaming"] = True
+        result, updated = self.run_proxy(existing=first)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIs(updated["DefaultCacheBehavior"]["SmoothStreaming"], True)
+        self.assertIs(updated["CacheBehaviors"]["Items"][2]["SmoothStreaming"], True)
+        self.assertIs(updated["CacheBehaviors"]["Items"][0]["SmoothStreaming"], False)
 
     def test_configuration_is_idempotent(self):
         _, first = self.run_proxy()
         result, second = self.run_proxy(existing=first)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(first, second)
+
+    def test_preserves_explicit_timeouts_on_existing_origins(self):
+        _, first = self.run_proxy()
+        first["Origins"]["Items"][0]["S3OriginConfig"]["OriginReadTimeout"] = 45
+        first["Origins"]["Items"].append({
+            "Id": "other-api", "DomainName": "other.example.test",
+            "CustomOriginConfig": {"OriginReadTimeout": 60, "OriginKeepaliveTimeout": 10}
+        })
+        first["Origins"]["Quantity"] += 1
+        result, updated = self.run_proxy(existing=first)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(updated["Origins"]["Items"][0], first["Origins"]["Items"][0])
+        other = next(item for item in updated["Origins"]["Items"] if item["Id"] == "other-api")
+        self.assertEqual(other["CustomOriginConfig"], {"OriginReadTimeout": 60, "OriginKeepaliveTimeout": 10})
 
     def test_rejects_insecure_or_credential_bearing_backend_without_update(self):
         for backend in ["http://backend.example.test", "https://user:password@backend.example.test", "https://backend.example.test/v0"]:

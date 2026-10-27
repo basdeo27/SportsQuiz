@@ -239,6 +239,10 @@ def backend_request(service, manifest):
     return {"serviceName": required("SERVICE_NAME"), "containers": containers, "publicEndpoint": endpoint}
 
 
+def backend_root():
+    return https_root(os.environ.get("BACKEND_URL") or current_service()["url"])
+
+
 def http_json(url):
     try:
         with urlopen(Request(url, headers={"User-Agent": "SportsQuiz-Release-Check", "Cache-Control": "no-cache"}), timeout=20) as response:
@@ -313,8 +317,8 @@ def publish_frontend(directory, manifest):
     root = https_root(required("SITE_URL"))
     if http_json(f"{root}/release.json").get("commit") != manifest["commit"]:
         raise ReleaseError("The frontend is not serving the expected release.")
-    if not http_json(f"{root}/v0/quiz/leagues"):
-        raise ReleaseError("Same-origin API routing failed its smoke check.")
+    if not http_json(f"{backend_root()}/v0/quiz/leagues"):
+        raise ReleaseError("Backend API smoke check returned no leagues.")
 
 
 def record_success(manifest, version):
@@ -341,10 +345,10 @@ def activate_release(directory, manifest):
 
 def deploy(directory):
     commit = commit_sha(required("RELEASE_COMMIT"))
-    root = https_root(required("SITE_URL"))
+    root = backend_root()
     # Infrastructure setup is deliberately separate from application releases.
     if not http_json(f"{root}/v0/quiz/leagues"):
-        raise ReleaseError("Configure the CloudFront API origin before the first application release.")
+        raise ReleaseError("Backend API smoke check returned no leagues.")
     service = current_service()
     if not service.get("privateRegistryAccess", {}).get("ecrImagePullerRole", {}).get("isActive"):
         raise ReleaseError("Enable private ECR access for the Lightsail service before deploying.")
