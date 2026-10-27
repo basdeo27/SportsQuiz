@@ -391,14 +391,30 @@ def rollback(directory):
     activate_release(directory, manifest)
 
 
+def deploy_frontend():
+    commit = commit_sha(required("RELEASE_COMMIT"))
+    https_root(required("BACKEND_URL"))
+    https_root(required("SITE_URL"))
+    source = Path("frontend/dist")
+    if not (source / "index.html").is_file():
+        raise ReleaseError("Build the frontend before deploying it.")
+    with tempfile.TemporaryDirectory() as temporary:
+        directory = Path(temporary)
+        shutil.copytree(source, directory / "frontend", symlinks=False)
+        write_json(directory / "frontend/release.json", {"commit": commit})
+        publish_frontend(directory, {"commit": commit})
+    print(f"Frontend {commit} deployed; backend and combined release history unchanged.")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("prepare", "image", "deploy", "rollback"))
+    parser.add_argument("command", choices=("prepare", "image", "deploy", "rollback", "deploy-frontend"))
     parser.add_argument("--directory", type=Path, default=Path("release"))
     args = parser.parse_args()
     try:
         {"prepare": lambda: prepare(args.directory), "image": image_output,
-         "deploy": lambda: deploy(args.directory), "rollback": lambda: rollback(args.directory)}[args.command]()
+         "deploy": lambda: deploy(args.directory), "rollback": lambda: rollback(args.directory),
+         "deploy-frontend": deploy_frontend}[args.command]()
     except (ReleaseError, ValueError, KeyError, OSError, tarfile.TarError) as error:
         print(f"Release failed: {error}", file=sys.stderr)
         raise SystemExit(1)

@@ -44,7 +44,7 @@ Error generating stack: `+s.message+`
   <g font-family="Arial, Helvetica, sans-serif" fill="#f3f5f7">
   <text x="48" y="53" font-size="22" font-weight="700" letter-spacing="2">FUN SPORTS QUIZ</text>
   <text x="672" y="53" font-size="22" text-anchor="end" fill="#a5b1c3">${tr(t.date)}</text>
-  <text x="48" y="102" font-size="26" font-weight="700">${tr(t.title)}</text>
+  <text x="48" y="102" font-size="26" font-weight="700">${tr(e.mode==="daily"?"Daily challenge":t.title)}</text>
   <text x="48" y="143" font-size="22" fill="${e.gaveUp?"#ff7b6b":"#7ed6ad"}">${tr(t.status)}</text>
   ${r}
   <path d="M48 232H672" stroke="#303c4e"/>

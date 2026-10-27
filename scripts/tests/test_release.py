@@ -53,6 +53,28 @@ class ReleaseTests(unittest.TestCase):
             self.assertEqual(release.backend_root(), 'https://backend.example.test')
             service.assert_not_called()
 
+    def test_frontend_only_deploy_publishes_built_files_without_backend_or_release_history(self):
+        with tempfile.TemporaryDirectory() as temporary, cwd(temporary):
+            Path('frontend/dist').mkdir(parents=True)
+            Path('frontend/dist/index.html').write_text('tested frontend')
+            def verify(directory, manifest):
+                self.assertEqual(manifest, {'commit': COMMIT})
+                self.assertEqual((directory / 'frontend/index.html').read_text(), 'tested frontend')
+                self.assertEqual(json.loads((directory / 'frontend/release.json').read_text()), {'commit': COMMIT})
+            with patch.object(release, 'publish_frontend', side_effect=verify) as publish:
+                with patch.object(release, 'aws') as api, patch.object(release, 'current_service') as service:
+                    release.deploy_frontend()
+                    publish.assert_called_once()
+                    api.assert_not_called()
+                    service.assert_not_called()
+
+    def test_frontend_only_deploy_rejects_missing_build_before_upload(self):
+        with tempfile.TemporaryDirectory() as temporary, cwd(temporary):
+            with patch.object(release, 'aws') as api:
+                with self.assertRaisesRegex(release.ReleaseError, 'Build the frontend'):
+                    release.deploy_frontend()
+                api.assert_not_called()
+
     def test_backend_smoke_check_root_falls_back_to_lightsail(self):
         os.environ.pop('BACKEND_URL')
         with patch.object(release, 'current_service', return_value={'url': 'https://lightsail.example.test/'}):

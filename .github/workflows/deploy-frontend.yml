@@ -1,0 +1,65 @@
+name: Deploy frontend only
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sports-quiz-production
+  cancel-in-progress: false
+
+jobs:
+  frontend:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: production
+      url: ${{ vars.FRONTEND_URL || 'https://funsportsquiz.com' }}
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION || secrets.AWS_REGION || 'eu-west-2' }}
+      S3_BUCKET: ${{ vars.S3_BUCKET || secrets.S3_BUCKET }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID || secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+      SITE_URL: ${{ vars.FRONTEND_URL || 'https://funsportsquiz.com' }}
+      BACKEND_URL: ${{ secrets.VITE_API_BASE_URL || vars.BACKEND_URL }}
+      VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || vars.BACKEND_URL }}
+      RELEASE_COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Check release configuration
+        env:
+          AWS_DEPLOY_ROLE_ARN: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+        run: |
+          : "${AWS_DEPLOY_ROLE_ARN:?Set AWS_DEPLOY_ROLE_ARN}"
+          : "${S3_BUCKET:?Set S3_BUCKET}"
+          : "${CLOUDFRONT_DISTRIBUTION_ID:?Set CLOUDFRONT_DISTRIBUTION_ID}"
+          : "${BACKEND_URL:?Set the VITE_API_BASE_URL secret or BACKEND_URL variable}"
+      - name: Test release helpers
+        run: python3 -m unittest discover -s scripts/tests -p test_release.py -v
+      - name: Test and build frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Assume AWS deployment role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: sports-quiz-frontend-${{ github.run_id }}
+      - name: Upload frontend and verify production
+        run: python3 scripts/release.py deploy-frontend

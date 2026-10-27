@@ -4,11 +4,25 @@ The `Build and deploy` GitHub Actions workflow runs on pull requests targeting m
 
 ## Release sequence
 
+For a manual frontend-only release, select **Actions → Deploy frontend only →
+Run workflow → main**. It tests/builds the frontend using the repository
+`VITE_API_BASE_URL` secret (falling back to `BACKEND_URL`), uploads assets before
+HTML, invalidates CloudFront, and checks the frontend commit and backend API.
+It uses the existing deployment role, bucket and distribution settings, and the
+shared production concurrency group. It does not build/push an ECR image, deploy
+Lightsail, or update the combined `_releases/latest.json` rollback record.
+A later full deploy or rollback replaces both applications, including this
+frontend-only change. Frontend-only failures do not automatically roll back.
+
 Release API smoke checks call `BACKEND_URL` directly (falling back to the Lightsail
 service URL when unset); they append `/v0/quiz/leagues` to that HTTPS root. Both
 deploy and rollback workflows accept the `VITE_API_BASE_URL` secret as a fallback.
-Frontend release checks still use `FRONTEND_URL`. This does not change browser
-API routing: the current frontend build uses relative `/v0` requests.
+Frontend release checks still use `FRONTEND_URL`. Release frontend builds read
+the repository secret `VITE_API_BASE_URL` as their API root; use the Lightsail
+HTTPS root without `/v0` or an endpoint path. The app appends `/v0` itself.
+If the secret is unset, browser requests use relative `/v0`. PR builds use the
+relative default without reading this secret. The URL is embedded in public
+JavaScript at build time, so it must never contain credentials.
 
 1. Run backend tests and build the Spring Boot JAR, run deployment-helper tests, and build the frontend. No production credentials are exposed to PR checks.
 2. Package the tested JAR and frontend as one commit-identified Actions artifact.
@@ -41,7 +55,7 @@ Create the `production` GitHub Environment. Restrict deployment branches to main
 | MAIL_FROM | Optional verified SES sender; defaults to noreply@funsportsquiz.com |
 | DAILY_LOGIN_REQUIRED | `false` (default) lets guests play today's challenge unranked; `true` requires login before playing |
 
-Existing AWS_REGION, LIGHTSAIL_SERVICE_NAME, S3_BUCKET, CLOUDFRONT_DISTRIBUTION_ID and VITE_API_BASE_URL secrets are accepted as fallbacks. VITE_API_BASE_URL is now only the infrastructure helper's backend-origin fallback; browser requests remain relative /v0.
+Existing AWS_REGION, LIGHTSAIL_SERVICE_NAME, S3_BUCKET, CLOUDFRONT_DISTRIBUTION_ID and VITE_API_BASE_URL secrets are accepted as fallbacks. The repository VITE_API_BASE_URL secret also configures the frontend API root during release builds.
 
 Change `DAILY_LOGIN_REQUIRED` and run a deployment to apply it to the backend.
 No separate frontend configuration/build is needed for this switch. Leaderboard
